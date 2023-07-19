@@ -1,0 +1,25 @@
+
+{% extends 'base.html' %}
+
+{% block title %} Home {% endblock %}
+
+{% block body_block %}
+    <div class="container-fluid pt-3">
+        <h1 class="p-3 fw-bold text-center"> Welcome to <span class="brand">Welearn</span></h1>
+        <div class="row">
+            <div class="input-group mx-auto w-75">
+                <input type="text" class="form-control" placeholder="Search courses" aria-label="Search courses" aria-describedby="search-button">
+                <button class="btn btn-primary" type="button" id="search-button">Search</button>
+            </div>
+        </div>
+        <div class="blur-container w-100 mx-auto mt-5">
+            <div class="blur-background light-theme p-3">
+
+
+                <h2 class="p-3 fw-bold text-start"> Your registered courses </h2>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+

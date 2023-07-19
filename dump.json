@@ -1,0 +1,232 @@
+[
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$600000$hBwtmONmaSixy2tQ0t3BWk$JvelM73Osc3w1awcIcPMiPWFrTRC33Wx3zfjvyab+sU=",
+    "last_login": "2023-07-18T18:39:59.490Z",
+    "is_superuser": true,
+    "username": "pranesh",
+    "first_name": "",
+    "last_name": "",
+    "email": "chandr64@uwindsor.ca",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2023-07-18T18:39:52.963Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "wgsyv891l0x132yyynqvd3i1opc2nwwb",
+  "fields": {
+    "session_data": ".eJxVjDsOwjAQBe_iGln-fyjpOYO1613hAHKkOKkQd4dIKaB9M_NeosC2trINXspE4iy0OP1uCPXBfQd0h36bZZ37ukwod0UedMjrTPy8HO7fQYPRvjXryI68U1YZk6tSaNAGyEqn5DMhYdQ6xogxJPKVgiXO2lrHxjAwivcHwGg3aA:1qLpc7:NBGaXbXuQxPUMLyw_kbcrdbmLNRjtSTwFCitfhFffRU",
+    "expire_date": "2023-08-01T18:39:59.491Z"
+  }
+},
+{
+  "model": "welearn.category",
+  "pk": 1,
+  "fields": {
+    "label": "Technology",
+    "tokens": "tech coding programming"
+  }
+},
+{
+  "model": "welearn.tier",
+  "pk": 1,
+  "fields": {
+    "label": "silver"
+  }
+},
+{
+  "model": "welearn.tier",
+  "pk": 2,
+  "fields": {
+    "label": "bronze"
+  }
+},
+{
+  "model": "welearn.tier",
+  "pk": 3,
+  "fields": {
+    "label": "gold"
+  }
+},
+{
+  "model": "welearn.course",
+  "pk": 1,
+  "fields": {
+    "title": "Introduction to Python",
+    "description": "This is a course to help students get started with the basics of Python programming language",
+    "category": 1,
+    "tags": "python programming coding development",
+    "tier": 1,
+    "hrs": 2,
+    "mins": 30,
+    "is_published": true
+  }
+},
+{
+  "model": "welearn.module",
+  "pk": 1,
+  "fields": {
+    "title": "Summary",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure do",
+    "course": 1
+  }
+},
+{
+  "model": "welearn.module",
+  "pk": 2,
+  "fields": {
+    "title": "Introduction",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    "course": 1
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 1,
+  "fields": {
+    "action_time": "2023-07-18T18:41:20.942Z",
+    "user": [
+      "pranesh"
+    ],
+    "content_type": [
+      "welearn",
+      "tier"
+    ],
+    "object_id": "1",
+    "object_repr": "Silver",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 2,
+  "fields": {
+    "action_time": "2023-07-18T18:41:25.529Z",
+    "user": [
+      "pranesh"
+    ],
+    "content_type": [
+      "welearn",
+      "tier"
+    ],
+    "object_id": "1",
+    "object_repr": "silver",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Label\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 3,
+  "fields": {
+    "action_time": "2023-07-18T18:41:31.794Z",
+    "user": [
+      "pranesh"
+    ],
+    "content_type": [
+      "welearn",
+      "tier"
+    ],
+    "object_id": "2",
+    "object_repr": "bronze",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 4,
+  "fields": {
+    "action_time": "2023-07-18T18:41:37.239Z",
+    "user": [
+      "pranesh"
+    ],
+    "content_type": [
+      "welearn",
+      "tier"
+    ],
+    "object_id": "3",
+    "object_repr": "gold",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 5,
+  "fields": {
+    "action_time": "2023-07-18T18:42:22.415Z",
+    "user": [
+      "pranesh"
+    ],
+    "content_type": [
+      "welearn",
+      "category"
+    ],
+    "object_id": "1",
+    "object_repr": "Technology",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 6,
+  "fields": {
+    "action_time": "2023-07-18T18:43:13.228Z",
+    "user": [
+      "pranesh"
+    ],
+    "content_type": [
+      "welearn",
+      "course"
+    ],
+    "object_id": "1",
+    "object_repr": "Course object (1)",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 7,
+  "fields": {
+    "action_time": "2023-07-18T19:49:01.801Z",
+    "user": [
+      "pranesh"
+    ],
+    "content_type": [
+      "welearn",
+      "module"
+    ],
+    "object_id": "1",
+    "object_repr": "Module object (1)",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 8,
+  "fields": {
+    "action_time": "2023-07-18T19:49:55.622Z",
+    "user": [
+      "pranesh"
+    ],
+    "content_type": [
+      "welearn",
+      "module"
+    ],
+    "object_id": "2",
+    "object_repr": "Introduction",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+}
+]

@@ -1,0 +1,59 @@
+<div class="modal fade" id="createCourse" data-bs-backdrop="static" tabindex="-1" aria-labelledby="createCourseLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="createCourseLabel">Create a course</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form>
+                <div class="modal-body">
+                    <div class="form-floating mb-3">
+                        <input class="form-control form-control-lg" id="course_title" placeholder="Title"/>
+                        <label for="course_title">Title</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <textarea class="form-control" id="course_desc" placeholder="Description" rows="5" style="height:100%;"></textarea>
+                        <label for="course_desc">Description</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <select class="selectpicker" data-live-search="true" title="Choose a category" data-width="100%" id="category">
+                            {% for category in categories %}
+                                <option data-tokens="{{ category.tokens }}">{{ category.value }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input class="form-control form-control-sm" id="course_tags" placeholder="tags"/>
+                        <label for="course_tags">Tags</label>
+                        <div id="tags" class="form-text">Add space separated tags for searching</div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="input-group">
+                            <input type="text" class="form-control" aria-label="Hours" id="course_hours">
+                            <span class="input-group-text">Hours</span>
+                            <input type="text" class="form-control" aria-label="Minutes" id="course_mins">
+                            <span class="input-group-text">Minutes</span>
+                        </div>
+                        <div id="course_duration" class="form-text">Expected length of your course</div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="btn-group" role="group" aria-label="Tier selection">
+                            <input type="radio" class="btn-check " name="btnradio" id="tier_bronze" autocomplete="off" checked>
+                            <label class="btn btn-tier-bronze btn-outline-secondary" for="tier_bronze">Bronze</label>
+
+                            <input type="radio" class="btn-check" name="btnradio" id="tier_silver" autocomplete="off">
+                            <label class="btn btn-tier-silver btn-outline-secondary" for="tier_silver">Silver</label>
+
+                            <input type="radio" class="btn-check" name="btnradio" id="tier_gold" autocomplete="off">
+                            <label class="btn btn-tier-gold btn-outline-secondary" for="tier_gold">Gold</label>
+                        </div>
+                        <div id="tags" class="form-text">Pay tier for your course</div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Create</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

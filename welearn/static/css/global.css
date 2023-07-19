@@ -1,0 +1,158 @@
+:root {
+    --background-url: url("../images/background.png");
+}
+
+body{
+    height:100%;
+}
+html{
+    height:100%;
+}
+
+
+.brand{
+    font-family: Chalkduster, serif;
+    background: linear-gradient(to left, #C5A0A0
+    ,#E5CC64, #B669FF,  #D2E19E);
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+}
+
+.parallax {
+    /* The image used */
+    background-image: var(--background-url, url("../images/background.png"));
+
+    /* Set a specific height */
+    height: 100%;
+
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.navbar{
+    background-color: #FAEBD7BB;
+    backdrop-filter: blur(15px);
+    border-radius: 0 0 8px 8px;
+}
+
+.welcome-text {
+    color:white;
+    font-weight: bold;
+    font-size: xxx-large;
+}
+
+.blur-container{
+    backdrop-filter: blur(7px);
+    box-shadow: grey 1px 1px 5px;
+    border-radius: 10px;
+}
+
+.blur-background{
+    border-radius: 10px;
+}
+
+.dark-theme{
+    background-color: #44444499;
+    color:white;
+}
+
+.light-theme{
+    background-color: #EEEEEE99;
+    color:black;
+}
+
+.modal {
+    backdrop-filter: blur(5px) !important;
+    background-color: #EEEEEE44 !important;
+}
+
+.bg-tier-silver{
+    background: linear-gradient(90deg, rgba(192,192,192,1) 20%, rgba(231,231,231,1) 80%);
+    color: black;
+}
+
+.bg-tier-gold{
+    background: linear-gradient(90deg, rgba(203,164,1,1) 20%, rgba(255,215,0,1) 80%);
+    color: black;
+}
+
+.bg-tier-bronze{
+    background: linear-gradient(90deg, rgba(205,127,50,1) 20%, rgba(252,161,71,1) 80%);
+    color: black;
+}
+
+.btn-tier-silver,.btn-tier-bronze,.btn-tier-gold {
+    transition: 0.2s;
+}
+
+.btn-tier-silver {
+    background: linear-gradient(90deg, rgba(192,192,192,1) 20%, rgba(231,231,231,1) 80%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.btn-tier-silver:hover {
+    background: linear-gradient(90deg, rgba(192,192,192,0.7) 20%, rgba(231,231,231,0.7) 80%);
+    color: black;
+    -webkit-background-clip: inherit;
+    -webkit-text-fill-color: inherit;
+}
+
+.btn-check:checked+.btn-tier-silver{
+    background: linear-gradient(90deg, rgba(192,192,192,1) 20%, rgba(231,231,231,1) 80%);
+    color: black;
+    -webkit-background-clip: inherit;
+    -webkit-text-fill-color: inherit;
+}
+
+.btn-tier-bronze {
+    background: linear-gradient(90deg, rgba(205,127,50,0.5) 20%, rgba(252,161,71,0.5) 80%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.btn-tier-bronze:hover {
+    background: linear-gradient(90deg, rgba(205,127,50,0.7) 20%, rgba(252,161,71,0.7) 80%);
+    color: black;
+    -webkit-background-clip: inherit;
+    -webkit-text-fill-color: inherit;
+}
+
+.btn-check:checked+.btn-tier-bronze{
+    background: linear-gradient(90deg, rgba(205,127,50,1) 20%, rgba(252,161,71,1) 80%);
+    color: black;
+    -webkit-background-clip: inherit;
+    -webkit-text-fill-color: inherit;
+}
+
+.btn-tier-gold {
+    background: linear-gradient(90deg, rgba(203,164,1,0.5) 20%, rgba(255,215,0,0.5) 80%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.btn-tier-gold:hover {
+    background: linear-gradient(90deg, rgba(203,164,1,0.7) 20%, rgba(255,215,0,0.7) 80%);
+    color: black;
+    -webkit-background-clip: inherit;
+    -webkit-text-fill-color: inherit;
+}
+
+.btn-check:checked+.btn-tier-gold{
+    background: linear-gradient(90deg, rgba(203,164,1,1) 20%, rgba(255,215,0,1) 80%);
+    color: black;
+    -webkit-background-clip: inherit;
+    -webkit-text-fill-color: inherit;
+}
+
+.card-course{
+    transition: 100ms;
+    cursor:pointer;
+}
+
+.card-course:hover{
+    box-shadow: darkgray 1px 1px 15px;
+}
