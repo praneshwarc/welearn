@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import user_passes_test
 from django.http import HttpResponse
 from django.shortcuts import render
-from .models import Course
+from .models import Course, Module
 
 
 def homepage(request):
@@ -10,8 +10,11 @@ def homepage(request):
 
 
 def course(request, course_id):
-    course = Course.objects.get(id=course_id)
-    return render(request, 'course_home.html', {'course': course})
+    selected_course = Course.objects.get(id=course_id)
+    module_list = Module.objects.filter(course_id=course_id)
+    module = module_list[1]
+    print(module.contents.all()[0].file)
+    return render(request, 'course_home.html', {'course': selected_course, 'modules': module_list})
 
 
 def tutor_check(user):

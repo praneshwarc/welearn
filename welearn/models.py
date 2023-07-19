@@ -49,5 +49,5 @@ class Module(models.Model):
 
 class Content(models.Model):
     file = models.FileField()
-    module = models.ForeignKey(Module, on_delete=models.CASCADE)
+    module = models.ForeignKey(Module, related_name="contents", on_delete=models.CASCADE)
 
