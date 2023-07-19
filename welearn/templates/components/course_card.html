@@ -1,15 +1,10 @@
 
 <div class="card mb-2 card-course " id="course_{{ course.id }}">
-    <a class="text-decoration-none text-dark" href="/tutor/courses/{{ course.id }}/modules">
+    <a class="text-decoration-none text-dark" href="/courses/{{ course.id }}">
         <div class="card-body">
             <div class="row justify-content-end">
                 <div class="col-sm">
                     <h5 class="card-title">{{ course.title }}</h5>
-                </div>
-                <div class="col-auto">
-                    <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" role="switch" data-id="{{ course.id }}" id="is-published-{{ course.id }}" {% if course.is_published %} checked {% endif %}>
-                    </div>
                 </div>
             </div>
             <p class="card-text">{{ course.description }}</p>
@@ -26,30 +21,5 @@
             </div>
         </div>
     </a>
-    <div class="card-footer">
-        <div class="row justify-content-end">
-            <div class="col-auto">
-                <button id="edit_course_{{ course.id }}" class="btn btn-sm btn-outline-primary"><i class="bi-pencil"></i></button>
-            </div>
-            <div class="col-auto">
-                <button id="delete_course_{{ course.id }}" class="btn btn-sm btn-outline-danger"><i class="bi-trash"></i></button>
-            </div>
-        </div>
-    </div>
+
 </div>
-<script>
-
-    $(document).ready(function(event){
-        const publishedChecks = document.querySelectorAll('[id^="is-published-"]');
-        // Loop through each element and set the onclick event
-        publishedChecks.forEach(publishedSwitch => {
-            $(publishedSwitch).off('click');
-            $(publishedSwitch).on('click', (event) => {
-                event.preventDefault();
-                alert("Handle enable/disable for course "+publishedSwitch.getAttribute("data-id"));
-                publishedSwitch.removeAttribute("checked");
-            });
-        });
-    });
-
-</script>

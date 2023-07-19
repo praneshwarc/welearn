@@ -1,7 +1,7 @@
 
 {% extends 'base.html' %}
 
-{% block title %} Modules {% endblock %}
+{% block title %} {{ course.title }} {% endblock %}
 
 {% block body_block %}
     <div class="container-fluid pt-3">
@@ -9,32 +9,24 @@
             <div class="col-auto">
                 <h1 class="p-3 fw-bold"> {{ course.title }} - Modules </h1>
             </div>
-            <div class="col-auto my-auto">
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModule">Build Module</button>
-            </div>
         </div>
         <div class="blur-container w-100 mx-auto">
             <div class="blur-background light-theme p-3">
                 <div class="row row-cols-2 row-cols-md-3 g-4 p-3">
+                    <div class="col-auto">
                     <ul id="simpleList" class="list-group">
                         {% for module in modules %}
                             <li class="list-group-item"><i class="drag-handle bi-grip-horizontal fs-4 me-3"></i><span class="align-text-bottom">{{ module.title }}</span></li>
                         {% endfor %}
                     </ul>
+                    </div>
+                    <div class="col-auto">
+
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <script>
-        const moduleList = Sortable.create(simpleList, {
-            handle: '.drag-handle',
-            onEnd: function(event){
-                console.log("OldIndex"+event.oldIndex);
-                console.log("NewIndex"+event.newIndex);
-                console.log(event);
-            }
-        });
-    </script>
-    {%  include 'components/create_module.html' %}
+
 {% endblock %}
 

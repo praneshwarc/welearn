@@ -5,7 +5,13 @@ from .models import Course
 
 
 def homepage(request):
-    return render(request, 'homepage.html')
+    course_list = Course.objects.all()
+    return render(request, 'homepage.html', {'courses': course_list})
+
+
+def course(request, course_id):
+    course = Course.objects.get(id=course_id)
+    return render(request, 'course_home.html', {'course': course})
 
 
 def tutor_check(user):
@@ -16,7 +22,7 @@ def tutor_check(user):
         return True
 
 
-#@user_passes_test(tutor_check)
+# @user_passes_test(tutor_check)
 def tutor_courses(request):
     course_list = [{
         'id': 1,
@@ -100,7 +106,7 @@ def tutor_courses(request):
     return render(request, 'tutor_courses.html', {'courses': course_list, 'categories': categories, 'edit': True})
 
 
-#@user_passes_test(tutor_check)
+# @user_passes_test(tutor_check)
 def tutor_modules(request, course_id):
     course = Course.objects.get(id=course_id);
     modules = course.modules.all()

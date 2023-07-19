@@ -37,34 +37,17 @@ class Course(models.Model):
 class Module(models.Model):
     title = models.CharField(max_length=50)
     description = models.TextField(max_length=250)
-    course = models.ForeignKey(Course,related_name='modules', on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, related_name='modules', on_delete=models.CASCADE)
+    ordering = models.PositiveSmallIntegerField()
+
+    class Meta:
+        unique_together = ['course', 'ordering']
 
     def __str__(self):
-        return self.title
+        return self.course.title + ' - ' + self.title
 
 
 class Content(models.Model):
     file = models.FileField()
     module = models.ForeignKey(Module, on_delete=models.CASCADE)
 
-
-class Student(User):
-    registered_courses = models.ManyToManyField(Course)
-
-    def __str__(self):
-        return self.get_full_name()
-
-    class Meta:
-        verbose_name = "Student"
-        verbose_name_plural = "Students"
-
-
-class Tutor(User):
-    owned_courses = models.ManyToManyField(Course)
-
-    def __str__(self):
-        return self.get_full_name()
-
-    class Meta:
-        verbose_name = "Tutor"
-        verbose_name_plural = "Tutors"
