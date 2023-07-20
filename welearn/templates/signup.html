@@ -1,0 +1,56 @@
+
+{% extends 'base.html' %}
+
+{% block title %} Signup {% endblock %}
+
+{% block body_block %}
+    <div class="container-fluid pt-3">
+        <div class="blur-container w-25 mx-auto">
+            <div class="blur-background light-theme p-3">
+                <form method="post">
+                    {%  csrf_token %}
+                    <div class="form-floating mb-3">
+                        {{ signup_form.username }}
+                        <!--<input  type="text" id="username" placeholder="Username">-->
+                        <label for="id_username">Username</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        {{ signup_form.password }}
+                        <!--<input class="form-control" type="password" id="password" placeholder="Password">-->
+                        <label for="id_password">Password</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        {{ signup_form.first_name }}
+                        <!--<input class="form-control" type="password" id="password" placeholder="Password">-->
+                        <label for="id_first_name">First Name</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        {{ signup_form.last_name }}
+                        <!--<input class="form-control" type="password" id="password" placeholder="Password">-->
+                        <label for="id_last_name">Last Name</label>
+                    </div>
+                    <div class="form-check">
+                        {{ signup_form.is_tutor }}
+                        <label class="form-check-label" for="is_tutor">Tutor account</label>
+                    </div>
+                    {% if error_message %}
+                        <div class="alert alert-danger d-flex align-items-center" role="alert">
+                            <i class="bi-exclamation-triangle"></i>
+                            {{ error_message }}
+                        </div>
+                    {% endif %}
+                    <div class="d-grid col-6 mx-auto mb-2">
+                        <input class="btn btn-primary" type="submit" value="Sign Up">
+                    </div>
+                    <div class="d-grid col-8 mx-auto">
+                        <a class="icon-link link-secondary text-decoration-none icon-link-hover" href="/login">
+                        Already a WeLearn user?, Login!
+                        <i class="bi-arrow-right"></i>
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

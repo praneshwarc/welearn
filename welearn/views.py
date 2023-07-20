@@ -18,95 +18,71 @@ def course(request, course_id):
 
 
 def tutor_check(user):
-    print(user.groups.all())
-    if user.groups:
-        return 'tutor' in user.groups.all()
-    else:
-        return True
+    try:
+        we_user = WeUser.objects.get(id=user.id)
+    except WeUser.DoesNotExist:
+        return False
+    return we_user.is_tutor
 
 
 # @user_passes_test(tutor_check)
 def tutor_courses(request):
-    course_list = [{
-        'id': 1,
-        'title': 'Introduction to Python',
-        'description': 'This is a course to learn python from scratch',
-        'category': {
-            "id": 1,
-            "value": "Technology"
-        },
-        'tags': 'python technology programming coding',
-        'duration': {
-            'hours': 2,
-            'minutes': 20
-        },
-        'tier': 'silver',
-        'is_published': True
-    },
-        {
-            'id': 2,
-            'title': 'Introduction to Python',
-            'description': 'This is a course to learn python from scratch',
-            'category': {
-                "id": 1,
-                "value": "Technology"
-            },
-            'tags': 'python technology programming coding',
-            'duration': {
-                'hours': 2,
-                'minutes': 20
-            },
-            'tier': 'bronze',
-            'is_published': False
-        },
-        {
-            'id': 3,
-            'title': 'Introduction to Python',
-            'description': 'This is a course to learn python from scratch',
-            'category': {
-                "id": 1,
-                "value": "Technology"
-            },
-            'tags': 'python technology programming coding',
-            'duration': {
-                'hours': 1,
-                'minutes': 20
-            },
-            'tier': 'gold',
-            'is_published': True
-        }
-    ]
-    categories = [
-        {
-            'id': 1,
-            'value': 'Business',
-            'tokens': 'business organization company'
-        },
-        {
-            'id': 2,
-            'value': 'Human Resources',
-            'tokens': 'hr human resources talent employee'
-        },
-        {
-            'id': 3,
-            'value': 'Finance & Accounting',
-            'tokens': 'finance wealth company accounting'
-        },
-        {
-            'id': 4,
-            'value': 'Technology',
-            'tokens': 'programming technology coding development'
-        },
-        {
-            'id': 5,
-            'value': 'Project Management',
-            'tokens': 'project product organization agile sprint'
-        }
-    ]
-    course_list = Course.objects.all()
-    print(course_list[0].tier)
+    # POST for course creation/
 
-    return render(request, 'tutor_courses.html', {'courses': course_list, 'categories': categories, 'edit': True})
+    if request.method == 'GET':
+        course_list = Course.objects.all()
+        categories = Category.objects.all()
+
+        return render(request, 'tutor_courses.html', {'courses': course_list, 'categories': categories})
+
+    elif request.method == 'POST':
+        course_form = CourseForm(request.POST)
+        if course_form.is_valid():
+            course = course_form.save(commit=False)
+            tier = Tier.objects.get(label=course_form.cleaned_data['tier_name'])
+            category = Category.objects.get(label=course_form.cleaned_data['category_name'])
+            course.tier = tier
+            course.category = category
+            # print(myForm)
+            we_user = WeUser.objects.get(id=request.user.id)
+            course.tutor = we_user
+            course.save()
+            return HttpResponse(status=200)
+        else:
+            errors = course_form.errors.as_json()
+            return JsonResponse({'errors': errors}, status=400)
+
+@login_required
+def tutor_courses_id(request, course_id):
+    if request.method == 'GET':
+        course_data = Course.objects.get(id=course_id);
+        data = serialize("json", course_data, fields=('title', 'description'))
+        return HttpResponse(data, content_type="application/json")
+
+    if request.method == "POST":
+        course = Course.objects.get(id=course_id)
+        course_form = CourseForm(request.POST, instance=course)
+
+        course_form.is_valid()
+        course.title = course_form.cleaned_data.get("title", course.title)
+        course.description = course_form.cleaned_data.get("description", course.description)
+        course.hrs = course_form.cleaned_data.get("hrs", course.hrs)
+        course.mins = course_form.cleaned_data.get("mins", course.mins)
+        course.is_published = course_form.cleaned_data.get("is_published", course.is_published)
+        if course_form.cleaned_data.get("tier_name", None):
+            tier = Tier.objects.get(label=course_form.cleaned_data['tier_name'])
+            course.tier = tier
+        if course_form.cleaned_data.get("category_name", None):
+            category = Category.objects.get(label=course_form.cleaned_data['category_name'])
+            course.category = category
+        course.save()
+        return HttpResponse(status=200)
+
+    if request.method == "DELETE":
+        course_to_del = Course.objects.get(id=course_id)
+        course_to_del.delete()
+        return HttpResponse(status=204)
+
 
 
 # @user_passes_test(tutor_check)

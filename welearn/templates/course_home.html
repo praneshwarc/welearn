@@ -24,8 +24,8 @@
                                             {% for content in  module.contents.all %}
                                                 <hr/>
                                                 Content ID: {{ content.id}}
-                                                <object data="/static/uploads/{{ content.file }}" type="application/pdf" class="w-75 mx-auto min-vh-100 mh-75">
-                                                    <p>Unable to display PDF file. <a href="/static/uploads/{{ content.file }}">Download</a> instead.</p>
+                                                <object data="/{{ content.file }}" type="application/pdf" class="w-75 mx-auto min-vh-100 mh-75">
+                                                    <p>Unable to display PDF file. <a href="/{{ content.file }}">Download</a> instead.</p>
                                                 </object>
                                             {% endfor %}
                                         </div>

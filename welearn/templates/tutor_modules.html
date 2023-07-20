@@ -18,7 +18,15 @@
                 <div class="row row-cols-2 row-cols-md-3 g-4 p-3">
                     <ul id="simpleList" class="list-group">
                         {% for module in modules %}
-                            <li class="list-group-item"><i class="drag-handle bi-grip-horizontal fs-4 me-3"></i><span class="align-text-bottom">{{ module.title }}</span></li>
+                            <li class="list-group-item">
+                                <div class="row justify-content-between">
+                                    <i class="drag-handle bi-grip-horizontal fs-4 me-3 cols-sm-1"></i>
+                                    <span class="align-text-bottom cols-sm-4">{{ module.title }}</span>
+                                    <i class="bi-pencil col-sm-1"></i>
+                                </div>
+                            </li>
+                        {%  empty %}
+                            <h4>You haven't created any modules</h4>
                         {% endfor %}
                     </ul>
                 </div>

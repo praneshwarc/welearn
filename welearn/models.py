@@ -29,6 +29,8 @@ class Course(models.Model):
     hrs = models.PositiveIntegerField()
     mins = models.PositiveIntegerField()
     is_published = models.BooleanField(default=False)
+    tutor = models.ForeignKey(WeUser, on_delete=models.CASCADE)
+    registered_users = models.ManyToManyField(WeUser, related_name='registered_courses')
 
     def __str__(self):
         return self.title
@@ -48,6 +50,6 @@ class Module(models.Model):
 
 
 class Content(models.Model):
-    file = models.FileField()
+    file = models.FileField(upload_to="static/uploads")
     module = models.ForeignKey(Module, related_name="contents", on_delete=models.CASCADE)
 

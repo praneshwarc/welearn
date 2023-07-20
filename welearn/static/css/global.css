@@ -148,9 +148,12 @@ html{
     -webkit-text-fill-color: inherit;
 }
 
+.card-course-body{
+    cursor:pointer;
+}
+
 .card-course{
     transition: 100ms;
-    cursor:pointer;
 }
 
 .card-course:hover{
