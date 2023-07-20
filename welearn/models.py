@@ -1,5 +1,15 @@
 from django.contrib.auth.models import User
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
+from django.contrib.auth.models import User
+
+
+class WeUser(User):
+    is_tutor = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name = "WeLearn User"
+        verbose_name_plural = "WeLearn Users"
 
 
 class Category(models.Model):
@@ -52,4 +62,36 @@ class Module(models.Model):
 class Content(models.Model):
     file = models.FileField(upload_to="static/uploads")
     module = models.ForeignKey(Module, related_name="contents", on_delete=models.CASCADE)
+
+
+class Quiz(models.Model):
+    module = models.OneToOneField(Module, models.CASCADE)
+    title = models.CharField(max_length=200)
+    description = models.TextField()
+    grade_required = models.PositiveIntegerField(verbose_name="Percentage Required",
+                                                 validators=[
+                                                     MaxValueValidator(100),
+                                                     MinValueValidator(1)
+                                                 ]
+                                                 )
+
+
+class Question(models.Model):
+    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
+    text = models.TextField()
+
+
+class Option(models.Model):
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    text = models.CharField(max_length=200)
+    is_correct = models.BooleanField(default=False)
+
+
+class QuizAttempt(models.Model):
+    user = models.ForeignKey(WeUser, on_delete=models.CASCADE)
+    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
+    score = models.PositiveIntegerField(default=0)
+    date_attempted = models.DateTimeField(auto_now=True)
+
+
 
