@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from .views import AddContent, ContentView, DeleteQuiz
 
 app_name = 'welearn'
 urlpatterns = [
@@ -17,4 +18,8 @@ urlpatterns = [
     path('quiz/<int:module_id>/', views.quiz_detail, name='quiz_detail'),
     path('quiz_result/<int:module_id>/', views.quiz_result, name='quiz_result'),
     path('profile/', views.profile, name='profile'),
+    path('tutor/module/<int:module_id>/content', AddContent.as_view(), name="add_content"),
+    path('tutor/content/<int:content_id>/', ContentView.as_view(), name="delete_content"),
+    path('tutor/module/<int:module_id>/create_quiz/', views.create_quiz, name='create-quiz'),
+    path('tutor/quiz/<int:quiz_id>/', DeleteQuiz.as_view(), name = 'delete_quiz')
 ]

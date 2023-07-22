@@ -51,17 +51,14 @@ class Module(models.Model):
     title = models.CharField(max_length=50)
     description = models.TextField(max_length=500)
     course = models.ForeignKey(Course, related_name='modules', on_delete=models.CASCADE)
-    ordering = models.PositiveSmallIntegerField()
-
-    class Meta:
-        unique_together = ['course', 'ordering']
 
     def __str__(self):
         return self.course.title + ' - ' + self.title
 
 
 class Content(models.Model):
-    file = models.FileField(upload_to="static/uploads")
+    file = models.FileField(null=True,blank=True)
+    youtube_video = models.URLField(null=True,blank=True)
     module = models.ForeignKey(Module, related_name="contents", on_delete=models.CASCADE)
 
 
@@ -92,7 +89,5 @@ class QuizAttempt(models.Model):
     user = models.ForeignKey(WeUser, on_delete=models.CASCADE)
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
     score = models.PositiveIntegerField(default=0)
+    max_score = models.PositiveIntegerField(default=0)
     date_attempted = models.DateTimeField(auto_now=True)
-
-
-

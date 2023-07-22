@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}Quiz Form{% endblock %}
+
+{% block body_block %}
+    <div class="container-fluid pt-3">
+        <div class="blur-container w-75 mx-auto">
+            <div class="blur-background light-theme p-3">
+                <form method="post">
+                    {% csrf_token %}
+                    {% for field in form %}
+                        <div class="form-group">
+                            <label for="{{ field.name }}">{{ field.label }} </label>
+                            {% if field.field.widget.input_type == 'radio' %}
+                                {% for radio in field %}
+                                    <div class="form-check">
+                                        {{ radio }}
+
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                {{ field }}
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                    <div class="d-grid gap-2 col-6 mx-auto mb-2">
+                        <input class="btn btn-primary" type="submit" value="Submit">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

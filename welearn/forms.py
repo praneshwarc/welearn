@@ -1,5 +1,8 @@
 from django import forms
 from .models import Course, WeUser, Option, Module
+from django import forms
+from django.forms import inlineformset_factory
+from .models import Quiz, Question, Option
 
 
 class CourseForm(forms.ModelForm):
@@ -20,12 +23,21 @@ class CourseEditForm(forms.ModelForm):
         fields = ["title", "description", "tags", "hrs", "mins", "is_published", "tier_name", "category_name"]
 
 
-
-
 class ModuleForm(forms.ModelForm):
     class Meta:
         model = Module
         exclude = ["course", ]
+
+
+class ModuleEditForm(forms.ModelForm):
+    class Meta:
+        model = Module
+        exclude = ["course", ]
+
+    def __init__(self, *args, **kwargs):
+        super(ModuleEditForm, self).__init__(*args, **kwargs)
+        self.fields['title'].required = False
+        self.fields['description'].required = False
 
 
 class SignUpForm(forms.ModelForm):
@@ -61,3 +73,5 @@ class QuizForm(forms.Form):
                 choices=choices,
                 widget=forms.RadioSelect(attrs={'class': 'form-check-input'})
             )
+
+
