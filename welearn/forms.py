@@ -64,7 +64,7 @@ class QuizForm(forms.Form):
     def __init__(self, *args, **kwargs):
         quiz = kwargs.pop('quiz')
         super(QuizForm, self).__init__(*args, **kwargs)
-        questions = quiz.question_set.all()
+        questions = quiz.questions.all()
         for question in questions:
             options = Option.objects.filter(question=question)
             choices = [(option.id, option.text) for option in options]

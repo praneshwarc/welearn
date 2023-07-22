@@ -41,7 +41,7 @@ class Course(models.Model):
     mins = models.PositiveIntegerField()
     is_published = models.BooleanField(default=False)
     tutor = models.ForeignKey(WeUser, related_name="courses", on_delete=models.CASCADE)
-    registered_users = models.ManyToManyField(WeUser, related_name='registered_courses')
+    registered_users = models.ManyToManyField(WeUser, related_name='registered_courses', blank=True, null=True)
 
     def __str__(self):
         return self.title
@@ -90,4 +90,5 @@ class QuizAttempt(models.Model):
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
     score = models.PositiveIntegerField(default=0)
     max_score = models.PositiveIntegerField(default=0)
+    is_passed = models.BooleanField(default=False)
     date_attempted = models.DateTimeField(auto_now=True)

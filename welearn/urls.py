@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import AddContent, ContentView, DeleteQuiz
+from .views import AddContent, ContentView, DeleteQuiz, EnrollCourse, CourseDashboard, CourseProgress
 
 app_name = 'welearn'
 urlpatterns = [

@@ -21,7 +21,7 @@ import json
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
-
+from django.db import models
 
 
 def tutor_check(user):
@@ -60,7 +60,20 @@ def student_home(request):
 @login_required
 def course(request, course_id):
     selected_course = Course.objects.get(id=course_id)
+    we_user = WeUser.objects.get(id=request.user.id)
+    selected_course.is_enrolled = we_user.registered_courses.filter(id=selected_course.id).exists()
     module_list = Module.objects.filter(course_id=course_id)
+    is_locked = False
+    for module in module_list:
+        quiz = Quiz.objects.filter(module=module)
+        module.is_passed = False
+        if not quiz:
+            module.is_passed = True
+        elif QuizAttempt.objects.filter(quiz__id=quiz[0].id, user__id=we_user.id):
+            module.is_passed = QuizAttempt.objects.get(quiz=quiz[0], user=we_user).is_passed
+        module.is_locked = is_locked
+        if not module.is_passed:
+            is_locked = True
     return render(request, 'course.html', {'course': selected_course, 'modules': module_list})
 
 
@@ -143,8 +156,9 @@ def tutor_course_id(request, course_id):
 # @user_passes_test(tutor_check)
 def tutor_modules(request, course_id):
     if request.method == "GET":
+        we_user = WeUser.objects.get(id=request.user.id)
         course = Course.objects.get(id=course_id);
-        modules = course.modules.all();
+        modules = list(course.modules.all())
         #print(modules[0].quiz)
         return render(request, "tutor_modules.html", {'course': course, 'modules': modules})
     elif request.method == "POST":
@@ -270,7 +284,7 @@ def quiz_detail(request, module_id):
         form = QuizForm(request.POST, quiz=quiz)
         if form.is_valid():
             score = 0
-            for question in quiz.question_set.all():
+            for question in quiz.questions.all():
                 selected_option_id = form.cleaned_data[f'question_{question.id}']
                 selected_option = get_object_or_404(Option, pk=selected_option_id)
                 if selected_option.is_correct:
@@ -280,7 +294,10 @@ def quiz_detail(request, module_id):
             we_user = WeUser.objects.get(id=request.user.id)
             quiz_attempt, created = QuizAttempt.objects.get_or_create(user=we_user, quiz=quiz)
             quiz_attempt.score = score
-            quiz_attempt.max_score = quiz.question_set.count()
+            quiz_attempt.max_score = quiz.questions.count()
+            percent = (quiz_attempt.score * 100)/quiz_attempt.max_score
+            if percent >= quiz_attempt.quiz.grade_required:
+                quiz_attempt.is_passed = True
             quiz_attempt.save()
 
             return redirect('welearn:quiz_result', module_id=module_id)
