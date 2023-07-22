@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %} Uwindsor PayGate {% endblock %}
+
+{% block body_block %}
+    <h1>Uwindsor PayGate</h1>
+    <form action="/payment_page/?bi_id={{ bi_id }}" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Pay">
+    </form>
+{% endblock %}

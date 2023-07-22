@@ -1,0 +1,25 @@
+
+<div class="card mb-2 card-course " id="course_{{ course.id }}">
+    <a class="text-decoration-none text-dark" href="/courses/{{ course.id }}">
+        <div class="card-body card-course-body">
+            <div class="row justify-content-end">
+                <div class="col-sm">
+                    <h5 class="card-title">{{ course.title }}</h5>
+                </div>
+            </div>
+            <p class="card-text">{{ course.description }}</p>
+            <div class="row justify-content-end mb-2">
+                <div class="col-sm">
+                        <span class="text-capitalize fw-light badge rounded-pill bg-tier-{{ course.tier }}"
+                              data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Requires {{ course.tier }} Tier">
+                         {{ course.tier }}
+                        </span>
+                </div>
+                <div class="col-auto fs-6 fw-light">
+                    {{ course.hrs }} hrs {{ course.mins }} mins
+                </div>
+            </div>
+        </div>
+    </a>
+
+</div>

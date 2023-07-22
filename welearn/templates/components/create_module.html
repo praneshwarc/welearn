@@ -1,0 +1,29 @@
+<div class="modal fade" id="createModule" data-bs-backdrop="static" tabindex="-1" aria-labelledby="createModuleLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="createCourseLabel">Create a module</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form>
+                <div class="modal-body">
+                    <div class="form-floating mb-3">
+                        <input class="form-control form-control-lg" id="module_title" placeholder="Title"/>
+                        <label for="module_title">Title</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <textarea class="form-control" id="module_desc" placeholder="Description" rows="5" style="height:100%;"></textarea>
+                        <label for="module_desc">Description</label>
+                    </div>
+                    <div class="mb-3">
+                        <input class="form-control" type="file" id="formFileMultiple" multiple>
+                        <div id="content_upload" class="form-text">Select files to add</div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Create</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

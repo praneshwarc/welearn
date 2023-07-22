@@ -1,0 +1,43 @@
+
+{% extends 'base.html' %}
+
+{% block title %} {{ course.title }} {% endblock %}
+
+{% block body_block %}
+    <div class="container-fluid pt-3">
+        <div class="blur-container w-100 mx-auto">
+            <div class="blur-background light-theme p-3">
+                <h2 class="p-2 fw-bold"> {{ course.title }}</h2>
+                <div class="row g-4 p-3">
+                    <div class="col">
+                        <div class="accordion" id="module-accordian">
+                            {%  for module in modules %}
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-{{ module.id }}" aria-expanded="false" aria-controls="collapse-{{ module.id }}">
+                                            {{ module.title }}
+                                        </button>
+                                    </h2>
+                                    <div id="collapse-{{ module.id }}" class="accordion-collapse collapse">
+                                        <div class="accordion-body">
+                                            {{ module.description }}
+                                            {% for content in  module.contents.all %}
+                                                <hr/>
+                                                Content ID: {{ content.id}}
+                                                <object data="/{{ content.file }}" type="application/pdf" class="w-75 mx-auto min-vh-100 mh-75">
+                                                    <p>Unable to display PDF file. <a href="/{{ content.file }}">Download</a> instead.</p>
+                                                </object>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+

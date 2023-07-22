@@ -1,0 +1,18 @@
+<!-- billing_page.html -->
+
+{% extends 'base.html' %}
+
+{% block title %} Billing Page {% endblock %}
+
+{% block body_block %}
+    <h1>Billing Information</h1>
+    <form method="post" id="billing-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Pay Now !!!!">
+    </form>
+
+
+
+
+{% endblock %}
