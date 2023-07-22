@@ -1,0 +1,119 @@
+<div class="modal fade" id="createContentModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="createContentLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="createContentLabel">Add a file</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="create_content" >
+                <div class="modal-body">
+                    <ul class="nav nav-tabs mb-3" id="contentTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="file-tab" data-bs-toggle="tab" data-bs-target="#file-tab-pane" type="button" role="tab" aria-controls="file-tab-pane" aria-selected="true">File</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="youtube-tab" data-bs-toggle="tab" data-bs-target="#youtube-tab-pane" type="button" role="tab" aria-controls="youtube-tab-pane" aria-selected="false">Youtube</button>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="contentTabContent">
+                        <div class="tab-pane fade show active" id="file-tab-pane" role="tabpanel" aria-labelledby="file-tab" tabindex="0">
+                            <div>
+                                <label for="add_content" class="form-label">Add a file</label>
+                                <input class="form-control" type="file" id="add_content">
+                            </div>
+                            <hr/>
+                            <div class="row justify-content-end">
+                                <div class="col-auto">
+                                    <button class="btn btn-primary" onclick="addFile(event)">Add</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade p-2" id="youtube-tab-pane" role="tabpanel" aria-labelledby="youtube-tab" tabindex="0">
+                            <div class="form-floating mb-3">
+                                <input class="form-control form-control" id="content_youtube" placeholder="Youtube Link"/>
+                                <label for="content_youtube">Youtube Link</label>
+                            </div>
+                            <hr/>
+                            <div class="row justify-content-end">
+                                <div class="col-auto">
+                                    <button class="btn btn-primary" onclick="addYoutube(event)">Add</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    function addFile(event){
+        event.preventDefault();
+        const content_form = $('#create_content');
+        const module_id = content_form.data('module-id');
+        var fileInput = $('input#add_content')[0].files[0];
+        console.log(fileInput);
+
+        if (fileInput) {
+            // Create a FormData object to send the file data
+            var formData = new FormData();
+            formData.append('file', fileInput);
+        }
+        else{
+            alert("No file selected")
+        }
+        const csrfToken = Cookies.get('csrftoken');
+        $.ajax({
+            url: '/tutor/module/'+module_id+'/content', // Replace with your server-side URL to handle the upload
+            method: 'post',
+            data: formData,
+            headers: {
+                'X-CSRFToken': csrfToken
+            },
+            processData: false, // Prevent jQuery from processing the data
+            contentType: false, // Prevent jQuery from setting the content type
+            success: function(response) {
+                // Handle the server response after successful upload
+                console.log('File uploaded successfully!', response);
+                location.reload();
+            },
+            error: function(error) {
+                // Handle any errors that occur during the upload process
+                console.error('Error uploading file:', error);
+            }
+        });
+    }
+
+    function addYoutube(event){
+        event.preventDefault();
+        const content_form = $('#create_content');
+        const module_id = content_form.data('module-id');
+        var youtube_link = $('input#content_youtube').val();
+
+        const formData = {
+            'youtube_link':youtube_link
+        }
+
+        const csrfToken = Cookies.get('csrftoken');
+        $.ajax({
+            url: '/tutor/module/'+module_id+'/content', // Replace with your server-side URL to handle the upload
+            method: 'post',
+            data: formData,
+            headers: {
+                'X-CSRFToken': csrfToken
+            },
+            success: function(response) {
+                // Handle the server response after successful upload
+                console.log('File uploaded successfully!', response);
+                location.reload();
+            },
+            error: function(error) {
+                // Handle any errors that occur during the upload process
+                console.error('Error uploading file:', error);
+            }
+        });
+    }
+
+</script>

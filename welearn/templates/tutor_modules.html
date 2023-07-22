@@ -10,39 +10,148 @@
                 <h1 class="p-3 fw-bold"> {{ course.title }} - Modules </h1>
             </div>
             <div class="col-auto my-auto">
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModule">Build Module</button>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModuleModal">Create Module</button>
             </div>
         </div>
-        <div class="blur-container w-100 mx-auto">
+        <div class="blur-container w-75 mx-auto">
             <div class="blur-background light-theme p-3">
-                <div class="row row-cols-2 row-cols-md-3 g-4 p-3">
-                    <ul id="simpleList" class="list-group">
-                        {% for module in modules %}
-                            <li class="list-group-item">
-                                <div class="row justify-content-between">
-                                    <i class="drag-handle bi-grip-horizontal fs-4 me-3 cols-sm-1"></i>
-                                    <span class="align-text-bottom cols-sm-4">{{ module.title }}</span>
-                                    <i class="bi-pencil col-sm-1"></i>
+                <ul id="simpleList" class="list-group w-100 mx-auto">
+                    {% for module in modules %}
+                        <li class="list-group-item justify-content-between p-3">
+                            <div class="row justify-content-between">
+                                <div class="col-sm-10 align-text-bottom">
+                                    <h4>{{ module.title }}</h4>
+                                    <p>{{ module.description }}</p>
+                                    {% if module.contents.all %}
+                                        <div class="w-75">
+
+                                        <ul id="simpleList" class="list-group w-100 mx-auto">
+
+                                    {% endif %}
+                                    {% for content in module.contents.all %}
+                                        <li class="list-group-item justify-content-between p-3">
+                                            <div class="row justify-content-between">
+                                                    <div class="col-auto">
+                                                        {% if content.file %}
+                                                            {{ content.file }}
+                                                        {% elif content.youtube_video %}
+                                                            {{ content.youtube_video }}
+                                                        {% endif %}
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <a href="/media/{{ content.file }}" download><button id="delete_content_{{ content.id }}" data-bs-toggle="tooltip" data-bs-title="Download file" class="btn btn-sm btn-outline-secondary"><i class="bi-download"></i></button></a>
+                                                        <button id="delete_content_{{ content.id }}" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Delete content" class="btn btn-sm btn-outline-danger" onclick="deleteContent('{{ content.id }}')"><i class="bi-trash3"></i></button>
+                                                    </div>
+                                            </div>
+                                        </li>
+                                    {% endfor %}
+                                    {% if module.contents.all %}
+                                        </ul>
+                                        </div>
+                                    {% endif %}
                                 </div>
-                            </li>
-                        {%  empty %}
-                            <h4>You haven't created any modules</h4>
-                        {% endfor %}
-                    </ul>
-                </div>
+                                <div class="col-auto">
+                                    <button id="add_content_{{ module.id }}" data-bs-toggle="tooltip" data-bs-title="Add Content" class="btn btn-sm btn-outline-success me-1" onclick="showAddContent('{{ module.id }}')"><i class="bi-file-earmark-plus fs-6"></i></button>
+                                    <button id="edit_module_{{ module.id }}"  data-bs-toggle="tooltip" data-bs-title="Edit module" class="btn btn-sm btn-outline-primary me-1" onclick="editModule('{{ module.id }}')"><i class="bi-pencil fs-6"></i></button>
+                                    <button id="delete_module_{{ module.id }}"  data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Delete module" class="btn btn-sm btn-outline-danger" onclick="deleteModule('{{ module.id }}')"><i class="bi-trash3 fs-6"></i></button>
+                                </div>
+                            </div>
+                            <div class="row justify-content-end">
+                                <div class="col-auto">
+                                    {% if module.quiz %}
+                                        <button id="delete_quiz_{{ module.id }}" data-bs-toggle="tooltip" data-bs-title="Delete Quiz" class="btn btn-sm btn-outline-danger me-1" onclick="deleteQuiz('{{ module.quiz.id }}')"><i class="bi-trash3-fill fs-6"></i> Quiz</button>
+                                    {% else %}
+                                        <button id="add_quiz_{{ module.id }}" data-bs-toggle="tooltip" data-bs-title="Add a Quiz" class="btn btn-sm btn-outline-success me-1" onclick="createQuiz('{{ module.id }}')"><i class="bi-plus-square-fill fs-6"></i> Quiz</button>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </li>
+                    {%  empty %}
+                        <h4>You haven't created any modules</h4>
+                    {% endfor %}
+                </ul>
             </div>
         </div>
     </div>
-    <script>
-        const moduleList = Sortable.create(simpleList, {
-            handle: '.drag-handle',
-            onEnd: function(event){
-                console.log("OldIndex"+event.oldIndex);
-                console.log("NewIndex"+event.newIndex);
-                console.log(event);
-            }
-        });
-    </script>
     {%  include 'components/create_module.html' %}
+    {%  include 'components/create_content.html' %}
+    {%  include 'components/create_quiz.html' %}
+
+    <script>
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+
+        function showAddContent(module_id){
+            const content_form = $('#create_content');
+            content_form.attr('data-module-id',module_id);
+
+            const myModal = new bootstrap.Modal('#createContentModal');
+            myModal.show();
+        }
+
+        function createQuiz(module_id){
+            const content_form = $('#create_quiz');
+            content_form.attr('data-module-id',module_id);
+
+            const myModal = new bootstrap.Modal('#createQuizModal');
+            myModal.show();
+        }
+
+        function deleteQuiz(quiz_id){
+            const csrfToken = Cookies.get('csrftoken');
+            $.ajax("/tutor/quiz/"+quiz_id+"/", {
+                method: "delete",
+                headers: {
+                    'X-CSRFToken': csrfToken
+                },
+                success: function(response){
+                    location.reload();
+                }
+            });
+        }
+
+        function deleteContent(content_id){
+            const csrfToken = Cookies.get('csrftoken');
+            $.ajax("/tutor/content/"+content_id+"/", {
+                method: "delete",
+                headers: {
+                    'X-CSRFToken': csrfToken
+                },
+                success: function(response){
+                    location.reload();
+                }
+            });
+        }
+
+
+        function editModule(module_id){
+            $.ajax("/tutor/module/"+module_id+"/", {
+                success: function(response){
+                    const module_data = response;
+                    const module_form = $('#create_module');
+                    module_form.attr('data-id',module_id);
+                    module_form.find('#module_title').val(module_data.title);
+                    module_form.find('#module_desc').val(module_data.description);
+
+                    const myModal = new bootstrap.Modal('#createModuleModal');
+                    myModal.show();
+                }
+            });
+        }
+
+        function deleteModule(module_id){
+            const csrfToken = Cookies.get('csrftoken');
+            $.ajax("/tutor/module/"+module_id+"/", {
+                method: "delete",
+                headers: {
+                    'X-CSRFToken': csrfToken
+                },
+                success: function(response){
+                    location.reload();
+                }
+            });
+        }
+    </script>
+
 {% endblock %}
 

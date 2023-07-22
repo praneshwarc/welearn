@@ -1,11 +1,11 @@
-<div class="modal fade" id="createModule" data-bs-backdrop="static" tabindex="-1" aria-labelledby="createModuleLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-xl">
+<div class="modal fade" id="createModuleModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="createModuleLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="createCourseLabel">Create a module</h1>
+                <h1 class="modal-title fs-5" id="createModuleLabel">Create a module</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form>
+            <form id="create_module" onsubmit="createModule(event)" data-course-id="{{ course.id }}">
                 <div class="modal-body">
                     <div class="form-floating mb-3">
                         <input class="form-control form-control-lg" id="module_title" placeholder="Title"/>
@@ -15,15 +15,71 @@
                         <textarea class="form-control" id="module_desc" placeholder="Description" rows="5" style="height:100%;"></textarea>
                         <label for="module_desc">Description</label>
                     </div>
-                    <div class="mb-3">
-                        <input class="form-control" type="file" id="formFileMultiple" multiple>
-                        <div id="content_upload" class="form-text">Select files to add</div>
-                    </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Create</button>
+                    <button type="submit" class="btn btn-primary" id="create_module_button">Create</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
+
+<script>
+
+    var courseModal = $('#createModuleModal')
+    courseModal.on('hidden.bs.modal',(event)=>{
+        const module_form = $("form#create_module");
+        module_form.find(':input').val('');
+        module_form.removeAttr('data-id');
+
+    });
+    courseModal.on('show.bs.modal',(event)=>{
+        const module_form = $("form#create_module");
+        const moduleModal = $('#createModuleModal');
+        const module_id = module_form.attr('data-id');
+        moduleModal.find("#createModuleLabel").html("Create a Module");
+        moduleModal.find("#create_module_button").html("Create");
+        if(module_id){
+            moduleModal.find("#createModuleLabel").html("Edit a Module");
+            moduleModal.find("#create_module_button").html("Save");
+        }
+    });
+
+
+
+    function createModule(event){
+        event.preventDefault();
+
+        const module_form = $("form#create_module");
+        const module_id = module_form.data('id');
+        const course_id = module_form.data('course-id');
+        const title = module_form.find('#module_title').val();
+        const desc = module_form.find('#module_desc').val();
+
+        const moduleData = {
+            'title':title,
+            'description':desc
+        }
+
+        const csrfToken = Cookies.get('csrftoken');
+        var url = '/tutor/course/'+course_id+'/modules/';
+        if(module_id){
+            url= '/tutor/module/'+module_id+'/';
+        }
+        $.ajax(url,
+            {
+                method: "post",
+                headers: {
+                    'X-CSRFToken': csrfToken
+                },
+                data: moduleData,
+                success: function(response){
+                    location.reload();
+                },
+                error: function(error){
+                    console.log(JSON.parse(error.responseJSON.errors));
+
+                }
+            });
+    }
+</script>

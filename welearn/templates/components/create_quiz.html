@@ -1,0 +1,140 @@
+<div class="modal fade" id="createQuizModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="createQuizLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="createQuizLabel">Create a Quiz</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="post" id="create_quiz">
+            <div class="modal-body">
+
+                <div class="form-floating mb-3">
+                    <input class="form-control form-control-lg" id="quiz_title" name="title" placeholder="Title" required>
+                    <label for="quiz_title">Title</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <textarea class="form-control" id="quiz_description" name="description" placeholder="Description" rows="5" style="height: 100%;" required></textarea>
+                    <label for="quiz_description">Description</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input class="form-control" id="grade_required" name="grade_required" type="number" min="0" max="100" placeholder="Grade Required (0-100)" required>
+                    <label for="grade_required">Grade Required (0-100)</label>
+                </div>
+                <div id="questions_container">
+                    <!-- Dynamically add questions and options here -->
+                </div>
+                <button type="button" class="btn btn-primary mt-3" id="add_question_btn">Add Question</button>
+                <button type="submit" class="btn btn-primary mt-3">Create Quiz</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+        // JavaScript code for dynamically adding and removing questions and options
+        var questionCount = 0;
+
+        function addQuestion() {
+            questionCount++;
+            var questionHTML = `
+                <div class="mb-3 question" id="question_${questionCount}">
+                    <label for="question_${questionCount}_text" class="form-label">Question ${questionCount}</label>
+                    <textarea class="form-control" id="question_${questionCount}_text" name="questions[${questionCount}][text]" placeholder="Enter the question" required></textarea>
+                    <div id="question_${questionCount}_options">
+                        <!-- Dynamically add options here -->
+                    </div>
+                    <button type="button" class="btn btn-secondary mt-2" onclick="addOption(${questionCount})">Add Option</button>
+                    <button type="button" class="btn btn-danger mt-2" onclick="removeQuestion(${questionCount})">Remove Question</button>
+                </div>
+            `;
+            $("#questions_container").append(questionHTML);
+        }
+
+        function addOption(questionNumber) {
+            var optionCount = $("#question_" + questionNumber + "_options .option").length + 1;
+            var optionHTML = `
+                <div class="input-group option mb-2" data-option="${optionCount}">
+                    <input type="text" class="form-control" name="questions[${questionNumber}][options][${optionCount}][text]" placeholder="Enter option text" required>
+                    <div class="input-group-text">
+                        <input type="radio" class="form-check-input" name="questions[${questionNumber}][correct_option]" value="${optionCount}" required>
+                    </div>
+                    <button type="button" class="btn btn-danger" onclick="removeOption(${questionNumber}, ${optionCount})">Remove Option</button>
+                </div>
+            `;
+            $("#question_" + questionNumber + "_options").append(optionHTML);
+        }
+
+        function removeQuestion(questionNumber) {
+            $("#question_" + questionNumber).remove();
+            questionCount--;
+        }
+
+        function removeOption(questionNumber, optionNumber) {
+            $("#question_" + questionNumber + "_options").find(`.option[data-option="${optionNumber}"]`).remove();
+        }
+
+        $(document).ready(function() {
+            $("#add_question_btn").click(function() {
+                addQuestion();
+            });
+
+            $("#create_quiz").submit(function(event) {
+                event.preventDefault();
+                var formData = $(this).serializeArray();
+                var questionData = [];
+                formData.forEach(function(item) {
+                    if (item.name.includes("questions[")) {
+                        var parts = item.name.match(/questions\[(\d+)\]\[(\w+)\]/);
+                        var index = parseInt(parts[1]);
+                        var key = parts[2];
+                        if (!questionData[index]) {
+                            questionData[index] = {};
+                        }
+                        if (key === "options") {
+                            // Process the options data in the correct format
+                            var optionParts = item.name.match(/questions\[\d+\]\[options\]\[(\d+)\]\[(\w+)\]/);
+                            var optionIndex = parseInt(optionParts[1]);
+                            var optionKey = optionParts[2];
+                            if (!questionData[index][key]) {
+                                questionData[index][key] = [];
+                            }
+                            if (!questionData[index][key][optionIndex]) {
+                                questionData[index][key][optionIndex] = {};
+                            }
+                            questionData[index][key][optionIndex][optionKey] = item.value;
+                        } else {
+                            questionData[index][key] = item.value;
+                        }
+                    }
+                });
+                var dataToSend = {
+                    title: $("#quiz_title").val(),
+                    description: $("#quiz_description").val(),
+                    grade_required: $("#grade_required").val(),
+                    questions: questionData
+                };
+                const quiz_form = $("form#create_quiz");
+                const module_id = quiz_form.data('module-id');
+
+                const csrfToken = Cookies.get('csrftoken');
+                $.ajax({
+                    url: '/tutor/module/'+module_id+'/create_quiz/',
+                    method: "POST",
+                    headers: {
+                        "X-CSRFToken": csrfToken,
+                        "Content-Type": "application/json"
+                    },
+                    data: JSON.stringify(dataToSend),
+                    success: function(response) {
+                        alert("Quiz created successfully!");
+                        location.reload();
+                    },
+                    error: function(error) {
+                        alert("An error occurred while creating the quiz.");
+                        console.log(error);
+                    }
+                });
+            });
+        });
+    </script>

@@ -2,6 +2,7 @@
 {% load static %}
 <html lang="en" >
 <head>
+    <base target="_parent" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title> WeLearn - {% block title %} Welcome! {% endblock %}</title>
     <link rel="shortcut icon" type="image/png" href="{% static 'images/favicon.png' %}" >
@@ -30,20 +31,17 @@
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
             <a class="nav-item nav-link" href="/home">Home</a>
-            <a class="nav-item nav-link" href="/tutor/courses">Tutor</a>
+            <a class="nav-item nav-link" href="/tutor/">Tutor</a>
         </div>
         <div class="navbar-nav ms-auto">
-            <a class="nav-item nav-link" href="/profile"><i class="bi-person-circle fs-5 me-3 mb-0"></i></a>
-            {{ user. }}
+            <a class="nav-item nav-link" href="/profile"><i class="bi-person-fill fs-4 me-3"></i></a>
         </div>
     </div>
 </nav>
-<div class="parallax">
+<div class="parallax parallax-1">
     {% block body_block %}Body Block to Override{% endblock %}
 </div>
 </body>
-<footer> Some content
-</footer>
 
 <!-- Local JS files -->
 

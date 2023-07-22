@@ -3,12 +3,14 @@ from . import views
 
 app_name = 'welearn'
 urlpatterns = [
-    path('', views.homepage, name='homepage'),
-    path('home', views.homepage, name='homepage'),
+    path('', views.student_home, name='student_home'),
+    path('home/', views.student_home, name='student_home'),
     path('courses/<int:course_id>/', views.course, name='course'),
-    path('tutor/courses/', views.tutor_courses, name='tutor_courses'),
-    path('tutor/courses/<int:course_id>/', views.tutor_courses_id, name='tutor_courses_id'),
-    path('tutor/courses/<int:course_id>/modules/', views.tutor_modules, name='tutor_modules'),
+    path('tutor/', views.tutor_home, name='tutor_home'),
+    path('tutor/home/', views.tutor_home, name='tutor_home'),
+    path('tutor/course/<int:course_id>/', views.tutor_course_id, name='tutor_course_id'),
+    path('tutor/course/<int:course_id>/modules/', views.tutor_modules, name='tutor_modules'),
+    path('tutor/module/<int:module_id>/', views.tutor_module_id, name="tutor_module_id"),
     path('login/', views.login_view, name="login"),
     path('signup/', views.sign_up, name="signup"),
     path('logout/', views.logout_view, name="logout"),

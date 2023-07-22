@@ -1,0 +1,44 @@
+
+{% extends 'base.html' %}
+
+{% block title %} {{ course.title }} {% endblock %}
+
+
+{% block body_block %}
+    <div class="container-fluid pt-3">
+        <h2 class="p-2 fw-bold"> {{ course.title }}</h2>
+        <div class="blur-container w-100 mx-auto">
+            <div class="blur-background light-theme p-3">
+                <div class="form-control">
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        {%  for module in modules %}
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link {% if forloop.first %}active{% endif %}" id="{{ module.title }}-tab" data-bs-toggle="tab" data-bs-target="#{{ module.id }}-tab-pane" type="button" role="tab" aria-controls="{{ module.id }}-tab-pane" aria-selected="{% if forloop.first %}true{% else %}false{% endif %}">
+                                    {{ module.title }}
+                                </button>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    <div class="tab-content bg-white" id="moduleTabContent">
+                        {%  for module in modules %}
+                            <div class="tab-pane{% if forloop.first %} show active{% endif %} fade p-3" id="{{ module.id }}-tab-pane" role="tabpanel" aria-labelledby="{{ module.title }}-tab" tabindex="0">
+                                <h4>{{module.description}}</h4>
+                                {% for content in  module.contents.all %}
+                                    {% if content.file %}
+                                        {{ content.file}}
+                                        <object data="/media/{{ content.file }}" class="w-75 mx-auto min-vh-100 mh-75">
+                                            <p>Unable to display PDF file. <a href="/media/{{ content.file }}" download>Download</a> instead.</p>
+                                        </object>
+                                    {% elif content.youtube_video %}
+                                        <iframe width="50%" height="300px" src="https://www.youtube.com/embed/tgbNymZ7vqY"></iframe>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

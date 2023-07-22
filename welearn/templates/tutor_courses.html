@@ -10,7 +10,7 @@
                 <h1 class="p-3 fw-bold"> Courses </h1>
             </div>
             <div class="col-auto my-auto">
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createCourse">Build Course</button>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createCourseModal">Build Course</button>
             </div>
         </div>
         <div class="blur-container w-100 mx-auto">
@@ -29,5 +29,12 @@
         </div>
     </div>
     {%  include 'components/create_course.html' %}
+    <script>
+
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+
+</script>
 {% endblock %}
+
 

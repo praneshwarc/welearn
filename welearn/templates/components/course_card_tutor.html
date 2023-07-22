@@ -1,6 +1,5 @@
-
 <div class="card mb-2 card-course" id="course_{{ course.id }}">
-    <a class="text-decoration-none text-dark" href="/tutor/courses/{{ course.id }}/modules">
+    <a class="text-decoration-none text-dark" href="/tutor/course/{{ course.id }}/modules">
         <div class="card-body card-course-body">
             <div class="row justify-content-end">
                 <div class="col-sm">
@@ -8,17 +7,17 @@
                 </div>
                 <div class="col-auto">
                     <div class="form-check form-switch">
-                        <input onclick="toggleCourse('{{ course.id }}',event)" class="form-check-input" type="checkbox" role="switch" data-id="{{ course.id }}" id="is-published-{{ course.id }}" {% if course.is_published %} checked {% endif %}>
+                        <input onclick="toggleCourse('{{ course.id }}',event)" data-bs-toggle="tooltip" data-bs-title="Publish course" class="form-check-input" type="checkbox" role="switch" data-id="{{ course.id }}" id="is-published-{{ course.id }}" {% if course.is_published %} checked {% endif %}>
                     </div>
                 </div>
             </div>
             <p class="card-text">{{ course.description }}</p>
             <div class="row justify-content-end mb-2">
                 <div class="col-sm">
-                        <span class="text-capitalize fw-light badge rounded-pill bg-tier-{{ course.tier }}"
-                              data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Requires {{ course.tier }} Tier">
-                         {{ course.tier }}
-                        </span>
+                    <span class="text-capitalize fw-light badge rounded-pill bg-tier-{{ course.tier }}"
+                          data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Requires {{ course.tier }} Tier">
+                     {{ course.tier }}
+                    </span>
                 </div>
                 <div class="col-auto fs-6 fw-light">
                     {{ course.hrs }} hrs {{ course.mins }} mins
@@ -29,10 +28,10 @@
     <div class="card-footer">
         <div class="row justify-content-end">
             <div class="col-auto">
-                <button id="edit_course_{{ course.id }}"  class="btn btn-sm btn-outline-primary" onclick="editCourse('{{ course.id }}')"><i class="bi-pencil"></i></button>
+                <button id="edit_course_{{ course.id }}" data-bs-toggle="tooltip" data-bs-title="Edit course" class="btn btn-sm btn-outline-primary" onclick="editCourse('{{ course.id }}')"><i class="bi-pencil"></i></button>
             </div>
             <div class="col-auto">
-                <button id="delete_course_{{ course.id }}" class="btn btn-sm btn-outline-danger" onclick="deleteCourse('{{ course.id }}')"><i class="bi-trash"></i></button>
+                <button id="delete_course_{{ course.id }}" data-bs-toggle="tooltip" data-bs-title="Delete course" class="btn btn-sm btn-outline-danger" onclick="deleteCourse('{{ course.id }}')"><i class="bi-trash"></i></button>
             </div>
         </div>
     </div>
@@ -40,13 +39,40 @@
 <script>
 
     function editCourse(course_id){
-        alert('Editing course '+course_id);
+
+        $.ajax("/tutor/course/"+course_id+"/",
+        {
+            success: function(response){
+                const course_data = response[0].fields;
+                const courseForm = $('#create_course');
+                courseForm.attr('data-id',course_id);
+                courseForm.find('#course_title').val(course_data.title);
+                courseForm.find('#course_desc').val(course_data.description);
+                courseForm.find('#course_cat').selectpicker('val', course_data.category+'');
+                courseForm.find('#course_tags').val(course_data.tags);
+                courseForm.find('#course_hours').val(course_data.hrs);
+                courseForm.find('#course_mins').val(course_data.mins);
+                if(course_data.tier===1){
+                    courseForm.find('input#tier_bronze').prop('checked',true);
+                }
+                else if(course_data.tier===2){
+                    courseForm.find('input#tier_silver').prop('checked',true);
+                }
+                else{
+                    courseForm.find('input#tier_gold').prop('checked',true);
+                }
+
+
+                const myModal = new bootstrap.Modal('#createCourseModal');
+                myModal.show();
+            }
+        });
 
     }
 
     function deleteCourse(course_id){
         const csrfToken = Cookies.get('csrftoken');
-        $.ajax("/tutor/courses/"+course_id+"/",
+        $.ajax("/tutor/course/"+course_id+"/",
         {
             method: "delete",
             headers: {
@@ -61,7 +87,7 @@
     function toggleCourse(course_id,event){
         const csrfToken = Cookies.get('csrftoken');
         const is_published = $(event.target).prop('checked');
-        $.ajax("/tutor/courses/"+course_id+"/",
+        $.ajax("/tutor/course/"+course_id+"/",
         {
             method: "post",
             headers: {
@@ -71,6 +97,7 @@
                 'is_published':is_published
             }
         });
+        location.reload();
     }
 
 </script>

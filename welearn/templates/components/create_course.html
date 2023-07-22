@@ -1,12 +1,11 @@
-<div class="modal fade" id="createCourse" data-bs-backdrop="static" tabindex="-1" aria-labelledby="createCourseLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-xl">
+<div class="modal fade" id="createCourseModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="createCourseLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="createCourseLabel">Create a course</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form id="create_course" onsubmit="createCourse(event)">
-                {% csrf_token %}
                 <div class="modal-body">
                     <div class="form-floating mb-3">
                         <input class="form-control form-control-lg" id="course_title" placeholder="Title"/>
@@ -20,7 +19,7 @@
                     <div class="form-floating mb-3">
                         <select class="selectpicker" data-live-search="true" title="Choose a category" data-width="100%" id="course_cat">
                             {% for category in categories %}
-                                <option data-tokens="{{ category.tokens }}">{{ category.label }}</option>
+                                <option value="{{ category.id }}" data-tokens="{{ category.tokens }}">{{ category.label }}</option>
                             {% endfor %}
                         </select>
                     </div>
@@ -57,7 +56,7 @@
                 </div>
 
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Create</button>
+                    <button type="submit" class="btn btn-primary" id="create_course_button">Create</button>
                 </div>
             </form>
         </div>
@@ -65,8 +64,37 @@
 </div>
 
 <script>
+
+    var courseModal = $('#createCourseModal')
+    courseModal.on('hidden.bs.modal',(event)=>{
+
+        const course_form = $("form#create_course");
+        course_form.find(':input').val('');
+        course_form.find('#course_cat').selectpicker('val', '');
+        course_form.find('input[name="course_tier"]').prop('checked',false);
+        course_form.find('#tier_bronze').prop('checked',true);
+        course_form.removeAttr('data-id');
+
+    });
+    courseModal.on('show.bs.modal',(event)=>{
+        const course_form = $("form#create_course");
+        const courseModal = $('#createCourseModal');
+        const course_id = course_form.attr('data-id');
+        courseModal.find("#createCourseLabel").html("Create a Course");
+        courseModal.find("#create_course_button").html("Create");
+        if(course_id){
+            courseModal.find("#createCourseLabel").html("Edit a Course");
+            courseModal.find("#create_course_button").html("Save");
+        }
+    });
+
+
+
     function createCourse(event){
-        const course_form = $("#create_course");
+
+
+        const course_form = $("form#create_course");
+        const course_id = course_form.data('id');
         const title = course_form.find('#course_title').val();
         const desc = course_form.find('#course_desc').val();
         const cat = course_form.find('#course_cat').val();
@@ -78,7 +106,7 @@
         const courseData = {
             'title':title,
             'description':desc,
-            'category_name':cat,
+            'category':cat,
             'tags': tags,
             'hrs':hrs,
             'mins':mins,
@@ -87,7 +115,11 @@
         }
         event.preventDefault();
         const csrfToken = Cookies.get('csrftoken');
-        $.ajax("/tutor/courses/",
+        var url = '/tutor/course/';
+        if(course_id){
+            url+=course_id+'/'
+        }
+        $.ajax(url,
         {
             method: "post",
             headers: {
