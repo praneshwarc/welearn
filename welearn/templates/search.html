@@ -1,0 +1,35 @@
+
+{% extends 'base.html' %}
+
+{% block title %} Home {% endblock %}
+
+{% block body_block %}
+    <div class="container-fluid pt-3">
+        <div class="row mb-3">
+            <form action="/search" class="w-100">
+                <div class="input-group mx-auto w-50">
+                    <input type="text" class="form-control w-" placeholder="Search courses" aria-label="Search courses" aria-describedby="search-button" id="query" name="query">
+                    <button class="btn btn-primary" type="submit" id="search-button">Search</button>
+                </div>
+            </form>
+        </div>
+        <h3>Search results for '{{ search_query }}':</h3>
+        <div class="blur-container w-100 mx-auto mt-3">
+            <div class="blur-background light-theme p-3">
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 p-3">
+                    {% for course in courses %}
+                        <div class="col">
+                            {% if course.tier.label in request.COOKIES.allowed_tiers %}
+                                {% include 'components/course_card_student.html' with course=course %}
+                            {% else %}
+                                    {% include 'components/course_card_student.html' with course=course is_locked=True %}
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+

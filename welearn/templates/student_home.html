@@ -7,23 +7,31 @@
     <div class="container-fluid pt-3">
         <h1 class="p-3 fw-bold text-center"> Welcome to <span class="brand">Welearn</span></h1>
         <div class="row">
-            <div class="input-group mx-auto w-75">
-                <input type="text" class="form-control" placeholder="Search courses" aria-label="Search courses" aria-describedby="search-button">
-                <button class="btn btn-primary" type="button" id="search-button">Search</button>
-            </div>
+            <form action="/search" class="w-100">
+                <div class="input-group mx-auto w-50">
+                    <input type="text" class="form-control w-" placeholder="Search courses" aria-label="Search courses" aria-describedby="search-button" id="query" name="query">
+                    <button class="btn btn-primary" type="submit" id="search-button">Search</button>
+                </div>
+            </form>
         </div>
         <div class="blur-container w-100 mx-auto mt-5">
             <div class="blur-background light-theme p-3">
-                <h2 class="p-2 fw-bold text-start"> Your courses </h2>
-                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 p-3">
-                    {% for course in courses %}
-                        {% if course.is_published %}
-                            <div class="col">
-                                {% include 'components/course_card_student.html' with course=course %}
-                            </div>
-                        {% endif %}
-                    {% endfor %}
-                </div>
+                {% for course in courses %}
+                    {% if forloop.first %}
+                        <h2 class="p-2 fw-bold text-start"> Your courses </h2>
+                        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 p-3">
+                    {% endif %}
+                {% if course.is_published %}
+                    <div class="col">
+                        {% include 'components/course_card_student.html' with course=course %}
+                    </div>
+                {% endif %}
+                {% if forloop.last %}
+                    </div>
+                {% endif %}
+                {% empty %}
+                    <h2 class="p-2 fw-bold text-start"> You haven't registered for any courses! </h2>
+                {% endfor %}
             </div>
         </div>
     </div>

@@ -1,25 +1,45 @@
 
 <div class="card mb-2 card-course " id="course_{{ course.id }}">
-    <a class="text-decoration-none text-dark" href="/courses/{{ course.id }}">
-        <div class="card-body card-course-body">
-            <div class="row justify-content-end">
-                <div class="col-sm">
-                    <h5 class="card-title">{{ course.title }}</h5>
-                </div>
+    {% if is_locked %}
+        <div class="card-img-overlay row">
+            <h5 class="card-title col mx-auto">This content is locked</h5>
+            <button class="btn btn-primary"><i class="bi-lock fs-4"></i>Buy {{ course.tier }} tier</button>
+        </div>
+    {% else %}
+        <a class="text-decoration-none text-dark" href="/courses/{{ course.id }}">
+    {% endif %}
+
+    <div class="card-body card-course-body">
+        <div class="row justify-content-between">
+            <div class="col-auto">
+                <h5 class="card-title">{{ course.title }}</h5>
             </div>
-            <p class="card-text">{{ course.description }}</p>
-            <div class="row justify-content-end mb-2">
-                <div class="col-sm">
-                        <span class="text-capitalize fw-light badge rounded-pill bg-tier-{{ course.tier }}"
-                              data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Requires {{ course.tier }} Tier">
-                         {{ course.tier }}
-                        </span>
+            {% if course.is_enrolled %}
+                <div class="col-auto">
+                    <span class="text-capitalize fw-light badge rounded-pill bg-success">
+                        Enrolled
+                    </span>
                 </div>
-                <div class="col-auto fs-6 fw-light">
-                    {{ course.hrs }} hrs {{ course.mins }} mins
-                </div>
+            {% endif %}
+        </div>
+        <p class="card-text">{{ course.description }}</p>
+        <div class="row justify-content-end mb-2">
+            <div class="col-sm">
+                <span class="text-capitalize fw-light badge rounded-pill bg-tier-{{ course.tier }}"
+                      data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Requires {{ course.tier }} Tier">
+                 {{ course.tier }}
+                </span>
+            </div>
+            <div class="col-auto fs-6 fw-light">
+                {{ course.hrs }} hrs {{ course.mins }} mins
             </div>
         </div>
-    </a>
+    </div>
+    {% if is_locked %}
 
+    {% else %}
+        </a>
+    {% endif %}
 </div>
+
+

@@ -7,6 +7,7 @@ from django.db.models import Count
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from django.utils.decorators import method_decorator
+from django.db.models import Q
 
 from .models import Course, Module, WeUser, Category, Option, Tier, Content, Question
 from .forms import CourseForm, LoginForm, SignUpForm, ModuleForm, ModuleEditForm, QuizForm
@@ -30,11 +31,30 @@ def tutor_check(user):
         return False
     return we_user.is_tutor
 
+def get_allowed_tiers(user_id):
+    we_user = WeUser.objects.get(id=user_id)
+    allowed_tiers = []
+    if we_user.tier.label =='bronze':
+        allowed_tiers = ['bronze']
+    elif we_user.tier.label =='silver':
+        allowed_tiers = ['silver','bronze']
+    elif we_user.tier.label == 'gold':
+        allowed_tiers = ['silver', 'bronze','gold']
+
+    return allowed_tiers
+
 
 @login_required
 def student_home(request):
-    course_list = Course.objects.all()
-    return render(request, 'student_home.html', {'courses': course_list})
+    we_user = WeUser.objects.get(id=request.user.id)
+    course_list =  we_user.registered_courses.filter(is_published=True)
+    course_list = course_list.annotate(is_enrolled=models.Exists(
+        we_user.registered_courses.filter(pk=models.OuterRef('pk'))
+    ))
+    allowed_tiers = get_allowed_tiers(request.user.id)
+    response = render(request, 'student_home.html', {'courses': course_list})
+    response.set_cookie('allowed_tiers', allowed_tiers)
+    return response
 
 
 @login_required
@@ -202,7 +222,10 @@ def login_view(request):
                 if tutor_check(user):
                     return HttpResponseRedirect(reverse('welearn:tutor_home'))
                 else:
-                    return HttpResponseRedirect(reverse('welearn:student_home'))
+                    allowed_tiers = get_allowed_tiers(request.user.id)
+                    response = HttpResponseRedirect(reverse('welearn:student_home'))
+                    response.set_cookie('allowed_tiers',allowed_tiers)
+                    return response
             else:
                 loginForm = LoginForm()
                 return render(request, 'loginpage.html',
@@ -378,7 +401,6 @@ def create_quiz(request, module_id):
 
 
 def create_quiz_page(request, module_id):
-
     return render(request, 'dummy2.html', {'module_id': module_id})
 
 
@@ -388,3 +410,74 @@ class DeleteQuiz(View):
         quiz.delete()
         return HttpResponse(status=204)
 
+
+def search(request):
+    query = request.GET['query']
+    we_user = WeUser.objects.get(id=request.user.id)
+    allowed_tiers = get_allowed_tiers(request.user.id)
+    course_search = Course.objects.filter(Q(tags__contains=query) | Q(title__contains=query)).filter(is_published=True);
+    course_search = course_search.annotate(is_enrolled=models.Exists(
+        we_user.registered_courses.filter(pk=models.OuterRef('pk'))
+    ))
+    response = render(request,'search.html',{'courses':course_search,'search_query':query})
+    response.set_cookie('allowed_tiers', allowed_tiers)
+
+    return response;
+
+
+class EnrollCourse(View):
+    def post(self, request, course_id):
+        print("1")
+        we_user = WeUser.objects.get(id=request.user.id)
+        enroll_course = get_object_or_404(Course, id=course_id)
+        allowed_tiers = get_allowed_tiers(request.user.id);
+        print("2")
+        if enroll_course.tier.label in allowed_tiers:
+            enroll_course.registered_users.add(we_user)
+            return HttpResponseRedirect(reverse("welearn:course", kwargs={'course_id': course_id}))
+        else:
+            print("3")
+            return HttpResponse(status=400)
+
+
+class CourseDashboard(View):
+
+    def get(self, request, course_id):
+        course = get_object_or_404(Course, id=course_id)
+        if course.tutor.id != request.user.id:
+            return HttpResponse(status=400)
+        return render(request, "sample3.html", {"course": course})
+
+
+class CourseProgress(View):
+    def get(self, request, course_id, student_id):
+        course = get_object_or_404(Course, id=course_id)
+        if course.tutor.id != request.user.id:
+            return HttpResponse(status=400)
+        module_list = course.modules.all()
+        we_user = WeUser.objects.get(id=request.user.id)
+
+        for module in module_list:
+            quiz = Quiz.objects.filter(module=module)
+            module.is_passed = False
+            module.has_quiz = True
+            module.given_quiz = False
+            module.score = 0
+            module.max_score = 0
+            module.percent = 0
+            module.required_percent = 0
+
+            if not quiz:
+                module.is_passed = False
+                module.has_quiz = False
+            else:
+                module.required_percent = quiz[0].grade_required
+                module.max_score = quiz[0].max_score
+
+            if module.has_quiz and QuizAttempt.objects.filter(quiz__id=quiz[0].id, user__id=student_id):
+                qa = QuizAttempt.objects.get(quiz=quiz[0], user=we_user)
+                module.given_quiz = True
+                module.score = quiz[0].score
+                module.percent = (module.score * 100)/module.max_score
+                module.is_passed = qa.is_passed
+        return render(request, "sample3.html", {"course":course, "module_list":module_list})

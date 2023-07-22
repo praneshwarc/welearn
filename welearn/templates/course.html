@@ -1,44 +1,88 @@
-
 {% extends 'base.html' %}
 
 {% block title %} {{ course.title }} {% endblock %}
 
-
 {% block body_block %}
     <div class="container-fluid pt-3">
-        <h2 class="p-2 fw-bold"> {{ course.title }}</h2>
-        <div class="blur-container w-100 mx-auto">
-            <div class="blur-background light-theme p-3">
-                <div class="form-control">
-                    <ul class="nav nav-tabs" id="myTab" role="tablist">
-                        {%  for module in modules %}
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link {% if forloop.first %}active{% endif %}" id="{{ module.title }}-tab" data-bs-toggle="tab" data-bs-target="#{{ module.id }}-tab-pane" type="button" role="tab" aria-controls="{{ module.id }}-tab-pane" aria-selected="{% if forloop.first %}true{% else %}false{% endif %}">
-                                    {{ module.title }}
-                                </button>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                    <div class="tab-content bg-white" id="moduleTabContent">
-                        {%  for module in modules %}
-                            <div class="tab-pane{% if forloop.first %} show active{% endif %} fade p-3" id="{{ module.id }}-tab-pane" role="tabpanel" aria-labelledby="{{ module.title }}-tab" tabindex="0">
-                                <h4>{{module.description}}</h4>
-                                {% for content in  module.contents.all %}
-                                    {% if content.file %}
-                                        {{ content.file}}
-                                        <object data="/media/{{ content.file }}" class="w-75 mx-auto min-vh-100 mh-75">
-                                            <p>Unable to display PDF file. <a href="/media/{{ content.file }}" download>Download</a> instead.</p>
-                                        </object>
-                                    {% elif content.youtube_video %}
-                                        <iframe width="50%" height="300px" src="https://www.youtube.com/embed/tgbNymZ7vqY"></iframe>
-                                    {% endif %}
-                                {% endfor %}
-                            </div>
-                        {% endfor %}
+        {% if course.tier.label in request.COOKIES.allowed_tiers %}
+            <div class="row justify-content-between">
+                <div class="col-auto">
+                    <h2 class="p-2 fw-bold"> {{ course.title }}</h2>
+                </div>
+                {% if course.is_enrolled %}
+                    <div class="col-auto">
+                    <span class="text-capitalize fw-light badge rounded-pill bg-success fs-4">
+                        Enrolled
+                    </span>
+                    </div>
+                {% else %}
+                    <div class="col-auto">
+                        <form method="post" action="/course/{{ course.id }}/enroll/">
+                            {% csrf_token %}
+                            <button class="btn btn-primary"><i class="bi-check-lg fs-5 me-2"></i>Enroll</button>
+                        </form>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="blur-container w-100 mx-auto">
+                <div class="blur-background light-theme p-3">
+                    <div class="form-control">
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            {%  for module in modules %}
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link {% if forloop.first %}active{% endif %}" id="{{ module.title }}-tab" data-bs-toggle="tab" data-bs-target="#{{ module.id }}-tab-pane" type="button" role="tab" aria-controls="{{ module.id }}-tab-pane" aria-selected="{% if forloop.first %}true{% else %}false{% endif %}" {% if module.is_locked %}disabled{% endif %}>
+                                        {% if module.is_locked %}
+                                            <i class="bi-lock"></i>
+                                        {% endif %}
+                                        {{ module.title }}
+                                    </button>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                        <div class="tab-content bg-white" id="moduleTabContent">
+                            {%  for module in modules %}
+                                {% if module.is_locked %}
+                                    <div class="tab-pane{% if forloop.first %} show active{% endif %} fade p-3" id="{{ module.id }}-tab-pane" role="tabpanel" aria-labelledby="{{ module.title }}-tab" tabindex="0">
+                                        <h4>This Module is Locked</h4>
+                                    </div>
+                                {% else %}
+                                    <div class="tab-pane{% if forloop.first %} show active{% endif %} fade p-3" id="{{ module.id }}-tab-pane" role="tabpanel" aria-labelledby="{{ module.title }}-tab" tabindex="0">
+                                        <h4>{{module.description}}</h4>
+                                        {% for content in  module.contents.all %}
+                                            {% if content.file %}
+                                                <object data="/media/{{ content.file }}" class="w-75 mx-auto min-vh-100 mh-75">
+                                                    <p>Unable to display PDF file. <a href="/media/{{ content.file }}" download>Download</a> instead.</p>
+                                                </object>
+                                            {% elif content.youtube_video %}
+                                                <iframe width="50%" height="300px" src="https://www.youtube.com/embed/tgbNymZ7vqY"></iframe>
+                                            {% endif %}
+                                        {% endfor %}
+                                        {% if module.quiz %}
+                                            {% if module.is_passed %}
+                                                <div class="row justify-content-end">
+                                                    <div class="col-auto">
+                                                        <a class="btn btn-outline-secondary" href="/quiz/{{ module.quiz.id }}/"><i class="bi-pencil-square fs-5 me-2"></i>Retake Quiz</a>
+                                                    </div>
+                                                </div>
+                                            {% else %}
+                                                <div class="row justify-content-end">
+                                                    <div class="col-auto">
+                                                        <a class="btn btn-outline-success" href="/quiz/{{ module.quiz.id }}/"><i class="bi-pencil-square fs-5 me-2"></i>Take Quiz</a>
+                                                    </div>
+                                                </div>
+                                            {% endif %}
+                                        {% endif %}
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        {% else %}
+            <div class="form-control">
+                <h3>Oops! You don't have access to this course</h3>
+            </div>
+        {% endif %}
     </div>
 {% endblock %}
-

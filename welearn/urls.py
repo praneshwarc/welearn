@@ -21,5 +21,9 @@ urlpatterns = [
     path('tutor/module/<int:module_id>/content', AddContent.as_view(), name="add_content"),
     path('tutor/content/<int:content_id>/', ContentView.as_view(), name="delete_content"),
     path('tutor/module/<int:module_id>/create_quiz/', views.create_quiz, name='create-quiz'),
-    path('tutor/quiz/<int:quiz_id>/', DeleteQuiz.as_view(), name = 'delete_quiz')
+    path('tutor/quiz/<int:quiz_id>/', DeleteQuiz.as_view(), name = 'delete_quiz'),
+    path('search',views.search,name='search'),
+    path("course/<int:course_id>/enroll/", EnrollCourse.as_view(), name="enroll"),
+    path("tutor/progress/<int:course_id>/<int:student_id>/", CourseProgress.as_view(), name="student_progress"),
+    path("course/dashboard/<int:course_id>/", CourseDashboard.as_view(), name="course_dashboard"),
 ]

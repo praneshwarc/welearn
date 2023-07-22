@@ -13,18 +13,25 @@
                     <label for="quiz_title">Title</label>
                 </div>
                 <div class="form-floating mb-3">
-                    <textarea class="form-control" id="quiz_description" name="description" placeholder="Description" rows="5" style="height: 100%;" required></textarea>
+                    <textarea class="form-control" id="quiz_description" name="description" placeholder="Description" rows="4" style="height: 100%;" required></textarea>
                     <label for="quiz_description">Description</label>
                 </div>
-                <div class="form-floating mb-3">
-                    <input class="form-control" id="grade_required" name="grade_required" type="number" min="0" max="100" placeholder="Grade Required (0-100)" required>
-                    <label for="grade_required">Grade Required (0-100)</label>
+                <div class="mb-3">
+                    <label for="grade_required">Grade Required</label>
+                    <div class="input-group mt-2">
+                        <input type="range" class="form-range form-control h-auto p-2" min="0" max="100" step="1" id="grade_required" required />
+                        <input type="text" class="input-group-text col-2" id="grade_required_value" value="50" />
+                    </div>
+                    <div id="grade_required_info" class="form-text">Percentage required to pass quiz</div>
                 </div>
                 <div id="questions_container">
                     <!-- Dynamically add questions and options here -->
                 </div>
-                <button type="button" class="btn btn-primary mt-3" id="add_question_btn">Add Question</button>
-                <button type="submit" class="btn btn-primary mt-3">Create Quiz</button>
+                <div class="row justify-content-between p-3">
+
+                    <button type="button" class="btn btn-outline-success col-auto" data-bs-toggle="tooltip" data-bs-title="Add a question" id="add_question_btn"><i class="bi-plus"></i> Question</button>
+                    <button type="submit" class="btn btn-primary col-auto">Create Quiz</button>
+                </div>
                 </div>
             </form>
         </div>
@@ -35,37 +42,54 @@
         // JavaScript code for dynamically adding and removing questions and options
         var questionCount = 0;
 
+        $('input#grade_required').on('input',function(event){
+            $(event.target).next().val(event.target.value)
+        })
+
+        $('input#grade_required_value').on('input',function(event){
+            $(event.target).prev().val(event.target.value)
+        })
+
         function addQuestion() {
             questionCount++;
             var questionHTML = `
-                <div class="mb-3 question" id="question_${questionCount}">
-                    <label for="question_${questionCount}_text" class="form-label">Question ${questionCount}</label>
-                    <textarea class="form-control" id="question_${questionCount}_text" name="questions[${questionCount}][text]" placeholder="Enter the question" required></textarea>
-                    <div id="question_${questionCount}_options">
+                <div class="form-control question pb-2 mb-2" id="question_${questionCount}">
+                    <label class="mb-2" for="question_${questionCount}_text">Question ${questionCount}</label>
+                    <textarea class="form-control mt-2" id="question_${questionCount}_text" name="questions[${questionCount}][text]" placeholder="Enter question" rows="2" style="height:100%;" required></textarea>
+                    <div id="question_${questionCount}_options" class="p-2">
                         <!-- Dynamically add options here -->
                     </div>
-                    <button type="button" class="btn btn-secondary mt-2" onclick="addOption(${questionCount})">Add Option</button>
-                    <button type="button" class="btn btn-danger mt-2" onclick="removeQuestion(${questionCount})">Remove Question</button>
+                    <div class="row justify-content-between px-2">
+                        <button type="button" class="btn btn-outline-success mt-2 col-auto" data-bs-toggle="tooltip" data-bs-title="Add option" onclick="addOption(${questionCount})"><i class="bi-plus"></i> Option</button>
+                        <button type="button" class="btn btn-outline-danger mt-2 col-auto" onclick="removeQuestion(${questionCount})"><i class="bi-trash3"></i> Question</button>
+                    </div>
                 </div>
             `;
-            $("#questions_container").append(questionHTML);
+            const tooltipTriggerList = $("#questions_container").append(questionHTML).find('[data-bs-toggle="tooltip"]');
+            const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl,{
+            trigger : 'hover'}));
         }
 
         function addOption(questionNumber) {
             var optionCount = $("#question_" + questionNumber + "_options .option").length + 1;
             var optionHTML = `
                 <div class="input-group option mb-2" data-option="${optionCount}">
-                    <input type="text" class="form-control" name="questions[${questionNumber}][options][${optionCount}][text]" placeholder="Enter option text" required>
+                    <input type="text" class="form-control" name="questions[${questionNumber}][options][${optionCount}][text]" placeholder="Enter option" required>
                     <div class="input-group-text">
-                        <input type="radio" class="form-check-input" name="questions[${questionNumber}][correct_option]" value="${optionCount}" required>
+                        <!--<input type="radio" class="form-check-input" name="questions[${questionNumber}][correct_option]" value="${optionCount}" required>-->
+                        <input type="radio" class="btn-check" name="questions[${questionNumber}][correct_option]" value="${optionCount}" id="${questionNumber}-${optionCount}-radio" required>
+                        <label class="btn btn-outline-success" data-bs-toggle="tooltip" data-bs-title="Correct option" for="${questionNumber}-${optionCount}-radio"><i class="bi-check2-circle"></i></label>
                     </div>
-                    <button type="button" class="btn btn-danger" onclick="removeOption(${questionNumber}, ${optionCount})">Remove Option</button>
+                    <button type="button" class="btn btn-outline-danger" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Delete option" onclick="removeOption(${questionNumber}, ${optionCount})"><i class="bi-trash3 fs-5"></i></button>
                 </div>
             `;
-            $("#question_" + questionNumber + "_options").append(optionHTML);
+            const tooltipTriggerList = $("#question_" + questionNumber + "_options").append(optionHTML).find('[data-bs-toggle="tooltip"]');
+            const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl,{
+            trigger : 'hover'}));
         }
 
         function removeQuestion(questionNumber) {
+            console.log(questionNumber);
             $("#question_" + questionNumber).remove();
             questionCount--;
         }

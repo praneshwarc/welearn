@@ -69,6 +69,17 @@ html{
     background-color: #EEEEEE44 !important;
 }
 
+.card:hover .card-img-overlay{
+    opacity: 1;
+}
+
+.card-img-overlay{
+    z-index: 10;
+    background:white;
+    transition: 0.2s;
+    opacity: 0;
+}
+
 .bg-tier-silver{
     background: linear-gradient(90deg, rgba(192,192,192,1) 20%, rgba(231,231,231,1) 80%);
     color: black;
