@@ -38,14 +38,14 @@
                                         <div class="row justify-content-between">
                                             <div class="col-auto">
                                                 {% if content.file %}
-                                                    {{ content.file }}
+                                                    {{ content.file.name }}
                                                 {% elif content.youtube_video %}
                                                     {{ content.youtube_video }}
                                                 {% endif %}
                                             </div>
                                             <div class="col-auto">
                                                 {% if content.file %}
-                                                    <a href="/media/{{ content.file }}" download><button id="delete_content_{{ content.id }}" data-bs-toggle="tooltip" data-bs-title="Download file" class="btn btn-sm btn-outline-secondary"><i class="bi-download"></i></button></a>
+                                                    <a href="/media/{{ content.file }}" download><button id="download_content_{{ content.id }}" data-bs-toggle="tooltip" data-bs-title="Download file" class="btn btn-sm btn-outline-secondary"><i class="bi-download"></i></button></a>
                                                 {% endif %}
                                                 <button id="delete_content_{{ content.id }}" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Delete content" class="btn btn-sm btn-outline-danger" onclick="deleteContent('{{ content.id }}')"><i class="bi-trash3"></i></button>
                                             </div>

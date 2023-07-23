@@ -1,3 +1,5 @@
+import os
+
 from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
@@ -65,6 +67,8 @@ class Content(models.Model):
     youtube_video = models.URLField(null=True,blank=True)
     module = models.ForeignKey(Module, related_name="contents", on_delete=models.CASCADE)
 
+    def filename(self):
+        return os.path.basename(self.file.name)
 
 class Quiz(models.Model):
     module = models.OneToOneField(Module, related_name="quiz", on_delete=models.CASCADE)
