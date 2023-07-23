@@ -32,13 +32,13 @@
             </div>
 
             <div class="blur-container w-100 mx-auto mt-3">
-                <div class="blur-background light-theme p-3">
+                <div class="blur-background p-3">
                     <div class="form-control">
                         <ul class="nav nav-tabs" id="myTab" role="tablist">
                             {%  for module in modules %}
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link {% if forloop.first %}active{% endif %}" id="{{ module.title }}-tab" data-bs-toggle="tab" data-bs-target="#{{ module.id }}-tab-pane" type="button" role="tab" aria-controls="{{ module.id }}-tab-pane" aria-selected="{% if forloop.first %}true{% else %}false{% endif %}" {% if module.is_locked %}disabled{% endif %}>
-                                        {% if module.is_locked %}
+                                    <button class="nav-link {% if forloop.first %}active{% endif %}" id="{{ module.title }}-tab" data-bs-toggle="tab" data-bs-target="#{{ module.id }}-tab-pane" type="button" role="tab" aria-controls="{{ module.id }}-tab-pane" aria-selected="{% if forloop.first %}true{% else %}false{% endif %}" {% if module.is_locked or not course.is_enrolled %}disabled{% endif %}>
+                                        {% if module.is_locked or not course.is_enrolled %}
                                             <i class="bi-lock"></i>
                                         {% endif %}
                                         {{ module.title }}
@@ -48,7 +48,7 @@
                         </ul>
                         <div class="tab-content bg-white" id="moduleTabContent">
                             {%  for module in modules %}
-                                {% if module.is_locked %}
+                                {% if module.is_locked or not course.is_enrolled %}
                                     <div class="tab-pane{% if forloop.first %} show active{% endif %} fade p-3" id="{{ module.id }}-tab-pane" role="tabpanel" aria-labelledby="{{ module.title }}-tab" tabindex="0">
                                         <h4>This Module is Locked</h4>
                                     </div>
@@ -56,7 +56,7 @@
                                     <div class="tab-pane{% if forloop.first %} show active{% endif %} fade p-3" id="{{ module.id }}-tab-pane" role="tabpanel" aria-labelledby="{{ module.title }}-tab" tabindex="0">
                                         <span class="fs-5">{{module.description}}</span>
                                         {% for content in  module.contents.all %}
-                                            <div class="form-control w-75 mx-auto">
+                                            <div class="form-control w-75 mx-auto my-3">
                                                 {% if content.file %}
                                                     <object data="/media/{{ content.file }}/">
                                                         <a class="btn btn-outline-primary" href="/media/{{ content.file }}/"><i class="bi-download fs-5 me-2"></i>{{ content.file.name }}</a>

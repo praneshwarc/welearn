@@ -40,13 +40,13 @@
                     <div class="mb-3">
                         <div class="btn-group" role="group" aria-label="Tier selection">
                             <input type="radio" class="btn-check " name="course_tier" id="tier_bronze" autocomplete="off" value="bronze" checked>
-                            <label class="btn btn-tier-bronze btn-outline-secondary" for="tier_bronze">Bronze</label>
+                            <label class="btn btn-outline-tier-bronze btn-outline-secondary" for="tier_bronze">Bronze</label>
 
                             <input type="radio" class="btn-check" name="course_tier" id="tier_silver" autocomplete="off" value="silver">
-                            <label class="btn btn-tier-silver btn-outline-secondary" for="tier_silver">Silver</label>
+                            <label class="btn btn-outline-tier-silver btn-outline-secondary" for="tier_silver">Silver</label>
 
                             <input type="radio" class="btn-check" name="course_tier" id="tier_gold" autocomplete="off" value="gold">
-                            <label class="btn btn-tier-gold btn-outline-secondary" for="tier_gold">Gold</label>
+                            <label class="btn btn-outline-tier-gold btn-outline-secondary" for="tier_gold">Gold</label>
                         </div>
                         <div id="tags" class="form-text">Pay tier for your course</div>
                     </div>
@@ -92,7 +92,6 @@
 
     function createCourse(event){
 
-
         const course_form = $("form#create_course");
         const course_id = course_form.data('id');
         const title = course_form.find('#course_title').val();
@@ -106,7 +105,7 @@
         const courseData = {
             'title':title,
             'description':desc,
-            'category':cat,
+            'category_id':cat,
             'tags': tags,
             'hrs':hrs,
             'mins':mins,

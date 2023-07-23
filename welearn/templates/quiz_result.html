@@ -3,11 +3,13 @@
 {% block title %}Quiz Result{% endblock %}
 
 {% block body_block %}
-    <div class="container-fluid pt-3">
+    <div class="container-fluid pt-4">
         <div class="blur-container w-25 mx-auto">
-            <div class="blur-background light-theme p-3">
+            <div class="blur-background  p-3 text-center">
                 <h1>Quiz Result</h1>
                 <p>Your score: {{ score }} out of {{ quiz.questions.count }}</p>
+                {{ pass_value }}
+                {{ percent }}
             </div>
         </div>
     </div>

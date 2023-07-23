@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import user_passes_test
 from django.core.serializers import serialize
 from django.db.models import Count
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.db.models import Q
@@ -14,7 +14,6 @@ from django.db.models import Q
 from .models import Course, Module, WeUser, Category, Option, Tier, Content, Question, UserBillingInfo, Mail
 from .forms import CourseForm, LoginForm, SignUpForm, ModuleForm, ModuleEditForm, QuizForm, PaymentForm, \
     BillingInfoForm, MailForm, ReplyForm
-from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import Quiz, QuizAttempt
 from django.shortcuts import render, redirect
@@ -39,6 +38,18 @@ def tutor_check(user):
     except WeUser.DoesNotExist:
         return False
     return we_user.is_tutor
+
+def student_check(user):
+    try:
+        we_user = WeUser.objects.get(id=user.id)
+    except WeUser.DoesNotExist:
+        return False
+    return not we_user.is_tutor
+
+
+def unauthorized(request):
+    return render(request,"unauthorized.html")
+
 
 def get_allowed_tiers(user_id):
     we_user = WeUser.objects.get(id=user_id)
@@ -100,7 +111,7 @@ def profile(request):
     return render(request, 'profile.html', {'student_count': student_count})
 
 @login_required
-@user_passes_test(tutor_check, login_url='/home')
+@user_passes_test(tutor_check, login_url="/unauth")
 def tutor_home(request):
     # POST for course creation/
 
@@ -110,14 +121,15 @@ def tutor_home(request):
 
         return render(request, 'tutor_courses.html', {'courses': course_list, 'categories': categories})
 
-
-def courses(request):
+@login_required
+@user_passes_test(tutor_check,login_url="/unauth")
+def tutor_course(request):
     if request.method == 'POST':
         course_form = CourseForm(request.POST)
         if course_form.is_valid():
             course = course_form.save(commit=False)
             tier = Tier.objects.get(label=course_form.cleaned_data['tier_name'])
-            category = course_form.cleaned_data['category']
+            category = Category.objects.get(id=course_form.cleaned_data['category_id'])
             course.tier = tier
             course.category = category
             # print(myForm)
@@ -128,6 +140,7 @@ def courses(request):
         else:
             errors = course_form.errors.as_json()
             return JsonResponse({'errors': errors}, status=400)
+
 
 
 @login_required
@@ -183,8 +196,8 @@ def tutor_modules(request, course_id):
             return JsonResponse({'errors': errors}, status=400)
 
 
-#@login_required
-# @csrf_exempt # use this while testing from postman
+@login_required
+@user_passes_test(tutor_check,login_url="/unauth")
 def tutor_module_id(request, module_id):
     if request.method == "GET":
         module = get_object_or_404(Module, id=module_id)
@@ -327,15 +340,20 @@ def quiz_detail(request, module_id):
 def quiz_result(request, module_id):
     quiz = get_object_or_404(Quiz, module__id=module_id)
     quiz_attempt = get_object_or_404(QuizAttempt, quiz__module__id=module_id, user__id=request.user.id)
-    return render(request, 'quiz_result.html', {'quiz': quiz, 'score': quiz_attempt.score})
+    percent = (quiz_attempt.score/quiz_attempt.max_score)*100
+    pass_value = False
+    if percent >= quiz.grade_required:
+        pass_value = True
+    return render(request, 'quiz_result.html', {'quiz': quiz, 'score': quiz_attempt.score, 'pass_value':pass_value, 'percent':percent})
 
 
 
 class AddContent(View):
 
-    def get(self, request, module_id):
-        module = Module.objects.get(pk=module_id)
-        return render(request, 'sample3.html', {'module': module})
+    @method_decorator(login_required)
+    @method_decorator(user_passes_test(tutor_check, login_url="/unauth"))
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
 
     def post(self, request, module_id):
         module = Module.objects.get(pk=module_id)
@@ -427,12 +445,6 @@ def create_quiz(request, module_id):
     return JsonResponse({'error': 'Only POST method is allowed.'}, status=405)
 
 
-def create_quiz_page(request, module_id):
-    return render(request, 'dummy2.html', {'module_id': module_id})
-
-def get_cert_page(request):
-    return render(request, 'dummy1.html')
-
 class DeleteQuiz(View):
     def delete(self, request, quiz_id):
         quiz = get_object_or_404(Quiz, id=quiz_id)
@@ -440,6 +452,8 @@ class DeleteQuiz(View):
         return HttpResponse(status=204)
 
 
+@login_required
+@user_passes_test(student_check,login_url="/unauth")
 def search(request):
     query = request.GET['query']
     we_user = WeUser.objects.get(id=request.user.id)
@@ -514,6 +528,8 @@ class CourseProgress(View):
 
 
 
+@login_required
+@user_passes_test(student_check,login_url="/unauth")
 def billing_page(request):
     we_user = WeUser.objects.get(id=request.user.id)
     if request.method == 'POST':
@@ -521,7 +537,7 @@ def billing_page(request):
         if we_user.tier and we_user.tier.label == 'gold':
             return HttpResponseForbidden("Gold Tier users has  no option to upgrade")
 
-        tname = request.GET.get("name", "bronze")
+        tname = request.GET.get("tier", "bronze")
         tier = get_object_or_404(Tier, label=tname)
         form = BillingInfoForm(request.POST)
         if form.is_valid():
@@ -529,7 +545,7 @@ def billing_page(request):
             bi = form.save()
             return redirect(reverse('welearn:payment_page') + f"?bi_id={bi.id}")
     else:
-        tname = request.GET.get("name", "bronze")
+        tname = request.GET.get("tier", "bronze")
         tier = get_object_or_404(Tier, label=tname)
         cname = request.user.first_name + " " + request.user.last_name
         amount = tier.price
@@ -537,12 +553,13 @@ def billing_page(request):
             amount = amount - we_user.tier.price
         data = {'amount':amount,'customer_name': cname, 'email': request.user.email}
         form = BillingInfoForm(data)
-
-    return render(request, 'billing.html', {'form': form, "tier": tier})
+        return render(request, 'billing.html', {'form': form, "tier": tier})
 
 
 # In views.py
-@login_required()
+
+@login_required
+@user_passes_test(student_check,login_url="/unauth")
 def payment_page(request):
     if request.method == 'POST':
         instance  = UserBillingInfo.objects.get(id=request.GET["bi_id"])
@@ -570,7 +587,8 @@ def payment_page(request):
 def success_page(request):
     return render(request, 'payment_success.html', {'tx_id': request.GET['tx_id']})
 
-# Payment fail page view function
+
+@user_passes_test(student_check,login_url="/unauth")
 def payment_fail_page(request):
     error_message = request.GET.get('error_message')
     return render(request, 'payment_fail.html', {'error_message': error_message})
@@ -581,7 +599,7 @@ def validate_payment(payment_data):
     cvv = payment_data.get('cvv')
 
     # Check card number is 10 digits
-    if card_number and not re.match(r'^\d{10}$', card_number):
+    if card_number and not re.match(r'^\d{16}$', card_number):
         error_message = 'Card number must be 10 digits.'
         return False, error_message
 
@@ -608,20 +626,6 @@ def validate_payment(payment_data):
 
     # All validations passed, payment is successful
     return True, None
-
-
-
-def calculate_total_amount(request):
-    if request.method == 'POST':
-        currency = request.POST.get('currency')
-        if currency:
-            # Assuming you have a function to calculate the total amount based on currency.
-            total_amount = calculate_total_amount_based_on_currency(currency)
-
-            # Return the total amount in JSON format
-            return JsonResponse({'total_amount': total_amount})
-
-    return JsonResponse({'error': 'Invalid request'}, status=400)
 
 
 def calculate_total_amount_based_on_currency(currency):
@@ -687,7 +691,7 @@ def mail(request):
             m.save()
             return redirect('welearn:my_messages')
     else:
-        form = MailForm(user_id=request.user.id)
+        form = MailForm()
         if request.GET and request.GET['user_id']:
             form = MailForm(initial={'user':request.GET['user_id']})
     return render(request, 'mail.html', {'form': form})
@@ -804,6 +808,7 @@ def generate_certificate(background_image, user_name, course_name, completion_da
     return buffer
 
 @login_required()
+@user_passes_test(student_check,login_url="/unauth")
 def download_certificate(request, course_id):
     course = get_object_or_404(Course, id=course_id)
     user_name = request.user.first_name
@@ -824,4 +829,3 @@ def download_certificate(request, course_id):
     response['Content-Disposition'] = f'attachment; filename="certificate.pdf"'
 
     return response
-

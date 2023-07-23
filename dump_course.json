@@ -1,0 +1,45 @@
+[
+  {
+    "model": "welearn.course",
+    "pk": 1,
+    "fields": {
+      "title": "Introduction to Python",
+      "description": "This course is for students to get started with programming with Python",
+      "category": 1,
+      "tags": "python programming coding development",
+      "tier": 3,
+      "hrs": 2,
+      "mins": 45,
+      "is_published": true,
+      "tutor": [
+        "abhinav"
+      ],
+      "registered_users": [
+        [
+          "ajaymanoj"
+        ],
+        [
+          "pranesh"
+        ]
+      ]
+    }
+  },
+  {
+    "model": "welearn.module",
+    "pk": 1,
+    "fields": {
+      "title": "Summary",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure d",
+      "course": 1
+    }
+  },
+  {
+    "model": "welearn.module",
+    "pk": 2,
+    "fields": {
+      "title": "Introduction",
+      "description": "\"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "course": 1
+    }
+  }
+]

@@ -5,15 +5,16 @@
 {% block body_block %}
     <div class="container-fluid pt-3">
         <div class="blur-container w-50 mx-auto">
-            <div class="blur-background light-theme p-3">
+            <div class="blur-background  p-3">
                 <form method="post" class="form-control text-center p-2">
-                {% csrf_token %}
+                    <h3>Chat with Tutor</h3>
+                    {% csrf_token %}
                     {% for field in form %}
-                            <div class="form-floating mb-3">
-                                {{ field }}
-                                <label for="{{ field.id }}">{{ field.label }}</label>
-                            </div>
-                        {% endfor %}
+                        <div class="form-floating mb-3">
+                            {{ field }}
+                            <label for="{{ field.id }}">{{ field.label }}</label>
+                        </div>
+                    {% endfor %}
                     <button type="submit" class="btn btn-primary">Send Message</button>
                 </form>
             </div>

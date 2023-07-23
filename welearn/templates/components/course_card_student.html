@@ -1,9 +1,12 @@
 
 <div class="card mb-2 card-course " id="course_{{ course.id }}">
     {% if is_locked %}
-        <div class="card-img-overlay row">
+        <div class="card-img-overlay text-center p-5">
+
             <h5 class="card-title col mx-auto">This content is locked</h5>
-            <button class="btn btn-primary"><i class="bi-lock fs-4"></i>Buy {{ course.tier }} tier</button>
+            <div class="col-auto">
+                <a class="btn btn-primary" href="/billing/?tier={{ course.tier.label }}"><i class="bi-lock fs-4"></i>Buy {{ course.tier }} tier</a>
+            </div>
         </div>
     {% else %}
         <a class="text-decoration-none text-dark" href="/courses/{{ course.id }}">

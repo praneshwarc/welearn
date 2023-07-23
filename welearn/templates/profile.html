@@ -6,7 +6,7 @@
 {% block body_block %}
     <div class="container-fluid pt-3">
         <div class="blur-container w-25 mx-auto">
-            <div class="blur-background light-theme p-3 text-center">
+            <div class="blur-background p-3 text-center">
                 <h2>Hey there, {{ request.we_user.first_name }} !</h2>
                 {% if request.we_user.tier %}
                     <div class="row mt-3">
@@ -15,10 +15,28 @@
                                 {{ request.we_user.tier }}
                             </span> member
                         </div>
+                    </div>
                         {% if request.we_user.tier and request.we_user.tier.label != 'gold' %}
-                            <div class="col-sm">
-                                <button class="btn btn-info" >Upgrade Now!</button>
-                            </div>
+                            <div>
+                            {% if request.we_user.tier.label == 'silver' %}
+                                <div class="col-sm mt-3">
+                                    <a type="button" class="btn btn-secondary btn-tier-gold" href="/billing/?tier=gold">
+                                        Buy Gold
+                                    </a>
+                                </div>
+                            {% else %}
+                                <div class="btn-group col-auto mt-3">
+                                    <a type="button" class="btn btn-secondary btn-tier-silver" href="/billing/?tier=silver">
+                                        Buy Silver
+                                    </a>
+                                    <button type="button" class="btn btn-secondary btn-tier-silver dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <span class="visually-hidden">Toggle Dropdown</span>
+                                    </button>
+                                    <ul class="dropdown-menu bg-dark-subtle">
+                                        <li><a class="dropdown-item btn-tier-gold" href="/billing/?tier=gold">Gold</a></li>
+                                    </ul>
+                                </div>
+                            {% endif %}
                         {% endif %}
                     </div>
                 {% elif request.we_user.is_tutor %}
@@ -26,7 +44,20 @@
                         As a Tutor you have created {{ request.we_user.courses.count }} courses with {{ student_count }} students
                     {% endif %}
                 {% else %}
-                    <button class="btn btn-info" >Upgrade Now!</button>
+                    <div class="col-sm">
+                        <div class="btn-group">
+                            <a type="button" class="btn btn-secondary btn-tier-bronze" href="/billing/?tier=bronze">
+                                Buy Bronze
+                            </a>
+                            <button type="button" class="btn btn-secondary btn-tier-bronze dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span class="visually-hidden">Toggle Dropdown</span>
+                            </button>
+                            <ul class="dropdown-menu bg-dark-subtle">
+                                <li><a class="dropdown-item btn-tier-silver" href="/billing/?tier=silver">Silver</a></li>
+                                <li><a class="dropdown-item btn-tier-gold" href="/billing/?tier=gold">Gold</a></li>
+                            </ul>
+                        </div>
+                    </div>
                 {% endif %}
                 <div class="d-grid col-6 mx-auto mb-2 mt-3">
                     <a class="btn btn-danger" href="/logout" role="button">Log Out</a>

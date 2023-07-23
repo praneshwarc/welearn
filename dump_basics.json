@@ -1,0 +1,71 @@
+[
+  {
+  "model": "welearn.tier",
+  "pk": 1,
+  "fields": {
+    "label": "bronze"
+  }
+},
+{
+  "model": "welearn.tier",
+  "pk": 2,
+  "fields": {
+    "label": "silver"
+  }
+},
+{
+  "model": "welearn.tier",
+  "pk": 3,
+  "fields": {
+    "label": "gold"
+  }
+},
+  {
+  "model": "welearn.category",
+  "pk": 3,
+  "fields": {
+    "label": "Science",
+    "tokens": "science scientific physics chemistry biology"
+  }
+},
+{
+  "model": "welearn.category",
+  "pk": 4,
+  "fields": {
+    "label": "Finance",
+    "tokens": "finance financial money investment banking"
+  }
+},
+{
+  "model": "welearn.category",
+  "pk": 5,
+  "fields": {
+    "label": "Art",
+    "tokens": "art artistic painting sculpture music"
+  }
+},
+{
+  "model": "welearn.category",
+  "pk": 6,
+  "fields": {
+    "label": "Health",
+    "tokens": "health healthy fitness wellness medical"
+  }
+},
+  {
+  "model": "welearn.category",
+  "pk": 1,
+  "fields": {
+    "label": "Technology",
+    "tokens": "tech technology coding programming"
+  }
+},
+{
+  "model": "welearn.category",
+  "pk": 2,
+  "fields": {
+    "label": "Human Resources",
+    "tokens": "hr human resources talent employee"
+  }
+}
+]

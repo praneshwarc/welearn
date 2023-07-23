@@ -24,37 +24,25 @@
 <body class="user-select-none">
 
 <nav class="navbar navbar-expand-lg bg-body-tertiary sticky-top p-0">
-  <div class="container-fluid">
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-      <ul class="navbar-nav w-100 mb-2 mb-lg-0 justify-content-between ">
-        <li class="nav-item col-auto">
-              <a class="nav-item nav-link" href="{% if request.we_user.is_tutor %}/tutor/{% else %}/home/{% endif %}"><i class="fs-3 bi-house-door-fill"></i></a>
-        </li>
-            <span class="navbar-brand px-2 brand fs-2">WeLearn</span>
-        <li class="nav-item col-auto">
-          <a class="nav-item nav-link" href="/profile"><i class="bi-person-fill fs-3 me-3"></i></a>
-        </li>
-      </ul>
+    <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarToggler">
+            <ul class="navbar-nav w-100 mb-2 mb-lg-0 justify-content-between ">
+                <li class="nav-item col-auto ms-2">
+                    <a class="nav-item nav-link" href="{% if request.we_user.is_tutor %}/tutor/{% else %}/home/{% endif %}"><i class="fs-3 bi-house-door-fill"></i></a>
+                </li>
+                <span class="navbar-brand px-2 brand fs-2">WeLearn</span>
+                <li class="nav-item col-auto">
+                    <a class="nav-item nav-link me-2" href="/profile"><i class="bi-person-fill fs-3"></i></a>
+                </li>
+            </ul>
+        </div>
     </div>
-  </div>
 </nav>
-<div class="parallax parallax-1">
+<div class="parallax parallax-1 light-theme">
     {% block body_block %}Body Block to Override{% endblock %}
-</div>
-
-<div class="offcanvas offcanvas-start" data-bs-backdrop="static" tabindex="-1" id="staticBackdrop" aria-labelledby="staticBackdropLabel">
-  <div class="offcanvas-header">
-    <h5 class="offcanvas-title" id="staticBackdropLabel">Offcanvas</h5>
-    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-  </div>
-  <div class="offcanvas-body">
-    <div>
-      I will not close if you click outside of me.
-    </div>
-  </div>
 </div>
 
 </body>

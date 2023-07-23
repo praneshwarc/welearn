@@ -1,0 +1,15 @@
+
+{% extends 'base.html' %}
+
+{% block title %} Payment Failed {% endblock %}
+
+{% block body_block %}
+    <div class="container-fluid pt-3">
+        <div class="blur-container w-50 mx-auto">
+            <div class="blur-background p-3 text-center">
+                <h2 class="text-danger-emphasis">You are not authorized to access this page</h2>
+                <a class="btn btn-outline-secondary" href="{% if request.user.is_tutor%}/tutor/{% else %}/home/{% endif %}">Back to Home</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

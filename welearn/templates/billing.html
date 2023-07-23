@@ -8,25 +8,23 @@
 
     <div class="container-fluid py-5">
         <div class="blur-container w-50 mx-auto">
-            <div class="blur-background light-theme p-3">
-
+            <div class="blur-background  p-3">
                 <div class="form-control p-4">
                     <h2 class="fw-bold text-center">Upgrading to <span class="text-capitalize fw-light badge rounded-pill bg-tier-{{ tier }}">
                                         {{ tier }}
                                     </span></h2>
-                    <h4>Billing information</h4>
+                    <h4>Order Information</h4>
                     <form method="post" id="billing-form">
                         {% csrf_token %}
                         {% for field in form %}
                             <div class="form-floating mb-3">
                                 {{ field }}
                                 <label for="{{ field.id }}">{{ field.label }}</label>
-
                             </div>
                         {% endfor %}
-                    <div class="row justify-content-center">
-                        <button type="submit" class="btn btn-primary text-center col-auto">Continue to Payment <i class="bi-arrow-right"></i></button>
-                    </div>
+                        <div class="row justify-content-center mb-3">
+                            <button type="submit" class="btn btn-primary text-center col-auto">Continue with Payment</button>
+                        </div>
                     </form>
                 </div>
             </div>

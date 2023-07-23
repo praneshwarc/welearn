@@ -1,0 +1,234 @@
+[
+  {
+    "model": "auth.user",
+    "fields": {
+      "password": "pbkdf2_sha256$600000$QyltAM0QAi25UoKkil2A8n$S/3/GusXqdkkBLTI2l6spu7cFt070Dqf8YKdzSYQu60=",
+      "last_login": "2023-07-22T23:49:41.957Z",
+      "is_superuser": true,
+      "username": "admin",
+      "first_name": "",
+      "last_name": "",
+      "email": "admin@uwindsor.ca",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2023-07-19T17:05:51.418Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "auth.user",
+    "fields": {
+      "password": "pbkdf2_sha256$600000$QyltAM0QAi25UoKkil2A8n$S/3/GusXqdkkBLTI2l6spu7cFt070Dqf8YKdzSYQu60=",
+      "last_login": "2023-07-22T23:49:41.957Z",
+      "username": "tutor1",
+      "first_name": "Adam",
+      "last_name": "Warlock",
+      "email": "adam_warlock@uwindsor.ca",
+      "is_active": true,
+      "date_joined": "2023-07-19T17:05:51.418Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "welearn.weuser",
+    "fields": {
+      "user_ptr": [
+        "tutor1"
+      ],
+      "is_tutor": true
+    }
+  },
+  {
+    "model": "auth.user",
+    "fields": {
+      "password": "pbkdf2_sha256$600000$QyltAM0QAi25UoKkil2A8n$S/3/GusXqdkkBLTI2l6spu7cFt070Dqf8YKdzSYQu60=",
+      "last_login": "2023-07-22T23:49:41.957Z",
+      "username": "tutor2",
+      "first_name": "Max",
+      "last_name": "Dillon",
+      "email": "max_dillon@uwindsor.ca",
+      "is_active": true,
+      "date_joined": "2023-07-19T17:05:51.418Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "welearn.weuser",
+    "fields": {
+      "user_ptr": [
+        "tutor2"
+      ],
+      "is_tutor": true
+    }
+  },
+  {
+    "model": "auth.user",
+    "fields": {
+      "password": "pbkdf2_sha256$600000$QyltAM0QAi25UoKkil2A8n$S/3/GusXqdkkBLTI2l6spu7cFt070Dqf8YKdzSYQu60=",
+      "last_login": "2023-07-22T23:49:41.957Z",
+      "username": "tutor3",
+      "first_name": "Norman",
+      "last_name": "Osborn",
+      "email": "norman_osborn@uwindsor.ca",
+      "is_active": true,
+      "date_joined": "2023-07-19T17:05:51.418Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "welearn.weuser",
+    "fields": {
+      "user_ptr": [
+        "tutor3"
+      ],
+      "is_tutor": true
+    }
+  },
+  {
+    "model": "auth.user",
+    "fields": {
+      "password": "pbkdf2_sha256$600000$QyltAM0QAi25UoKkil2A8n$S/3/GusXqdkkBLTI2l6spu7cFt070Dqf8YKdzSYQu60=",
+      "last_login": "2023-07-22T23:49:41.957Z",
+      "username": "student1",
+      "first_name": "Clint",
+      "last_name": "Barton",
+      "email": "clint_barton@uwindsor.ca",
+      "is_active": true,
+      "date_joined": "2023-07-19T17:05:51.418Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "welearn.weuser",
+    "fields": {
+      "user_ptr": [
+        "student1"
+      ]
+    }
+  },
+  {
+    "model": "auth.user",
+    "fields": {
+      "password": "pbkdf2_sha256$600000$QyltAM0QAi25UoKkil2A8n$S/3/GusXqdkkBLTI2l6spu7cFt070Dqf8YKdzSYQu60=",
+      "last_login": "2023-07-22T23:49:41.957Z",
+      "username": "student2",
+      "first_name": "America",
+      "last_name": "Chavez",
+      "email": "america_chavez@uwindsor.ca",
+      "is_active": true,
+      "date_joined": "2023-07-19T17:05:51.418Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "welearn.weuser",
+    "fields": {
+      "user_ptr": [
+        "student2"
+      ],
+      "tier": 3
+    }
+  },
+  {
+    "model": "auth.user",
+    "fields": {
+      "password": "pbkdf2_sha256$600000$QyltAM0QAi25UoKkil2A8n$S/3/GusXqdkkBLTI2l6spu7cFt070Dqf8YKdzSYQu60=",
+      "last_login": "2023-07-22T23:49:41.957Z",
+      "username": "student3",
+      "first_name": "Matt",
+      "last_name": "Murdock",
+      "email": "matt_murdock@uwindsor.ca",
+      "is_active": true,
+      "date_joined": "2023-07-19T17:05:51.418Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "welearn.weuser",
+    "fields": {
+      "user_ptr": [
+        "student3"
+      ],
+      "tier": 2
+    }
+  },
+  {
+    "model": "auth.user",
+    "fields": {
+      "password": "pbkdf2_sha256$600000$QyltAM0QAi25UoKkil2A8n$S/3/GusXqdkkBLTI2l6spu7cFt070Dqf8YKdzSYQu60=",
+      "last_login": "2023-07-22T23:49:41.957Z",
+      "username": "student4",
+      "first_name": "Carol",
+      "last_name": "Danvers",
+      "email": "carol_danvers@uwindsor.ca",
+      "is_active": true,
+      "date_joined": "2023-07-19T17:05:51.418Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "welearn.weuser",
+    "fields": {
+      "user_ptr": [
+        "student4"
+      ],
+      "tier": 1
+    }
+  },
+  {
+    "model": "auth.user",
+    "fields": {
+      "password": "pbkdf2_sha256$600000$QyltAM0QAi25UoKkil2A8n$S/3/GusXqdkkBLTI2l6spu7cFt070Dqf8YKdzSYQu60=",
+      "last_login": "2023-07-22T23:49:41.957Z",
+      "username": "student5",
+      "first_name": "Scott",
+      "last_name": "Lang",
+      "email": "scott_lang@uwindsor.ca",
+      "is_active": true,
+      "date_joined": "2023-07-19T17:05:51.418Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "welearn.weuser",
+    "fields": {
+      "user_ptr": [
+        "student5"
+      ],
+      "tier": 2
+    }
+  },
+  {
+    "model": "auth.user",
+    "fields": {
+      "password": "pbkdf2_sha256$600000$QyltAM0QAi25UoKkil2A8n$S/3/GusXqdkkBLTI2l6spu7cFt070Dqf8YKdzSYQu60=",
+      "last_login": "2023-07-22T23:49:41.957Z",
+      "username": "student6",
+      "first_name": "Steve",
+      "last_name": "Rogers",
+      "email": "steve_rogers@uwindsor.ca",
+      "is_active": true,
+      "date_joined": "2023-07-19T17:05:51.418Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "welearn.weuser",
+    "fields": {
+      "user_ptr": [
+        "student6"
+      ],
+      "tier": 3
+    }
+  }
+]

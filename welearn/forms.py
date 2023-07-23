@@ -90,19 +90,17 @@ class BillingInfoForm(forms.ModelForm):
             if isinstance(field.widget, forms.NumberInput):
                 field.widget.attrs['class'] = 'form-control'
                 field.widget.attrs['placeholder'] = 'text'
+                if field_name=='amount':
+                    field.widget.attrs['readonly'] = 'true'
             if isinstance(field.widget, forms.Select):
                 field.widget.attrs['class'] = 'form-select'
 
-    CURRENCY_CHOICES = (
-        ('IND', 'Indian Rupee'),
-        ('PKR', 'Pakistani Rupee'),
-        ('CAD', 'Canadian Dollar'),
-        ('USD', 'US Dollar'),
-        ('AUD', 'Australian Dollar'),
-        ('EUR', 'Euro'),
-    )
 
-    payment_info = forms.ChoiceField(choices=[('credit', 'Credit Card'), ('debit', 'Debit Card')], label='Payment Method')
+    CURRENCY_CHOICES = [
+        ('CAD', 'Canadian Dollar')
+    ]
+
+    payment_info = forms.ChoiceField(choices=[('credit', 'Credit Card'), ('debit', 'Debit Card'), ('paypal','PayPal')], label='Payment Method')
     currency = forms.ChoiceField(choices=CURRENCY_CHOICES)
     email = forms.EmailField(required=False, label = 'Email (Optional)')
     billing_address1 = forms.CharField(label='Address 1')

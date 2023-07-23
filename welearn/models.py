@@ -23,6 +23,7 @@ class Category(models.Model):
         return self.label
 
     class Meta:
+        ordering=["label"]
         verbose_name_plural = "Categories"
 
 
