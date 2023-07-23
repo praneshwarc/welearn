@@ -5,9 +5,9 @@
 {% block body_block %}
     <div class="container-fluid pt-3">
         {% if course.tier.label in request.COOKIES.allowed_tiers %}
-            <div class="row justify-content-between">
+            <div class="row justify-content-between pb-0 pt-2">
                 <div class="col-auto">
-                    <h2 class="p-2 fw-bold"> {{ course.title }}</h2>
+                    <h2 class="fw-bold ps-2"> {{ course.title }}</h2>
                 </div>
                 {% if course.is_enrolled %}
                     <div class="col-auto">
@@ -23,8 +23,15 @@
                         </form>
                     </div>
                 {% endif %}
+                <div class="fw-light fs-5 ms-2 mb-3">
+                    by {{ course.tutor.first_name }} {{ course.tutor.last_name }}
+                    <a data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Chat with Tutor" class="btn btn-outline-dark ms-2" href="/mail/?user_id={{ course.tutor.id }}">
+                        <i class="bi-chat-dots fs-6"></i>
+                    </a>
+                </div>
             </div>
-            <div class="blur-container w-100 mx-auto">
+
+            <div class="blur-container w-100 mx-auto mt-3">
                 <div class="blur-background light-theme p-3">
                     <div class="form-control">
                         <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -47,31 +54,49 @@
                                     </div>
                                 {% else %}
                                     <div class="tab-pane{% if forloop.first %} show active{% endif %} fade p-3" id="{{ module.id }}-tab-pane" role="tabpanel" aria-labelledby="{{ module.title }}-tab" tabindex="0">
-                                        <h4>{{module.description}}</h4>
+                                        <span class="fs-5">{{module.description}}</span>
                                         {% for content in  module.contents.all %}
-                                            {% if content.file %}
-                                                <object data="/media/{{ content.file }}" class="w-75 mx-auto min-vh-100 mh-75">
-                                                    <p>Unable to display PDF file. <a href="/media/{{ content.file }}" download>Download</a> instead.</p>
-                                                </object>
-                                            {% elif content.youtube_video %}
-                                                <iframe width="50%" height="300px" src="https://www.youtube.com/embed/tgbNymZ7vqY"></iframe>
-                                            {% endif %}
+                                            <div class="form-control w-75 mx-auto">
+                                                {% if content.file %}
+                                                    <object data="/media/{{ content.file }}/">
+                                                        <a class="btn btn-outline-primary" href="/media/{{ content.file }}/"><i class="bi-download fs-5 me-2"></i>{{ content.file.name }}</a>
+                                                    </object>
+                                                {% elif content.youtube_video %}
+                                                    <iframe width="100%" height="500px" src="https://www.youtube.com/embed/tgbNymZ7vqY">
+
+                                                    </iframe>
+                                                {% endif %}
+                                            </div>
                                         {% endfor %}
                                         {% if module.quiz %}
                                             {% if module.is_passed %}
                                                 <div class="row justify-content-end">
                                                     <div class="col-auto">
-                                                        <a class="btn btn-outline-secondary" href="/quiz/{{ module.quiz.id }}/"><i class="bi-pencil-square fs-5 me-2"></i>Retake Quiz</a>
+                                                        <a class="btn btn-outline-secondary" href="/quiz/{{ module.id }}/"><i class="bi-pencil-square fs-5 me-2"></i>Retake Quiz</a>
                                                     </div>
+                                                    {% if forloop.last%}
+                                                        <div class="col-auto">
+                                                            <a class="btn btn-outline-primary" href="/cert/{{ course.id }}/"><i class="bi-download fs-5 me-2"></i> Certificate</a>
+                                                        </div>
+                                                    {% endif %}
                                                 </div>
                                             {% else %}
                                                 <div class="row justify-content-end">
                                                     <div class="col-auto">
-                                                        <a class="btn btn-outline-success" href="/quiz/{{ module.quiz.id }}/"><i class="bi-pencil-square fs-5 me-2"></i>Take Quiz</a>
+                                                        <a class="btn btn-outline-success" href="/quiz/{{ module.id }}/"><i class="bi-pencil-square fs-5 me-2"></i>Take Quiz</a>
+                                                    </div>
+                                                </div>
+                                            {% endif %}
+                                        {% else %}
+                                            {% if forloop.last%}
+                                                <div class="row justify-content-end">
+                                                    <div class="col-auto">
+                                                        <a class="btn btn-outline-primary" href="/cert/{{ course.id }}/"><i class="bi-download fs-5 me-2"></i> Certificate</a>
                                                     </div>
                                                 </div>
                                             {% endif %}
                                         {% endif %}
+
                                     </div>
                                 {% endif %}
                             {% endfor %}
@@ -85,4 +110,10 @@
             </div>
         {% endif %}
     </div>
+
+    <script>
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl,{
+            trigger : 'hover'}))
+    </script>
 {% endblock %}

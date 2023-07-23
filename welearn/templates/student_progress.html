@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block title %} {{ course.title }} {% endblock %}
+
+{% block body_block %}
+    <div class="container-fluid pt-3">
+        <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a class="text-decoration-none" href="/tutor/">Home</a></li>
+                <li class="breadcrumb-item"><a class="text-decoration-none" href="/tutor/course/{{ course.id }}/dashboard/">{{ course.title }}</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Student Progress</li>
+            </ol>
+        </nav>
+        <div class="blur-container w-75 mx-auto">
+            <div class="blur-background light-theme p-3">
+                <div class="fs-3 fw-bold mb-3 ps-2">{{ student.first_name }} {{ student.last_name }}</div>
+                <div class="accordion mx-auto" id="module_accordian">
+                    {% for module in modules %}
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button {% if module.quiz %}{% else %}accordion-button-none{% endif %}  collapsed" type="button" {% if module.quiz %}data-bs-toggle="collapse" data-bs-target="#module_{{ module.id }}"{% else %}disabled{% endif %} aria-expanded="false" aria-controls="module_{{ module.id }}" >
+                                    <div class="row justify-content-between w-100">
+                                        <div class="col-auto py-2">
+                                            {{ module.title}}
+                                        </div>
+                                        {% if module.quiz %}
+                                            {% if module.is_passed %}
+                                                <div class="col-auto py-1" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Completed">
+                                                    <i class="bi-check-circle-fill text-success fs-4"></i>
+                                                </div>
+                                            {% else %}
+                                                <div class="col-auto py-1" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="In Progress">
+                                                    <i class="bi-clock-history text-warning fs-4"></i>
+                                                </div>
+                                            {% endif %}
+                                        {% endif %}
+                                    </div>
+                                </button>
+                            </h2>
+                            {% if module.quiz %}
+                                <div id="module_{{ module.id }}" class="accordion-collapse collapse" data-bs-parent="#module_accordian">
+                                    <div class="accordion-body">
+                                        <div class="row justify-content-between">
+                                            <div class="col-auto">
+                                                <span class="{% if module.is_passed %}text-success{% else %}text-warning{% endif %}">
+                                                    {{ module.quiz.title }}
+                                                </span>
+                                            </div>
+                                            <div class="col-auto">
+                                                {% if module.given_quiz %}
+                                                    <span class="{% if module.is_passed %}text-success{% else %}text-warning{% endif %}">
+                                                        {{ module.percent }}%
+                                                    </span>
+                                                {% else %}
+                                                    <span class="text-warning">
+                                                        Pending
+                                                    </span>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl,{
+            trigger : 'hover'}))
+    </script>
+
+{% endblock %}

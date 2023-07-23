@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat Screen</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .chat-threads-container {
+            /* Use Flexbox to create a three-column layout */
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .chat-thread {
+            background-color: #f9f9f9;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            width: calc(33.33% - 20px); /* Adjust width based on 3 columns */
+            /* Add scrollbar to the chat thread */
+            overflow-y: auto;
+            /* Specify a fixed height for the chat thread, adjust as needed */
+            max-height: 400px;
+        }
+
+        .messages {
+            /* Make the messages fill the available width */
+            width: 100%;
+        }
+
+        .message {
+            margin: 10px;
+            padding: 8px;
+            border-radius: 8px;
+            overflow-wrap: break-word;
+        }
+
+        .from-user {
+            background-color: #DCF8C6;
+            /* Remove float to make messages display in one column */
+            float: none;
+        }
+
+        .to-user {
+            background-color: #D6EAF8;
+            /* Remove float to make messages display in one column */
+            float: none;
+        }
+
+        .clearfix::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        /* Style the form */
+        .reply-form {
+            margin: 10px; /* Add some space between the form and the messages */
+        }
+
+        .reply-form textarea {
+            resize: none;
+            width: 100%;
+            height: 80px;
+            padding: 5px;
+        }
+
+        .reply-form button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .reply-form button:hover {
+            background-color: #45a049;
+        }
+
+        /* Style the thread title */
+        .thread-title {
+            background-color: #3498db;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            border-radius: 8px 8px 0 0;
+            /* Make the thread title fixed while scrolling */
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+    <h1>Messages List</h1>
+
+    <div class="chat-threads-container">
+        {% for thread in messages_list %}
+        <div class="chat-thread clearfix">
+            {% if logged_in_user.id == thread.0.to_user.id %}
+                <div class="thread-title">{{ thread.0.from_user }}</div>
+            {% else %}
+                <div class="thread-title">{{ thread.0.to_user }}</div>
+            {% endif %}
+
+            <!-- Form for each chat -->
+            <form class="reply-form" method="post">
+                {% csrf_token %}
+                <!-- Add a hidden input field to hold the value of thread.0.to_user -->
+                <input type="hidden" name="to_user" value="{{ thread.0.to_user.id }}">
+                {{ form.as_p }}
+                <button type="submit">Reply</button>
+            </form>
+
+            <div class="messages">
+                {% for message in thread %}
+                <div class="message {% if message.from_user == thread.0.from_user %}from-user{% else %}to-user{% endif %}">
+                    <strong>Time: {{ message.msg_time }}</strong>
+                    <p>{{ message.message }}</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

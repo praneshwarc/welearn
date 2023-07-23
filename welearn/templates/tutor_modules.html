@@ -4,51 +4,58 @@
 {% block title %} Modules {% endblock %}
 
 {% block body_block %}
-    <div class="container-fluid pt-3">
-        <div class="row justify-content-between">
-            <div class="col-auto">
-                <h1 class="p-3 fw-bold"> {{ course.title }} - Modules </h1>
-            </div>
-            <div class="col-auto my-auto">
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModuleModal">Create Module</button>
-            </div>
-        </div>
+    <div class="container-fluid py-3">
+        <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a class="text-decoration-none" href="/tutor/">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Course Builder</li>
+            </ol>
+        </nav>
+
         <div class="blur-container w-75 mx-auto">
             <div class="blur-background light-theme p-3">
-                <ul id="simpleList" class="list-group w-100 mx-auto">
+                <div class="row justify-content-between w-100 mx-auto">
+                    <div class="col-auto">
+                        <h1 class="fw-bold py-3">{{ course.title }}</h1>
+                    </div>
+                    <div class="col-auto my-auto">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModuleModal">Create Module</button>
+                    </div>
+                </div>
+                <ul id="moduleList" class="list-group w-100 mx-auto shadow">
                     {% for module in modules %}
                         <li class="list-group-item justify-content-between p-3">
                             <div class="row justify-content-between">
                                 <div class="col-sm-10 align-text-bottom">
                                     <h4>{{ module.title }}</h4>
                                     <p>{{ module.description }}</p>
-                                    {% if module.contents.all %}
-                                        <div class="w-75">
-
-                                        <ul id="simpleList" class="list-group w-100 mx-auto">
-
-                                    {% endif %}
                                     {% for content in module.contents.all %}
-                                        <li class="list-group-item justify-content-between p-3">
-                                            <div class="row justify-content-between">
-                                                    <div class="col-auto">
-                                                        {% if content.file %}
-                                                            {{ content.file }}
-                                                        {% elif content.youtube_video %}
-                                                            {{ content.youtube_video }}
-                                                        {% endif %}
-                                                    </div>
-                                                    <div class="col-auto">
-                                                        <a href="/media/{{ content.file }}" download><button id="delete_content_{{ content.id }}" data-bs-toggle="tooltip" data-bs-title="Download file" class="btn btn-sm btn-outline-secondary"><i class="bi-download"></i></button></a>
-                                                        <button id="delete_content_{{ content.id }}" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Delete content" class="btn btn-sm btn-outline-danger" onclick="deleteContent('{{ content.id }}')"><i class="bi-trash3"></i></button>
-                                                    </div>
+                                        {% if forloop.first %}
+                                            <div class="w-75">
+                                            <ul id="contentList_{{ module.id }}" class="list-group w-100 mx-auto">
+                                        {% endif %}
+                                    <li class="list-group-item justify-content-between p-3">
+                                        <div class="row justify-content-between">
+                                            <div class="col-auto">
+                                                {% if content.file %}
+                                                    {{ content.file }}
+                                                {% elif content.youtube_video %}
+                                                    {{ content.youtube_video }}
+                                                {% endif %}
                                             </div>
-                                        </li>
-                                    {% endfor %}
-                                    {% if module.contents.all %}
+                                            <div class="col-auto">
+                                                {% if content.file %}
+                                                    <a href="/media/{{ content.file }}" download><button id="delete_content_{{ content.id }}" data-bs-toggle="tooltip" data-bs-title="Download file" class="btn btn-sm btn-outline-secondary"><i class="bi-download"></i></button></a>
+                                                {% endif %}
+                                                <button id="delete_content_{{ content.id }}" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Delete content" class="btn btn-sm btn-outline-danger" onclick="deleteContent('{{ content.id }}')"><i class="bi-trash3"></i></button>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    {% if forloop.last %}
                                         </ul>
                                         </div>
                                     {% endif %}
+                                    {% endfor %}
                                 </div>
                                 <div class="col-auto">
                                     <button id="add_content_{{ module.id }}" data-bs-toggle="tooltip" data-bs-title="Add Content" class="btn btn-sm btn-outline-success me-1" onclick="showAddContent('{{ module.id }}')"><i class="bi-file-earmark-plus fs-6"></i></button>

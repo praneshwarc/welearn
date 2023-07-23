@@ -25,13 +25,20 @@
             </div>
         </div>
     </a>
-    <div class="card-footer">
-        <div class="row justify-content-end">
+    <div class="card-footer ">
+        <div class="row justify-content-between">
             <div class="col-auto">
-                <button id="edit_course_{{ course.id }}" data-bs-toggle="tooltip" data-bs-title="Edit course" class="btn btn-sm btn-outline-primary" onclick="editCourse('{{ course.id }}')"><i class="bi-pencil"></i></button>
+                <a id="dashboard_course_{{ course.id }}" data-bs-toggle="tooltip" data-bs-title="Dashboard" class="btn btn-sm btn-outline-secondary" href="/tutor/course/{{ course.id }}/dashboard"><i class="bi-speedometer"></i></a>
             </div>
             <div class="col-auto">
-                <button id="delete_course_{{ course.id }}" data-bs-toggle="tooltip" data-bs-title="Delete course" class="btn btn-sm btn-outline-danger" onclick="deleteCourse('{{ course.id }}')"><i class="bi-trash"></i></button>
+                <div class="row justify-content-end">
+                    <div class="col-auto">
+                        <button id="edit_course_{{ course.id }}" data-bs-toggle="tooltip" data-bs-title="Edit course" class="btn btn-sm btn-outline-primary" onclick="editCourse('{{ course.id }}')"><i class="bi-pencil"></i></button>
+                    </div>
+                    <div class="col-auto">
+                        <button id="delete_course_{{ course.id }}" data-bs-toggle="tooltip" data-bs-title="Delete course" class="btn btn-sm btn-outline-danger" onclick="deleteCourse('{{ course.id }}')"><i class="bi-trash"></i></button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -41,62 +48,62 @@
     function editCourse(course_id){
 
         $.ajax("/tutor/course/"+course_id+"/",
-        {
-            success: function(response){
-                const course_data = response[0].fields;
-                const courseForm = $('#create_course');
-                courseForm.attr('data-id',course_id);
-                courseForm.find('#course_title').val(course_data.title);
-                courseForm.find('#course_desc').val(course_data.description);
-                courseForm.find('#course_cat').selectpicker('val', course_data.category+'');
-                courseForm.find('#course_tags').val(course_data.tags);
-                courseForm.find('#course_hours').val(course_data.hrs);
-                courseForm.find('#course_mins').val(course_data.mins);
-                if(course_data.tier===1){
-                    courseForm.find('input#tier_bronze').prop('checked',true);
-                }
-                else if(course_data.tier===2){
-                    courseForm.find('input#tier_silver').prop('checked',true);
-                }
-                else{
-                    courseForm.find('input#tier_gold').prop('checked',true);
-                }
+            {
+                success: function(response){
+                    const course_data = response[0].fields;
+                    const courseForm = $('#create_course');
+                    courseForm.attr('data-id',course_id);
+                    courseForm.find('#course_title').val(course_data.title);
+                    courseForm.find('#course_desc').val(course_data.description);
+                    courseForm.find('#course_cat').selectpicker('val', course_data.category+'');
+                    courseForm.find('#course_tags').val(course_data.tags);
+                    courseForm.find('#course_hours').val(course_data.hrs);
+                    courseForm.find('#course_mins').val(course_data.mins);
+                    if(course_data.tier===1){
+                        courseForm.find('input#tier_bronze').prop('checked',true);
+                    }
+                    else if(course_data.tier===2){
+                        courseForm.find('input#tier_silver').prop('checked',true);
+                    }
+                    else{
+                        courseForm.find('input#tier_gold').prop('checked',true);
+                    }
 
 
-                const myModal = new bootstrap.Modal('#createCourseModal');
-                myModal.show();
-            }
-        });
+                    const myModal = new bootstrap.Modal('#createCourseModal');
+                    myModal.show();
+                }
+            });
 
     }
 
     function deleteCourse(course_id){
         const csrfToken = Cookies.get('csrftoken');
         $.ajax("/tutor/course/"+course_id+"/",
-        {
-            method: "delete",
-            headers: {
-                'X-CSRFToken': csrfToken
-            },
-            success: function(response){
-                location.reload();
-            }
-        });
+            {
+                method: "delete",
+                headers: {
+                    'X-CSRFToken': csrfToken
+                },
+                success: function(response){
+                    location.reload();
+                }
+            });
     }
 
     function toggleCourse(course_id,event){
         const csrfToken = Cookies.get('csrftoken');
         const is_published = $(event.target).prop('checked');
         $.ajax("/tutor/course/"+course_id+"/",
-        {
-            method: "post",
-            headers: {
-                'X-CSRFToken': csrfToken
-            },
-            data:{
-                'is_published':is_published
-            }
-        });
+            {
+                method: "post",
+                headers: {
+                    'X-CSRFToken': csrfToken
+                },
+                data:{
+                    'is_published':is_published
+                }
+            });
         location.reload();
     }
 

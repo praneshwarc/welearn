@@ -7,25 +7,23 @@
     <div class="container-fluid pt-3">
         <div class="blur-container w-25 mx-auto">
             <div class="blur-background light-theme p-3 text-center">
-                <h2>Hey there, {{ user.first_name }} !</h2>
-                {% if user.tier %}
+                <h2>Hey there, {{ request.we_user.first_name }} !</h2>
+                {% if request.we_user.tier %}
                     <div class="row mt-3">
-                        <div class="col-sm">
-                            <span class="text-capitalize fs-5 fw-light badge rounded-pill bg-tier-{{ user.tier }}" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Requires {{ user.tier }} Tier">
-                                {{ user.tier }}
-                            </span>
+                        <div class="col-sm fs-5">
+                            You are a <span class="text-capitalize fs-5 fw-light badge rounded-pill bg-tier-{{ request.we_user.tier }}" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Requires {{ request.we_user.tier }} Tier">
+                                {{ request.we_user.tier }}
+                            </span> member
                         </div>
-                        {% if user.tier.label != 'gold' %}
+                        {% if request.we_user.tier and request.we_user.tier.label != 'gold' %}
                             <div class="col-sm">
                                 <button class="btn btn-info" >Upgrade Now!</button>
                             </div>
-                        {% else %}
-                            Help me
                         {% endif %}
                     </div>
-                {% elif user.is_tutor %}
-                    {% if user.courses.all %}
-                        You have created {{ user.courses.count }} courses with {{ student_count }} students
+                {% elif request.we_user.is_tutor %}
+                    {% if request.we_user.courses.all %}
+                        As a Tutor you have created {{ request.we_user.courses.count }} courses with {{ student_count }} students
                     {% endif %}
                 {% else %}
                     <button class="btn btn-info" >Upgrade Now!</button>

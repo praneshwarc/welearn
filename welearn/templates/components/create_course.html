@@ -8,31 +8,31 @@
             <form id="create_course" onsubmit="createCourse(event)">
                 <div class="modal-body">
                     <div class="form-floating mb-3">
-                        <input class="form-control form-control-lg" id="course_title" placeholder="Title"/>
+                        <input class="form-control form-control-lg" id="course_title" placeholder="Title" required/>
                         <label for="course_title">Title</label>
                     </div>
                     <div class="form-floating mb-3">
                         {{ form.description }}
-                        <textarea class="form-control" id="course_desc" placeholder="Description" rows="5" style="height:100%;"></textarea>
+                        <textarea class="form-control" id="course_desc" placeholder="Description" rows="5" style="height:100%;" required></textarea>
                         <label for="course_desc">Description</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <select class="selectpicker" data-live-search="true" title="Choose a category" data-width="100%" id="course_cat">
+                        <select class="selectpicker" data-live-search="true" title="Choose a category" data-width="100%" id="course_cat" required>
                             {% for category in categories %}
                                 <option value="{{ category.id }}" data-tokens="{{ category.tokens }}">{{ category.label }}</option>
                             {% endfor %}
                         </select>
                     </div>
                     <div class="form-floating mb-3">
-                        <input class="form-control form-control-sm" id="course_tags" placeholder="tags"/>
+                        <input class="form-control form-control-sm" id="course_tags" placeholder="tags" required/>
                         <label for="course_tags">Tags</label>
                         <div id="tags" class="form-text">Add space separated tags for searching</div>
                     </div>
                     <div class="mb-3">
                         <div class="input-group">
-                            <input type="text" class="form-control" aria-label="Hours" id="course_hours">
+                            <input type="text" class="form-control" aria-label="Hours" id="course_hours" required>
                             <span class="input-group-text">Hours</span>
-                            <input type="text" class="form-control" aria-label="Minutes" id="course_mins">
+                            <input type="text" class="form-control" aria-label="Minutes" id="course_mins" required>
                             <span class="input-group-text">Minutes</span>
                         </div>
                         <div id="course_duration" class="form-text">Expected length of your course</div>

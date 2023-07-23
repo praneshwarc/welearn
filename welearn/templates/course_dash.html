@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %} {{ course.title }} {% endblock %}
+
+{% block body_block %}
+    <div class="container-fluid pt-3">
+        <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a class="text-decoration-none" href="/tutor/">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ course.title }}</li>
+            </ol>
+        </nav>
+        <div class="blur-container w-50 mx-auto">
+            <div class="blur-background light-theme p-3">
+                <h1 class="mb-3 fw-bold">Dashboard</h1>
+                {% for student in course.registered_users.all %}
+                    {% if forloop.first %}
+                        <div class="w-100 mx-auto">
+                        <span class="fs-6 ms-2">Enrolled Students:</span>
+                        <ul id="studentList" class="list-group w-100 mx-auto mt-2">
+                    {% endif %}
+                <li class="list-group-item justify-content-between p-3">
+                    <div class="row justify-content-between">
+                        <div class="col-auto my-auto fs-5">
+                            {{ student.first_name }} {{ student.last_name }}
+                        </div>
+                        <div class="col-auto">
+                            <a class="btn btn-outline-primary" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Student progress" href="{{ student.id }}"><i class="bi-book fs-5"></i></a>
+                        </div>
+                    </div>
+                </li>
+                {% if forloop.last %}
+                    </ul>
+                    </div>
+                {% endif %}
+                {% empty %}
+                    <h3>No students have enrolled!</h3>
+                {% endfor %}
+
+            </div>
+        </div>
+    </div>
+    <script>
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl,{
+            trigger : 'hover'}))
+    </script>
+{% endblock %}

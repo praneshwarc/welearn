@@ -2,6 +2,10 @@
     --background-url: url("../images/background-large.png");
 }
 
+.accordion-button-none::after {
+    background: none !important;
+}
+
 body{
     height:100%;
 }
@@ -33,9 +37,9 @@ html{
 }
 
 .navbar{
-    background-color: #FAEBD7BB;
-    backdrop-filter: blur(15px);
-    border-radius: 0 0 8px 8px;
+    background-color: #FAEBD7AA !important;
+    backdrop-filter: blur(10px) !important;
+    border-radius: 0 0 8px 8px !important;
 }
 
 .welcome-text {

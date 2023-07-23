@@ -24,6 +24,16 @@ urlpatterns = [
     path('tutor/quiz/<int:quiz_id>/', DeleteQuiz.as_view(), name = 'delete_quiz'),
     path('search',views.search,name='search'),
     path("course/<int:course_id>/enroll/", EnrollCourse.as_view(), name="enroll"),
-    path("tutor/progress/<int:course_id>/<int:student_id>/", CourseProgress.as_view(), name="student_progress"),
-    path("course/dashboard/<int:course_id>/", CourseDashboard.as_view(), name="course_dashboard"),
+    path("tutor/course/<int:course_id>/dashboard/<int:student_id>/", CourseProgress.as_view(), name="student_progress"),
+    path("tutor/course/<int:course_id>/dashboard/", CourseDashboard.as_view(), name="course_dashboard"),
+    #path("cert/", views.get_cert_page),
+    path('billing/', views.billing_page, name='billing_page'),
+    path('payment/', views.payment_page, name='payment_page'),
+    path('payment/success/', views.success_page, name='success_page'),
+    path('payment/fail/', views.payment_fail_page, name='payment_fail_page'),
+    path('mail/', views.mail, name="mail"),
+    path('my_messages/', views.my_messages, name="my_messages"),
+    path('cert/<int:course_id>/', views.download_certificate, name="get_cert"),
+    path('create-checkout-session/<int:pk>/', CreateCheckoutSessionView.as_view(), name='create-checkout-session'),
+    path('stripel/', ProductLandingPageView.as_view() )
 ]
