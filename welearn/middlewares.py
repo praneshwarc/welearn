@@ -1,4 +1,5 @@
 # custom_user_middleware.py
+from django.shortcuts import redirect
 from django.utils.deprecation import MiddlewareMixin
 from .models import WeUser
 
@@ -14,7 +15,8 @@ class CustomUserMiddleware(MiddlewareMixin):
                 request.we_user = we_user
             except WeUser.DoesNotExist:
                 request.we_user = None
-
         else:
             # If the user is not authenticated, you can set the custom_user attribute to None or any other value
             request.we_user = None
+        if request.user.is_authenticated and not request.we_user and 'admin' not in request.path:
+            return redirect("/admin/")

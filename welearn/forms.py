@@ -7,20 +7,20 @@ from .models import Quiz, Question, Option, UserBillingInfo
 
 class CourseForm(forms.ModelForm):
     tier_name = forms.CharField(max_length=10)
-    category_name = forms.CharField(max_length=25)
+    category_id = forms.CharField(max_length=25)
 
     class Meta:
         model = Course
-        fields = ["title", "description", "tags", "hrs", "mins", "is_published", "tier_name", "category_name"]
+        fields = ["title", "description", "tags", "hrs", "mins", "is_published", "tier_name", "category_id"]
 
 
 class CourseEditForm(forms.ModelForm):
     tier_name = forms.CharField(max_length=10)
-    category_name = forms.CharField(max_length=25)
+    category_id = forms.CharField(max_length=25)
 
     class Meta:
         model = Course
-        fields = ["title", "description", "tags", "hrs", "mins", "is_published", "tier_name", "category_name"]
+        fields = ["title", "description", "tags", "hrs", "mins", "is_published", "tier_name", "category_id"]
 
 
 class ModuleForm(forms.ModelForm):

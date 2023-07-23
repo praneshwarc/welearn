@@ -115,6 +115,7 @@ class UserBillingInfo(models.Model):
     cvv = models.CharField(max_length=3, blank=True)
     expiry_date = models.CharField(max_length=6, blank=True)
     tier = models.ForeignKey(Tier, on_delete=models.SET_NULL, null=True)
+    paypal_pid = models.CharField(max_length=100, null=True)
 
     def __str__(self):
         return self.customer_name

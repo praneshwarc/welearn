@@ -66,6 +66,7 @@ def get_allowed_tiers(user_id):
 
 
 @login_required
+@user_passes_test(student_check,login_url="/unauth")
 def student_home(request):
     we_user = WeUser.objects.get(id=request.user.id)
     course_list =  we_user.registered_courses.filter(is_published=True)
@@ -79,6 +80,7 @@ def student_home(request):
 
 
 @login_required
+@user_passes_test(student_check,login_url="/unauth")
 def course(request, course_id):
     selected_course = Course.objects.get(id=course_id)
     we_user = WeUser.objects.get(id=request.user.id)
@@ -144,6 +146,7 @@ def tutor_course(request):
 
 
 @login_required
+@user_passes_test(tutor_check,login_url="/unauth")
 def tutor_course_id(request, course_id):
     if request.method == 'GET':
         course_data = Course.objects.get(id=course_id)
@@ -163,8 +166,8 @@ def tutor_course_id(request, course_id):
         if course_form.cleaned_data.get("tier_name", None):
             tier = Tier.objects.get(label=course_form.cleaned_data['tier_name'])
             course.tier = tier
-        if course_form.cleaned_data.get("category_name", None):
-            category = Category.objects.get(label=course_form.cleaned_data['category_name'])
+        if course_form.cleaned_data.get("category_id", None):
+            category = Category.objects.get(id=course_form.cleaned_data['category_id'])
             course.category = category
         course.save()
         return HttpResponse(status=200)
@@ -176,7 +179,7 @@ def tutor_course_id(request, course_id):
 
 
 @login_required
-# @user_passes_test(tutor_check)
+@user_passes_test(tutor_check, login_url="/unauth")
 def tutor_modules(request, course_id):
     if request.method == "GET":
         we_user = WeUser.objects.get(id=request.user.id)
@@ -337,6 +340,7 @@ def quiz_detail(request, module_id):
 
 
 @login_required
+@user_passes_test(student_check,login_url="/unauth")
 def quiz_result(request, module_id):
     quiz = get_object_or_404(Quiz, module__id=module_id)
     quiz_attempt = get_object_or_404(QuizAttempt, quiz__module__id=module_id, user__id=request.user.id)
@@ -373,6 +377,8 @@ class AddContent(View):
 
 class ContentView(View):
 
+    @method_decorator(login_required)
+    @method_decorator(user_passes_test(tutor_check, login_url="/unauth"))
     @method_decorator(csrf_exempt)
     def dispatch(self, *args, **kwargs):
         return super().dispatch(*args, **kwargs)
@@ -383,7 +389,8 @@ class ContentView(View):
         return HttpResponse(status=204)
 
 
-@csrf_exempt
+@login_required
+@user_passes_test(tutor_check,login_url="/unauth")
 def create_quiz(request, module_id):
     if request.method == 'POST':
         print("CREATING QUIZ")
@@ -446,6 +453,12 @@ def create_quiz(request, module_id):
 
 
 class DeleteQuiz(View):
+
+    @method_decorator(login_required)
+    @method_decorator(user_passes_test(tutor_check, login_url="/unauth"))
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
+
     def delete(self, request, quiz_id):
         quiz = get_object_or_404(Quiz, id=quiz_id)
         quiz.delete()
@@ -469,6 +482,12 @@ def search(request):
 
 
 class EnrollCourse(View):
+
+    @method_decorator(login_required)
+    @method_decorator(user_passes_test(student_check, login_url="/unauth"))
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
+
     def post(self, request, course_id):
         print("1")
         we_user = WeUser.objects.get(id=request.user.id)
@@ -485,6 +504,11 @@ class EnrollCourse(View):
 
 class CourseDashboard(View):
 
+    @method_decorator(login_required)
+    @method_decorator(user_passes_test(tutor_check, login_url="/unauth"))
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
+
     def get(self, request, course_id):
         course = get_object_or_404(Course, id=course_id)
         if course.tutor.id != request.user.id:
@@ -493,6 +517,12 @@ class CourseDashboard(View):
 
 
 class CourseProgress(View):
+
+    @method_decorator(login_required)
+    @method_decorator(user_passes_test(tutor_check, login_url="/unauth"))
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
+
     def get(self, request, course_id, student_id):
         course = get_object_or_404(Course, id=course_id)
         if course.tutor.id != request.user.id:
@@ -542,8 +572,19 @@ def billing_page(request):
         form = BillingInfoForm(request.POST)
         if form.is_valid():
             # Save the form to the database
-            bi = form.save()
-            return redirect(reverse('welearn:payment_page') + f"?bi_id={bi.id}")
+            bi = form.save(commit=False)
+            bi.tier = tier
+            bi.save()
+            if bi.payment_info == "paypal":
+                tier = Tier.objects.get(label=tname)
+
+                return render(request, 'paypal.html', {'tier': tier, 'amount': bi.amount, 'bid': bi.id})
+            else:
+                return redirect(reverse('welearn:payment_page') + f"?bi_id={bi.id}")
+        else:
+            errors = form.errors.as_json()
+            return JsonResponse({'errors': errors}, status=400)
+
     else:
         tname = request.GET.get("tier", "bronze")
         tier = get_object_or_404(Tier, label=tname)
@@ -583,15 +624,31 @@ def payment_page(request):
         tier = bi.tier
     return render(request, 'payment.html', {'form': payment_form, 'bi_id': bi_id, "tier": tier})
 
-# Payment success page view function
+
+@login_required
+@user_passes_test(student_check,login_url="/unauth")
 def success_page(request):
-    return render(request, 'payment_success.html', {'tx_id': request.GET['tx_id']})
+    if not request.GET.get("paypal", "false") == "true":
+        tx_id = request.GET['tx_id']
+    else:
+        tx_id = request.GET["paymentId"]
+        print(tx_id)
+        billing_id = request.GET["billing_id"]
+        bi = UserBillingInfo.objects.get(id=billing_id)
+        bi.paypal_pid = tx_id
+        bi.save()
+        we_user = request.we_user
+        we_user.tier = bi.tier
+        we_user.save()
+
+    return render(request, 'payment_success.html', {'tx_id': tx_id, "paypal": request.GET.get("paypal", "false")})
 
 
 @user_passes_test(student_check,login_url="/unauth")
 def payment_fail_page(request):
     error_message = request.GET.get('error_message')
     return render(request, 'payment_fail.html', {'error_message': error_message})
+
 
 def validate_payment(payment_data):
     card_number = payment_data.get('card_number')
@@ -734,7 +791,8 @@ def my_messages(request, *args, **kwargs):
     conv = [list(value) for value in threads.values()]
     form = ReplyForm()
 
-    return render(request, 'view_messages.html', {'messages_list': conv, 'form':form})
+
+    return render(request, 'view_messages.html', {'messages_list': conv, 'form': form, 'logged_in_user': request.user})
 
 
 def generate_certificate(background_image, user_name, course_name, completion_date, certified_by):
@@ -819,7 +877,7 @@ def download_certificate(request, course_id):
     certified_by = "WeLearn"
 
     # Path to the background image (change this to your actual background image path)
-    background_image = "media/cert-background.png"
+    background_image = "media/cert-background-old.png"
 
     # Generate the certificate in-memory
     buffer = generate_certificate(background_image, user_name, course_name, completion_date, certified_by)
