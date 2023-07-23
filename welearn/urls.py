@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from .stripe_views import CreateCheckoutSessionView, ProductLandingPageView
 from .views import AddContent, ContentView, DeleteQuiz, EnrollCourse, CourseDashboard, CourseProgress
 
 app_name = 'welearn'

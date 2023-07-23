@@ -48,6 +48,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'welearn.middlewares.CustomUserMiddleware'
 ]
 
 ROOT_URLCONF = 'welearnsite.urls'
@@ -128,3 +129,5 @@ LOGIN_URL = "/login/"
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+STRIPE_PUBLIC_KEY = "pk_test_51NWtQmDmy3AYUzaCaGTo0WoIKWn6no2jNFCAZyUyWZQ0DpD3Wjm5Wny1ALby7F2cauEBRo0eMWE9iKcXnRiMO2GR00TKQjHHsk"
+STRIPE_SECRET_KEY = "sk_test_51NWtQmDmy3AYUzaC2iefKeqUVnsLtN72n0Wtg2l0F7hjqnP47gCYJt9EAsVnDK3spM9Z4LnCqgWqT4Nzqw4dzDOT008gMXTlGk"

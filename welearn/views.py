@@ -1,4 +1,6 @@
 import os
+import re
+from datetime import date, datetime
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import user_passes_test
@@ -9,12 +11,12 @@ from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.db.models import Q
 
-from .models import Course, Module, WeUser, Category, Option, Tier, Content, Question
-from .forms import CourseForm, LoginForm, SignUpForm, ModuleForm, ModuleEditForm, QuizForm
+from .models import Course, Module, WeUser, Category, Option, Tier, Content, Question, UserBillingInfo, Mail
+from .forms import CourseForm, LoginForm, SignUpForm, ModuleForm, ModuleEditForm, QuizForm, PaymentForm, \
+    BillingInfoForm, MailForm, ReplyForm
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import Quiz, QuizAttempt
-from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, redirect
 from django.views import View
 import json

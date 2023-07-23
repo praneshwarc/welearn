@@ -2,7 +2,7 @@ from django import forms
 from .models import Course, WeUser, Option, Module
 from django import forms
 from django.forms import inlineformset_factory
-from .models import Quiz, Question, Option
+from .models import Quiz, Question, Option, UserBillingInfo
 
 
 class CourseForm(forms.ModelForm):
@@ -73,5 +73,85 @@ class QuizForm(forms.Form):
                 choices=choices,
                 widget=forms.RadioSelect(attrs={'class': 'form-check-input'})
             )
+
+
+
+class BillingInfoForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super(BillingInfoForm, self).__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            if isinstance(field.widget, forms.TextInput):
+                field.widget.attrs['class'] = 'form-control'
+                field.widget.attrs['placeholder'] = 'text'
+            if isinstance(field.widget, forms.EmailInput):
+                field.widget.attrs['class'] = 'form-control'
+                field.widget.attrs['placeholder'] = 'text'
+            if isinstance(field.widget, forms.NumberInput):
+                field.widget.attrs['class'] = 'form-control'
+                field.widget.attrs['placeholder'] = 'text'
+            if isinstance(field.widget, forms.Select):
+                field.widget.attrs['class'] = 'form-select'
+
+    CURRENCY_CHOICES = (
+        ('IND', 'Indian Rupee'),
+        ('PKR', 'Pakistani Rupee'),
+        ('CAD', 'Canadian Dollar'),
+        ('USD', 'US Dollar'),
+        ('AUD', 'Australian Dollar'),
+        ('EUR', 'Euro'),
+    )
+
+    payment_info = forms.ChoiceField(choices=[('credit', 'Credit Card'), ('debit', 'Debit Card')], label='Payment Method')
+    currency = forms.ChoiceField(choices=CURRENCY_CHOICES)
+    email = forms.EmailField(required=False, label = 'Email (Optional)')
+    billing_address1 = forms.CharField(label='Address 1')
+    billing_address2 = forms.CharField(required=False, label='Address 2 (Optional)')
+
+    class Meta:
+        model = UserBillingInfo
+        fields = ['customer_name', 'email',  'billing_address1', 'billing_address2', 'country', 'state', 'postal_code', 'currency', 'payment_info', 'amount']
+
+
+class PaymentForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(PaymentForm, self).__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            if isinstance(field.widget, forms.TextInput):
+                field.widget.attrs['class'] = 'form-control'
+                field.widget.attrs['placeholder'] = 'text'
+
+
+    expiry_date = forms.CharField(max_length=6, label="Expiry Date [MMYYYY]")
+    class Meta:
+        model = UserBillingInfo
+        fields = ['card_holder_name', 'card_number', 'cvv', 'expiry_date']
+
+
+class MailForm(forms.Form):
+    def __init__(self, *args, **kwargs):
+        super(MailForm, self).__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            if isinstance(field.widget, forms.TextInput):
+                field.widget.attrs['class'] = 'form-control'
+                field.widget.attrs['placeholder'] = 'text'
+            if isinstance(field.widget, forms.Textarea):
+                field.widget.attrs['class'] = 'form-control'
+                field.widget.attrs['style'] = 'height:100%'
+                field.widget.attrs['rows'] = '3'
+                field.widget.attrs['placeholder'] = 'text'
+            if isinstance(field.widget, forms.Select):
+                field.widget.attrs['class'] = 'form-select'
+
+    user_choices = [(user.id, user.first_name) for user in WeUser.objects.all()]
+    user = forms.ChoiceField(choices=user_choices)
+    message = forms.CharField(widget=forms.Textarea)
+
+
+class ReplyForm(forms.Form):
+    message = forms.CharField(widget=forms.Textarea)
+
+
+
 
 

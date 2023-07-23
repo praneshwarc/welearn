@@ -1,5 +1,7 @@
 from django.contrib import admin
-from .models import Course,Category,Module,Content,Tier,WeUser, Quiz, Question, Option, QuizAttempt
+from .models import Course,Category,Module,Content,Tier,WeUser, Quiz, Question, Option, QuizAttempt, Price
+
+admin.site.register(Price)
 
 admin.site.register(Course)
 admin.site.register(Category)

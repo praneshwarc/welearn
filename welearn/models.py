@@ -2,6 +2,8 @@ from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.contrib.auth.models import User
+from django_countries.fields import CountryField
+import uuid
 
 
 class WeUser(User):
@@ -26,6 +28,7 @@ class Category(models.Model):
 
 class Tier(models.Model):
     label = models.CharField(max_length=10)
+    price = models.IntegerField(default=50)
 
     def __str__(self):
         return self.label
@@ -92,3 +95,40 @@ class QuizAttempt(models.Model):
     max_score = models.PositiveIntegerField(default=0)
     is_passed = models.BooleanField(default=False)
     date_attempted = models.DateTimeField(auto_now=True)
+
+
+class UserBillingInfo(models.Model):
+    transaction_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+    customer_name = models.CharField(max_length=100)
+    email = models.EmailField(blank=True)
+    billing_address1 = models.CharField(max_length=200)
+    billing_address2 = models.CharField(max_length=200)
+    payment_info = models.CharField(max_length=100)
+    country = CountryField(blank=True)
+    state = models.CharField(max_length=50)
+    postal_code = models.CharField(max_length=20)
+    currency = models.CharField(max_length=10)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    card_holder_name = models.CharField(max_length=100, blank=True)
+    card_number = models.CharField(max_length=16, blank=True)
+    cvv = models.CharField(max_length=3, blank=True)
+    expiry_date = models.CharField(max_length=6, blank=True)
+    tier = models.ForeignKey(Tier, on_delete=models.SET_NULL, null=True)
+
+    def __str__(self):
+        return self.customer_name
+
+
+class Mail(models.Model):
+    message = models.CharField(max_length=256)
+    from_user = models.ForeignKey(WeUser, on_delete=models.CASCADE, related_name='from_user')
+    to_user = models.ForeignKey(WeUser, on_delete=models.CASCADE, related_name='to_user')
+    msg_time = models.DateTimeField()
+
+
+# stripe models
+class Price(models.Model):
+    stripe_price_id = models.CharField(max_length=100)
+    price = models.IntegerField(default=0)  # cents
+    def get_display_price(self):
+        return "{0:.2f}".format(self.price / 100)
