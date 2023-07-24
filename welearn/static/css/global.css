@@ -189,3 +189,20 @@ html{
 .card-course:hover{
     box-shadow: darkgray 1px 1px 15px;
 }
+
+
+.fixed-height-container {
+  height: 7em;
+  overflow: hidden;
+  position: relative;
+}
+
+.fixed-height-container::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 40px;
+  background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
+}

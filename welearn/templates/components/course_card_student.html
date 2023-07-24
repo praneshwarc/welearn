@@ -26,7 +26,9 @@
             {% endif %}
         </div>
         <span class="fw-lighter fs-6">by {{ course.tutor.first_name }} {{ course.tutor.last_name }}</span>
-        <p class="card-text mt-2">{{ course.description }}</p>
+        <div class="fixed-height-container mb-2">
+            <p class="card-text mt-2">{{ course.description }}</p>
+        </div>
         <div class="row justify-content-end mb-2">
             <div class="col-sm">
                 <span class="text-capitalize fw-light badge rounded-pill bg-tier-{{ course.tier }}"

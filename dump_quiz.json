@@ -1,0 +1,748 @@
+[
+	{
+		"model": "welearn.quiz",
+		"pk": 1,
+		"fields": {
+			"module": 1,
+			"title": "HTML Fundamentals - Quiz",
+			"description": "This is a quiz covering the fundamentals of HTML, testing understanding of key concepts, tags, and syntax.",
+			"grade_required": 60
+		}
+	},
+
+	{
+		"model": "welearn.question",
+		"pk": 1,
+		"fields": {
+			"quiz": 1,
+			"text": "HTML stands for Hypertext Markup Language. True or False?"
+		}
+	},
+	{
+		"model": "welearn.option",
+		"fields": {
+			"question": 1,
+			"text": "True",
+			"is_correct": true
+		}
+	},
+	{
+		"model": "welearn.option",
+		"fields": {
+			"question": 1,
+			"text": "False",
+			"is_correct": false
+		}
+	},
+
+	{
+		"model": "welearn.question",
+		"pk": 2,
+		"fields": {
+			"quiz": 1,
+			"text": "What does the 'p' tag represent in HTML?"
+		}
+	},
+	{
+		"model": "welearn.option",
+		"fields": {
+			"question": 2,
+			"text": "Paragraph",
+			"is_correct": true
+		}
+	},
+	{
+		"model": "welearn.option",
+		"fields": {
+			"question": 2,
+			"text": "Page",
+			"is_correct": false
+		}
+	},
+	{
+		"model": "welearn.option",
+		"fields": {
+			"question": 2,
+			"text": "Picture",
+			"is_correct": false
+		}
+	},
+	{
+		"model": "welearn.option",
+		"fields": {
+			"question": 2,
+			"text": "Padding",
+			"is_correct": false
+		}
+	},
+	{
+		"model": "welearn.option",
+		"fields": {
+			"question": 2,
+			"text": "None of the above",
+			"is_correct": false
+		}
+	},
+
+	{
+		"model": "welearn.question",
+		"pk": 3,
+		"fields": {
+			"quiz": 1,
+			"text": "Which HTML element is used to specify a footer for a document or section?"
+		}
+	},
+	{
+		"model": "welearn.option",
+		"fields": {
+			"question": 3,
+			"text": "Head",
+			"is_correct": false
+		}
+	},
+	{
+		"model": "welearn.option",
+		"fields": {
+			"question": 3,
+			"text": "Div",
+			"is_correct": false
+		}
+	},
+	{
+		"model": "welearn.option",
+		"fields": {
+			"question": 3,
+			"text": "Footer",
+			"is_correct": true
+		}
+	},
+	{
+		"model": "welearn.option",
+		"fields": {
+			"question": 3,
+			"text": "Section",
+			"is_correct": false
+		}
+	},
+	{
+		"model": "welearn.option",
+		"fields": {
+			"question": 3,
+			"text": "None of the above",
+			"is_correct": false
+		}
+	},
+
+	{
+		"model": "welearn.question",
+		"pk": 4,
+		"fields": {
+			"quiz": 1,
+			"text": "The 'a' tag in HTML defines a hyperlink. True or False?"
+		}
+	},
+	{
+		"model": "welearn.option",
+		"fields": {
+			"question": 4,
+			"text": "True",
+			"is_correct": true
+		}
+	},
+	{
+		"model": "welearn.option",
+		"fields": {
+			"question": 4,
+			"text": "False",
+			"is_correct": false
+		}
+	},
+
+	{
+		"model": "welearn.question",
+		"pk": 5,
+		"fields": {
+			"quiz": 1,
+			"text": "What is the purpose of the 'title' tag in HTML?"
+		}
+	},
+	{
+		"model": "welearn.option",
+		"fields": {
+			"question": 5,
+			"text": "To provide a title for the document",
+			"is_correct": true
+		}
+	},
+	{
+		"model": "welearn.option",
+		"fields": {
+			"question": 5,
+			"text": "To create a title attribute for an element",
+			"is_correct": false
+		}
+	},
+	{
+		"model": "welearn.option",
+		"fields": {
+			"question": 5,
+			"text": "To specify extra information about an element",
+			"is_correct": false
+		}
+	},
+	{
+		"model": "welearn.option",
+		"fields": {
+			"question": 5,
+			"text": "To create a clickable button",
+			"is_correct": false
+		}
+	},
+	{
+		"model": "welearn.option",
+		"fields": {
+			"question": 5,
+			"text": "None of the above",
+			"is_correct": false
+		}
+	},
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	{
+		"model": "welearn.quiz",
+		"pk": 2,
+		"fields": {
+			"module": 4,
+			"title": "HTML Lists and Forms - Quiz",
+			"description": "This quiz tests your understanding of the HTML lists and forms module.",
+			"grade_required": 60
+		}
+	},
+
+	{
+		"model": "welearn.question",
+		"pk": 6,
+		"fields": {
+			"quiz": 2,
+			"text": "Which HTML element is used to create a numbered list?"
+		}
+	},
+	{
+		"model": "welearn.option",
+		"fields": {
+			"question": 6,
+			"text": "ul",
+			"is_correct": false
+		}
+	},
+	{
+		"model": "welearn.option",
+		"fields": {
+			"question": 6,
+			"text": "ol",
+			"is_correct": true
+		}
+	},
+	{
+		"model": "welearn.option",
+		"fields": {
+			"question": 6,
+			"text": "li",
+			"is_correct": false
+		}
+	},
+	{
+		"model": "welearn.option",
+		"fields": {
+			"question": 6,
+			"text": "dl",
+			"is_correct": false
+		}
+	},
+	{
+		"model": "welearn.option",
+		"fields": {
+			"question": 6,
+			"text": "None of the above",
+			"is_correct": false
+		}
+	},
+
+	{
+		"model": "welearn.question",
+		"pk": 7,
+		"fields": {
+			"quiz": 2,
+			"text": "Which attribute is used to specify a unique identifier for an HTML element?"
+		}
+	},
+	{
+		"model": "welearn.option",
+		"fields": {
+			"question": 7,
+			"text": "class",
+			"is_correct": false
+		}
+	},
+	{
+		"model": "welearn.option",
+		"fields": {
+			"question": 7,
+			"text": "style",
+			"is_correct": false
+		}
+	},
+	{
+		"model": "welearn.option",
+		"fields": {
+			"question": 7,
+			"text": "id",
+			"is_correct": true
+		}
+	},
+	{
+		"model": "welearn.option",
+		"fields": {
+			"question": 7,
+			"text": "src",
+			"is_correct": false
+		}
+	},
+	{
+		"model": "welearn.option",
+		"fields": {
+			"question": 7,
+			"text": "None of the above",
+			"is_correct": false
+		}
+	},
+
+	{
+		"model": "welearn.question",
+		"pk": 8,
+		"fields": {
+			"quiz": 2,
+			"text": "Which HTML element is used to create a dropdown list?"
+		}
+	},
+	{
+		"model": "welearn.option",
+		"fields": {
+			"question": 8,
+			"text": "select",
+			"is_correct": true
+		}
+	},
+	{
+		"model": "welearn.option",
+		"fields": {
+			"question": 8,
+			"text": "option",
+			"is_correct": false
+		}
+	},
+	{
+		"model": "welearn.option",
+		"fields": {
+			"question": 8,
+			"text": "list",
+			"is_correct": false
+		}
+	},
+	{
+		"model": "welearn.option",
+		"fields": {
+			"question": 8,
+			"text": "dropdown",
+			"is_correct": false
+		}
+	},
+	{
+		"model": "welearn.option",
+		"fields": {
+			"question": 8,
+			"text": "None of the above",
+			"is_correct": false
+		}
+	},
+
+	{
+		"model": "welearn.question",
+		"pk": 9,
+		"fields": {
+			"quiz": 2,
+			"text": "What is the correct HTML for creating a text input field?"
+		}
+	},
+	{
+		"model": "welearn.option",
+		"fields": {
+			"question": 9,
+			"text": "<textinput>",
+			"is_correct": false
+		}
+	},
+	{
+		"model": "welearn.option",
+		"fields": {
+			"question": 9,
+			"text": "<input type='text'>",
+			"is_correct": true
+		}
+	},
+	{
+		"model": "welearn.option",
+		"fields": {
+			"question": 9,
+			"text": "<textfield>",
+			"is_correct": false
+		}
+	},
+	{
+		"model": "welearn.option",
+		"fields": {
+			"question": 9,
+			"text": "<inputfield type='text'>",
+			"is_correct": false
+		}
+	},
+	{
+		"model": "welearn.option",
+		"fields": {
+			"question": 9,
+			"text": "None of the above",
+			"is_correct": false
+		}
+	},
+
+	{
+		"model": "welearn.question",
+		"pk": 10,
+		"fields": {
+			"quiz": 2,
+			"text": "Which HTML element is used for the visible heading of a list item in a dropdown list?"
+		}
+	},
+	{
+		"model": "welearn.option",
+		"fields": {
+			"question": 10,
+			"text": "<h1> to <h6>",
+			"is_correct": false
+		}
+	},
+	{
+		"model": "welearn.option",
+		"fields": {
+			"question": 10,
+			"text": "<li>",
+			"is_correct": false
+		}
+	},
+	{
+		"model": "welearn.option",
+		"fields": {
+			"question": 10,
+			"text": "<option>",
+			"is_correct": true
+		}
+	},
+	{
+		"model": "welearn.option",
+		"fields": {
+			"question": 10,
+			"text": "<header>",
+			"is_correct": false
+		}
+	},
+	{
+		"model": "welearn.option",
+		"fields": {
+			"question": 10,
+			"text": "None of the above",
+			"is_correct": false
+		}
+	},
+
+
+
+
+
+
+
+
+
+
+
+
+
+	{
+		"model": "welearn.quiz",
+		"pk": 3,
+		"fields": {
+			"module": 6,
+			"title": "Final HTML Comprehensive Quiz",
+			"description": "A comprehensive quiz to test all the concepts learned in the 'HTML Fundamentals' course.",
+			"grade_required": 70
+		}
+	},
+
+	{
+		"model": "welearn.question",
+		"pk": 11,
+		"fields": {
+			"quiz": 3,
+			"text": "What does HTML stand for?"
+		}
+	},
+	{
+		"model": "welearn.option",
+		"fields": {
+			"question": 11,
+			"text": "Hyper Trainer Marking Language",
+			"is_correct": false
+		}
+	},
+	{
+		"model": "welearn.option",
+		"fields": {
+			"question": 11,
+			"text": "Hyper Text Markup Language",
+			"is_correct": true
+		}
+	},
+	{
+		"model": "welearn.option",
+		"fields": {
+			"question": 11,
+			"text": "Hyper Text Markdown Language",
+			"is_correct": false
+		}
+	},
+	{
+		"model": "welearn.option",
+		"fields": {
+			"question": 11,
+			"text": "Hyperlinks and Text Markup Language",
+			"is_correct": false
+		}
+	},
+	{
+		"model": "welearn.option",
+		"fields": {
+			"question": 11,
+			"text": "None of the above",
+			"is_correct": false
+		}
+	},
+
+	{
+		"model": "welearn.question",
+		"pk": 12,
+		"fields": {
+			"quiz": 3,
+			"text": "Which HTML tag is used to define an important section of the document?"
+		}
+	},
+	{
+		"model": "welearn.option",
+		"fields": {
+			"question": 12,
+			"text": "<p>",
+			"is_correct": false
+		}
+	},
+	{
+		"model": "welearn.option",
+		"fields": {
+			"question": 12,
+			"text": "<main>",
+			"is_correct": true
+		}
+	},
+	{
+		"model": "welearn.option",
+		"fields": {
+			"question": 12,
+			"text": "<div>",
+			"is_correct": false
+		}
+	},
+	{
+		"model": "welearn.option",
+		"fields": {
+			"question": 12,
+			"text": "<footer>",
+			"is_correct": false
+		}
+	},
+	{
+		"model": "welearn.option",
+		"fields": {
+			"question": 12,
+			"text": "None of the above",
+			"is_correct": false
+		}
+	},
+
+	{
+		"model": "welearn.question",
+		"pk": 13,
+		"fields": {
+			"quiz": 3,
+			"text": "How do you create a hyperlink in HTML?"
+		}
+	},
+	{
+		"model": "welearn.option",
+		"fields": {
+			"question": 13,
+			"text": "Using the <link> tag",
+			"is_correct": false
+		}
+	},
+	{
+		"model": "welearn.option",
+		"fields": {
+			"question": 13,
+			"text": "Using the <href> tag",
+			"is_correct": false
+		}
+	},
+	{
+		"model": "welearn.option",
+		"fields": {
+			"question": 13,
+			"text": "Using the <a> tag",
+			"is_correct": true
+		}
+	},
+	{
+		"model": "welearn.option",
+		"fields": {
+			"question": 13,
+			"text": "Using the <hyperlink> tag",
+			"is_correct": false
+		}
+	},
+	{
+		"model": "welearn.option",
+		"fields": {
+			"question": 13,
+			"text": "None of the above",
+			"is_correct": false
+		}
+	},
+
+	{
+		"model": "welearn.question",
+		"pk": 14,
+		"fields": {
+			"quiz": 3,
+			"text": "What is the purpose of the 'alt' attribute in an img tag?"
+		}
+	},
+	{
+		"model": "welearn.option",
+		"fields": {
+			"question": 14,
+			"text": "To add a caption to the image",
+			"is_correct": false
+		}
+	},
+	{
+		"model": "welearn.option",
+		"fields": {
+			"question": 14,
+			"text": "To provide a description of the image for screen readers",
+			"is_correct": true
+		}
+	},
+	{
+		"model": "welearn.option",
+		"fields": {
+			"question": 14,
+			"text": "To specify the image source",
+			"is_correct": false
+		}
+	},
+	{
+		"model": "welearn.option",
+		"fields": {
+			"question": 14,
+			"text": "To define the size of the image",
+			"is_correct": false
+		}
+	},
+	{
+		"model": "welearn.option",
+		"fields": {
+			"question": 14,
+			"text": "None of the above",
+			"is_correct": false
+		}
+	},
+	{
+		"model": "welearn.question",
+		"pk": 15,
+		"fields": {
+			"quiz": 3,
+			"text": "Which HTML tag is used to define a form for user input?"
+		}
+	},
+	{
+		"model": "welearn.option",
+		"fields": {
+			"question": 15,
+			"text": "<input>",
+			"is_correct": false
+		}
+	},
+	{
+		"model": "welearn.option",
+		"fields": {
+			"question": 15,
+			"text": "<fieldset>",
+			"is_correct": false
+		}
+	},
+	{
+		"model": "welearn.option",
+		"fields": {
+			"question": 15,
+			"text": "<form>",
+			"is_correct": true
+		}
+	},
+	{
+		"model": "welearn.option",
+		"fields": {
+			"question": 15,
+			"text": "<userinput>",
+			"is_correct": false
+		}
+	},
+	{
+		"model": "welearn.option",
+		"fields": {
+			"question": 15,
+			"text": "None of the above",
+			"is_correct": false
+		}
+	}
+
+
+
+]

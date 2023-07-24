@@ -1,45 +1,642 @@
 [
-  {
-    "model": "welearn.course",
-    "pk": 1,
-    "fields": {
-      "title": "Introduction to Python",
-      "description": "This course is for students to get started with programming with Python",
-      "category": 1,
-      "tags": "python programming coding development",
-      "tier": 3,
-      "hrs": 2,
-      "mins": 45,
-      "is_published": true,
-      "tutor": [
-        "abhinav"
-      ],
-      "registered_users": [
-        [
-          "ajaymanoj"
-        ],
-        [
-          "pranesh"
-        ]
-      ]
-    }
-  },
-  {
-    "model": "welearn.module",
-    "pk": 1,
-    "fields": {
-      "title": "Summary",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure d",
-      "course": 1
-    }
-  },
-  {
-    "model": "welearn.module",
-    "pk": 2,
-    "fields": {
-      "title": "Introduction",
-      "description": "\"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      "course": 1
-    }
-  }
+	{
+		"model": "welearn.course",
+		"pk": 2,
+		"fields": {
+			"title": "HTML Fundamentals",
+			"description": "This course is a deep dive into HTML, the standard markup language for documents designed to be displayed in a web browser. Throughout this course, students will learn about the building blocks of websites and web applications. They will understand how to create and structure an HTML document",
+			"category": 1,
+			"tags": "html programming coding development",
+			"tier": 1,
+			"hrs": 3,
+			"mins": 45,
+			"is_published": true,
+			"tutor": [
+				"tutor3"
+			],
+			"registered_users": [
+				[
+					"student5"
+				],
+				[
+					"student2"
+				],
+				[
+					"student3"
+				],
+				[
+					"student4"
+				]
+			]
+		}
+	},
+	{
+		"model": "welearn.module",
+		"pk": 1,
+		"fields": {
+			"title": "Introduction and Basics",
+			"description": "This module introduces HTML and covers the basics including syntax, structure, and common tags.",
+			"course": 2
+		}
+	},
+	{
+		"model": "welearn.module",
+		"pk": 2,
+		"fields": {
+			"title": "Text Formatting and Links",
+			"description": "This module covers how to format text and create links using HTML.",
+			"course": 2
+		}
+	},
+	{
+		"model": "welearn.module",
+		"pk": 3,
+		"fields": {
+			"title": "Images and Tables",
+			"description": "This module focuses on adding images and creating tables in HTML documents.",
+			"course": 2
+		}
+	},
+	{
+		"model": "welearn.module",
+		"pk": 4,
+		"fields": {
+			"title": "HTML Lists and Forms",
+			"description": "This module covers how to create various types of lists and forms in HTML.",
+			"course": 2
+		}
+	},
+	{
+		"model": "welearn.module",
+		"pk": 5,
+		"fields": {
+			"title": "Semantic Elements",
+			"description": "This module introduces semantic elements in HTML and their importance.",
+			"course": 2
+		}
+	},
+	{
+		"model": "welearn.module",
+		"pk": 6,
+		"fields": {
+			"title": "Best Practices and SEO",
+			"description": "This module covers best practices in HTML coding and the basics of SEO.",
+			"course": 2
+		}
+	},
+	{
+		"model": "welearn.content",
+		"fields": {
+			"file": "HTML Intro.pdf",
+			"module": 1
+		}
+	},
+	{
+		"model": "welearn.content",
+		"fields": {
+			"youtube_video": "https://youtube.com/embed/MDLn5-zSQQI",
+			"module": 1
+		}
+	},
+	{
+		"model": "welearn.content",
+		"fields": {
+			"file": "HTML Text Formatting.pdf",
+			"module": 2
+		}
+	},
+	{
+		"model": "welearn.content",
+		"fields": {
+			"file": "Images and Tables.pdf",
+			"module": 3
+		}
+	},
+	{
+		"model": "welearn.content",
+		"fields": {
+			"youtube_video": "https://youtube.com/embed/MDLn5-zSQQI",
+			"module": 3
+		}
+	},
+	{
+		"model": "welearn.content",
+		"fields": {
+			"youtube_video": "https://youtube.com/embed/MDLn5-zSQQI",
+			"module": 4
+		}
+	},
+	{
+		"model": "welearn.content",
+		"fields": {
+			"file": "Sematic elements.pdf",
+			"module": 5
+		}
+	},
+	{
+		"model": "welearn.content",
+		"fields": {
+			"youtube_video": "https://youtube.com/embed/MDLn5-zSQQI",
+			"module": 6
+		}
+	},
+
+
+
+
+
+
+
+
+
+	{
+		"model": "welearn.course",
+		"pk": 3,
+		"fields": {
+			"title": "Python Programming Fundamentals",
+			"description": "This course provides a comprehensive overview of Python, one of the most widely used programming languages in the world. By the end of this course, students will have a solid foundation in Python and will be prepared to tackle more advanced topics and real-world programming challenges.",
+			"category": 1,
+			"tags": "python programming coding development",
+			"tier": 2,
+			"hrs": 7,
+			"mins": 45,
+			"is_published": false,
+			"tutor": [
+				"tutor3"
+			],
+			"registered_users": [
+				[
+					"student3"
+				],
+				[
+					"student4"
+				]
+			]
+		}
+	},
+	{
+		"model": "welearn.module",
+		"pk": 7,
+		"fields": {
+			"title": "Introduction to Python",
+			"description": "This module introduces Python, its history, and its applications in the real world. Students will also learn how to set up their Python programming environment.",
+			"course": 3
+		}
+	},
+	{
+		"model": "welearn.module",
+		"pk": 8,
+		"fields": {
+			"title": "Python Basics",
+			"description": "In this module, students will learn the basics of Python, including variables, data types, operators, and control structures.",
+			"course": 3
+		}
+	},
+	{
+		"model": "welearn.module",
+		"pk": 9,
+		"fields": {
+			"title": "Python Data Structures",
+			"description": "This module covers Python's built-in data structures, such as lists, tuples, sets, and dictionaries. It also introduces concepts like indexing, slicing, and methods associated with these data structures.",
+			"course": 3
+		}
+	},
+	{
+		"model": "welearn.module",
+		"pk": 10,
+		"fields": {
+			"title": "Python Functions and Modules",
+			"description": "This module focuses on creating user-defined functions in Python and organizing code into modules and packages.",
+			"course": 3
+		}
+	},
+	{
+		"model": "welearn.module",
+		"pk": 11,
+		"fields": {
+			"title": "Python Object-Oriented Programming",
+			"description": "This module introduces the concept of Object-Oriented Programming (OOP) in Python. Students will learn about classes, objects, inheritance, and other key OOP concepts.",
+			"course": 3
+		}
+	},
+	{
+		"model": "welearn.module",
+		"pk": 12,
+		"fields": {
+			"title": "Python Best Practices and Libraries",
+			"description": "This module covers best practices for Python programming and introduces students to popular Python libraries like NumPy, pandas, and Matplotlib.",
+			"course": 3
+		}
+	},
+	{
+		"model": "welearn.content",
+		"fields": {
+			"file": "introduction_to_python.pdf",
+			"module": 7
+		}
+	},
+	{
+		"model": "welearn.content",
+		"fields": {
+			"youtube_video": "https://www.youtube.com/watch?v=link7",
+			"module": 7
+		}
+	},
+	{
+		"model": "welearn.content",
+		"fields": {
+			"file": "python_basics.pdf",
+			"module": 8
+		}
+	},
+	{
+		"model": "welearn.content",
+		"fields": {
+			"youtube_video": "https://www.youtube.com/watch?v=link9",
+			"module": 9
+		}
+	},
+	{
+		"model": "welearn.content",
+		"fields": {
+			"file": "python_data_structures.pdf",
+			"module": 9
+		}
+	},
+	{
+		"model": "welearn.content",
+		"fields": {
+			"file": "python_functions_and_modules.pdf",
+			"module": 10
+		}
+	},
+	{
+		"model": "welearn.content",
+		"fields": {
+			"file": "python_object_oriented_programming.pdf",
+			"module": 11
+		}
+	},
+	{
+		"model": "welearn.content",
+		"fields": {
+			"youtube_video": "https://www.youtube.com/watch?v=link11",
+			"module": 11
+		}
+	},
+	{
+		"model": "welearn.content",
+		"fields": {
+			"youtube_video": "https://www.youtube.com/watch?v=link12",
+			"module": 12
+		}
+	},
+	{
+		"model": "welearn.content",
+		"fields": {
+			"file": "python_best_practices_and_libraries1.pdf",
+			"module": 12
+		}
+	},
+	{
+		"model": "welearn.content",
+		"fields": {
+			"file": "python_best_practices_and_libraries2.pdf",
+			"module": 12
+		}
+	},
+
+
+
+
+
+
+
+
+
+
+	{
+		"model": "welearn.course",
+		"pk": 4,
+		"fields": {
+			"title": "Employee Management",
+			"description": "This course provides a comprehensive overview of essential employee management strategies. Students will learn best practices for hiring, training, assessing, and managing a diverse and effective workforce.",
+			"category": 2,
+			"tags": "hr management employee development",
+			"tier": 2,
+			"hrs": 4,
+			"mins": 30,
+			"is_published": true,
+			"tutor": [
+				"tutor2"
+			],
+			"registered_users": [
+				[
+					"student2"
+				],
+				[
+					"student5"
+				],
+				[
+					"student6"
+				]
+			]
+		}
+	},
+	{
+		"model": "welearn.module",
+		"pk": 13,
+		"fields": {
+			"title": "Employee Recruitment and Hiring",
+			"description": "This module will provide the tools and strategies needed to successfully source, interview, and onboard new employees.",
+			"course": 4
+		}
+	},
+	{
+		"model": "welearn.module",
+		"pk": 14,
+		"fields": {
+			"title": "Training and Development",
+			"description": "This module delves into how to develop an effective training program for employees, ensuring they have the skills and knowledge needed to perform at their best.",
+			"course": 4
+		}
+	},
+	{
+		"model": "welearn.module",
+		"pk": 15,
+		"fields": {
+			"title": "Performance Management",
+			"description": "In this module, students will learn about performance management strategies and how to conduct productive performance evaluations.",
+			"course": 4
+		}
+	},
+	{
+		"model": "welearn.module",
+		"pk": 16,
+		"fields": {
+			"title": "Conflict Resolution",
+			"description": "This module explores the most effective methods for managing conflict in the workplace.",
+			"course": 4
+		}
+	},
+	{
+		"model": "welearn.module",
+		"pk": 17,
+		"fields": {
+			"title": "Retaining Employees",
+			"description": "This module will delve into strategies for retaining high-performing employees and reducing turnover.",
+			"course": 4
+		}
+	},
+	{
+		"model": "welearn.content",
+		"fields": {
+			"file": "employee_recruitment_and_hiring.pdf",
+			"module": 13
+		}
+	},
+	{
+		"model": "welearn.content",
+		"fields": {
+			"youtube_video": "https://www.youtube.com/embed/bI9RZjF-538",
+			"module": 14
+		}
+	},
+	{
+		"model": "welearn.content",
+		"fields": {
+			"file": "performance_management.pdf",
+			"module": 15
+		}
+	},
+	{
+		"model": "welearn.content",
+		"fields": {
+			"youtube_video": "https://www.youtube.com/embed/bI9RZjF-538",
+			"module": 16
+		}
+	},
+	{
+		"model": "welearn.content",
+		"fields": {
+			"file": "retaining_employees.pdf",
+			"module": 17
+		}
+	},
+
+
+
+
+
+
+
+	{
+		"model": "welearn.course",
+		"pk": 5,
+		"fields": {
+			"title": "Introduction to Stock Trading",
+			"description": "This course provides an introduction to the basics of stock trading. Students will learn about stock markets, trading strategies, risk management, and analysis of stocks. The course is suitable for beginners with no prior knowledge of stock trading.",
+			"category": 4,
+			"tags": "stock trading finance investment",
+			"tier": 3,
+			"hrs": 5,
+			"mins": 30,
+			"is_published": true,
+			"tutor": [
+				"tutor2"
+			],
+			"registered_users": [
+				[
+					"student6"
+				],
+				[
+					"student4"
+				]
+			]
+		}
+	},
+	{
+		"model": "welearn.module",
+		"pk": 18,
+		"fields": {
+			"title": "Introduction to Stock Markets",
+			"description": "This module provides an overview of what stock markets are, their functions, and major stock markets around the world.",
+			"course": 5
+		}
+	},
+	{
+		"model": "welearn.module",
+		"pk": 19,
+		"fields": {
+			"title": "Basics of Stock Trading",
+			"description": "This module introduces students to the basic principles and strategies of stock trading.",
+			"course": 5
+		}
+	},
+	{
+		"model": "welearn.module",
+		"pk": 20,
+		"fields": {
+			"title": "Risk Management in Stock Trading",
+			"description": "This module provides insights into risk management strategies for stock trading.",
+			"course": 5
+		}
+	},
+	{
+		"model": "welearn.module",
+		"pk": 21,
+		"fields": {
+			"title": "Fundamental Analysis",
+			"description": "This module teaches students how to analyze a company's fundamentals and make informed investment decisions.",
+			"course": 5
+		}
+	},
+	{
+		"model": "welearn.module",
+		"pk": 22,
+		"fields": {
+			"title": "Technical Analysis",
+			"description": "In this module, students learn how to use technical analysis for stock trading, including how to read stock charts and use technical indicators.",
+			"course": 5
+		}
+	},
+	{
+		"model": "welearn.content",
+		"fields": {
+			"file": "Introduction to Stock Markets.pdf",
+			"module": 18
+		}
+	},
+	{
+		"model": "welearn.content",
+		"fields": {
+			"file": "Stock Markets.pptx",
+			"module": 18
+		}
+	},
+	{
+		"model": "welearn.content",
+		"fields": {
+			"youtube_video": "https://youtube.com/embed/p7HKvqRI_Bo",
+			"module": 19
+		}
+	},
+	{
+		"model": "welearn.content",
+		"fields": {
+			"file": "Risk Management.pdf",
+			"module": 20
+		}
+	},
+	{
+		"model": "welearn.content",
+		"fields": {
+			"youtube_video": "https://youtube.com/embed/p7HKvqRI_Bo",
+			"module": 21
+		}
+	},
+	{
+		"model": "welearn.content",
+		"fields": {
+			"file": "Technical Analysis.pdf",
+			"module": 22
+		}
+	},
+
+	{
+		"model": "welearn.course",
+		"pk": 6,
+		"fields": {
+			"title": "Origami Masterclass",
+			"description": "This course provides a comprehensive guide to origami, the traditional Japanese art of paper folding. Students will learn basic techniques and create a variety of shapes and figures. Suitable for beginners as well as intermediate students.",
+			"category": 5,
+			"tags": "origami art paper folding creative",
+			"tier": 2,
+			"hrs": 3,
+			"mins": 15,
+			"is_published": true,
+			"tutor": [
+				"tutor1"
+			],
+			"registered_users": [
+				[
+					"student3"
+				]
+			]
+		}
+	},
+	{
+		"model": "welearn.module",
+		"pk": 23,
+		"fields": {
+			"title": "Origami Basics",
+			"description": "This module introduces the basic folds and techniques used in origami.",
+			"course": 6
+		}
+	},
+	{
+		"model": "welearn.module",
+		"pk": 24,
+		"fields": {
+			"title": "Animals and Birds",
+			"description": "Learn to create origami animals and birds in this module.",
+			"course": 6
+		}
+	},
+	{
+		"model": "welearn.module",
+		"pk": 25,
+		"fields": {
+			"title": "Flowers and Trees",
+			"description": "This module focuses on creating origami flowers and trees.",
+			"course": 6
+		}
+	},
+	{
+		"model": "welearn.module",
+		"pk": 26,
+		"fields": {
+			"title": "Advanced Origami Figures",
+			"description": "In this module, students will be taught to create advanced figures like dragons and complex structures.",
+			"course": 6
+		}
+	},
+	{
+		"model": "welearn.content",
+		"fields": {
+			"file": "origami_basics.pdf",
+			"module": 23
+		}
+	},
+	{
+		"model": "welearn.content",
+		"fields": {
+			"file": "origami_basics.pdf",
+			"youtube_video": "https://youtube.com/embed/etCW9M9VdGk",
+			"module": 23
+		}
+	},
+	{
+		"model": "welearn.content",
+		"fields": {
+			"youtube_video": "https://youtube.com/embed/etCW9M9VdGk",
+			"module": 24
+		}
+	},
+	{
+		"model": "welearn.content",
+		"fields": {
+			"file": "origami_flowers_and_trees.pdf",
+			"module": 25
+		}
+	},
+	{
+		"model": "welearn.content",
+		"fields": {
+			"youtube_video": "https://youtube.com/embed/etCW9M9VdGk",
+			"module": 26
+		}
+	}
+
+
 ]
