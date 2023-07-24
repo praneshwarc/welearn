@@ -141,8 +141,8 @@ class MailForm(forms.Form):
             if isinstance(field.widget, forms.Select):
                 field.widget.attrs['class'] = 'form-select'
 
-    user_choices = [(user.id, user.first_name) for user in WeUser.objects.all()]
-    user = forms.ChoiceField(choices=user_choices)
+    #user_choices = [(user.id, user.first_name) for user in WeUser.objects.all()]
+    user = forms.ModelChoiceField(queryset=WeUser.objects.all())
     message = forms.CharField(widget=forms.Textarea)
 
 

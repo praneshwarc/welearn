@@ -750,7 +750,8 @@ def mail(request):
     else:
         form = MailForm()
         if request.GET and request.GET['user_id']:
-            form = MailForm(initial={'user':request.GET['user_id']})
+            we_user1 = WeUser.objects.get(id=request.GET['user_id'])
+            form = MailForm(initial={'user':we_user1})
     return render(request, 'mail.html', {'form': form})
 
 
@@ -877,7 +878,7 @@ def download_certificate(request, course_id):
     certified_by = "WeLearn"
 
     # Path to the background image (change this to your actual background image path)
-    background_image = "media/cert-background-old.png"
+    background_image = "media/cert-background.png"
 
     # Generate the certificate in-memory
     buffer = generate_certificate(background_image, user_name, course_name, completion_date, certified_by)
