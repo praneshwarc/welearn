@@ -94,6 +94,7 @@
 
         const course_form = $("form#create_course");
         const course_id = course_form.data('id');
+        const is_published = course_form.data('published');
         const title = course_form.find('#course_title').val();
         const desc = course_form.find('#course_desc').val();
         const cat = course_form.find('#course_cat').val();
@@ -110,8 +111,9 @@
             'hrs':hrs,
             'mins':mins,
             'tier_name':tier,
-            'is_published':false
+            'is_published':is_published
         }
+        console.log(is_published)
         event.preventDefault();
         const csrfToken = Cookies.get('csrftoken');
         var url = '/tutor/course/';

@@ -57,25 +57,26 @@
                                     <div class="tab-pane{% if forloop.first %} show active{% endif %} fade p-3" id="{{ module.id }}-tab-pane" role="tabpanel" aria-labelledby="{{ module.title }}-tab" tabindex="0">
                                         <span class="fs-5">{{module.description}}</span>
                                         {% for content in  module.contents.all %}
-                                            <div class="form-control w-75 h-100">
-                                                {% if content.file %}
+                                            {% if content.file %}
+                                                <div class="form-control w-50 h-100 my-5">
                                                     <object class="w-100 mh-75" data="/media/{{ content.file }}">
                                                         <div class="row justify-content-between">
                                                             <div class="col-auto p-2">
                                                                 {{ content.file }}
                                                             </div>
-                                                            <div class="col-auto">
+                                                            <div class="col-auto p-2">
                                                                 <a target=”_blank" href="/media/{{ content.file }}"><button id="open_content_{{ content.id }}" data-bs-toggle="tooltip" data-bs-title="Open in new tab" class="btn btn-sm btn-outline-primary"><i class="bi-file-earmark"></i></button></a>
                                                                 <a href="/media/{{ content.file }}" download><button id="download_content_{{ content.id }}" data-bs-toggle="tooltip" data-bs-title="Download file" class="btn btn-sm btn-outline-secondary"><i class="bi-download"></i></button></a>
                                                             </div>
                                                         </div>
                                                     </object>
-                                                {% elif content.youtube_video %}
-                                                    <iframe width="100%" height="500px" src="https://www.youtube.com/embed/tgbNymZ7vqY">
+                                                </div>
+                                            {% elif content.youtube_video %}
+                                                <div class="form-control w-75 h-100">
+                                                    <iframe width="100%" height="500px" src="{{ content.youtube_video }}"></iframe>
+                                                </div>
+                                            {% endif %}
 
-                                                    </iframe>
-                                                {% endif %}
-                                            </div>
                                         {% endfor %}
                                         {% if module.quiz %}
                                             {% if module.is_passed %}

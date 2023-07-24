@@ -53,6 +53,7 @@
                     const course_data = response[0].fields;
                     const courseForm = $('#create_course');
                     courseForm.attr('data-id',course_id);
+                    courseForm.attr('data-published',course_data.is_published);
                     courseForm.find('#course_title').val(course_data.title);
                     courseForm.find('#course_desc').val(course_data.description);
                     courseForm.find('#course_cat').selectpicker('val', course_data.category+'');
@@ -95,16 +96,19 @@
         const csrfToken = Cookies.get('csrftoken');
         const is_published = $(event.target).prop('checked');
         $.ajax("/tutor/course/"+course_id+"/",
-            {
+        {
                 method: "post",
                 headers: {
                     'X-CSRFToken': csrfToken
                 },
                 data:{
                     'is_published':is_published
+                },
+                success: function(){
+                    location.reload();
                 }
-            });
-        location.reload();
+        });
+
     }
 
 </script>
