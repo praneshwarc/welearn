@@ -38,6 +38,7 @@ html{
 
 .navbar{
     background-color: #FAEBD7AA !important;
+    -webkit-backdrop-filter: blur(10px) !important;
     backdrop-filter: blur(10px) !important;
     border-radius: 0 0 8px 8px !important;
 }
@@ -49,6 +50,7 @@ html{
 }
 
 .blur-container{
+    -webkit-backdrop-filter: blur(8px);
     backdrop-filter: blur(8px);
     box-shadow: grey 1px 1px 5px;
     border-radius: 10px;
