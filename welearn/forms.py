@@ -1,4 +1,6 @@
 from django import forms
+from django.core.exceptions import ValidationError
+
 from .models import Course, WeUser, Option, Module
 from django import forms
 from django.forms import inlineformset_factory
@@ -51,6 +53,16 @@ class SignUpForm(forms.ModelForm):
             'last_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Last Name'}),
             'is_tutor': forms.CheckboxInput(attrs={'class': 'form-check-input'})
         }
+
+    def clean_password(self):
+        password = self.cleaned_data.get('password')
+
+        if not any(char.isdigit() for char in password):
+            raise ValidationError('Password must contain at least 1 digit.')
+        if len(password) < 8:
+            raise ValidationError('Password must be at least 8 characters long.')
+
+        return password
 
 
 class LoginForm(forms.Form):

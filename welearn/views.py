@@ -295,7 +295,7 @@ def sign_up(request):
                                               last_name=form.cleaned_data['last_name'])
             return redirect('welearn:login')
         else:
-            return render(request, 'signup.html', {'signup_form': form, 'error_message': form.errors[0]})
+            return render(request, 'signup.html', {'signup_form': form, 'error_message': form.errors})
     else:
         form = SignUpForm()
         return render(request, 'signup.html', {'signup_form': form})

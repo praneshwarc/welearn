@@ -29,7 +29,7 @@
                         <!--<input class="form-control" type="password" id="password" placeholder="Password">-->
                         <label for="id_last_name">Last Name</label>
                     </div>
-                    <div class="form-check">
+                    <div class="form-check mb-3">
                         {{ signup_form.is_tutor }}
                         <label class="form-check-label" for="is_tutor">Tutor account</label>
                     </div>
@@ -39,13 +39,13 @@
                             {{ error_message }}
                         </div>
                     {% endif %}
-                    <div class="d-grid col-6 mx-auto mb-2">
+                    <div class="mx-auto mb-2 w-25">
                         <input class="btn btn-primary" type="submit" value="Sign Up">
                     </div>
-                    <div class="d-grid col-8 mx-auto">
+                    <div class="mx-auto w-75">
                         <a class="icon-link link-secondary text-decoration-none icon-link-hover" href="/login">
-                        Already a WeLearn user?, Login!
-                        <i class="bi-arrow-right"></i>
+                            Already a WeLearn user?, Login!
+                            <i class="bi-arrow-right"></i>
                         </a>
                     </div>
                 </form>
