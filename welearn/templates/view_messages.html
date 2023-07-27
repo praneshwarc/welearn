@@ -102,10 +102,10 @@
     </style>
 </head>
 <body>
-    <h1>Messages List</h1>
+<h1>Messages List</h1>
 
-    <div class="chat-threads-container">
-        {% for thread in messages_list %}
+<div class="chat-threads-container">
+    {% for thread in messages_list %}
         <div class="chat-thread clearfix">
             {% if logged_in_user.id == thread.0.to_user.id %}
                 <div class="thread-title">{{ thread.0.from_user }}</div>
@@ -117,21 +117,27 @@
             <form class="reply-form" method="post">
                 {% csrf_token %}
                 <!-- Add a hidden input field to hold the value of thread.0.to_user -->
-                <input type="hidden" name="to_user" value="{{ thread.0.to_user.id }}">
+
+                {% if logged_in_user.id == thread.0.to_user.id %}
+                    <input type="hidden" name="to_user" value="{{ thread.0.from_user.id }}">
+                {% else %}
+                    <input type="hidden" name="to_user" value="{{ thread.0.to_user.id }}">
+                {% endif %}
+
                 {{ form.as_p }}
                 <button type="submit">Reply</button>
             </form>
 
             <div class="messages">
                 {% for message in thread %}
-                <div class="message {% if message.from_user == thread.0.from_user %}from-user{% else %}to-user{% endif %}">
-                    <strong>Time: {{ message.msg_time }}</strong>
-                    <p>{{ message.message }}</p>
-                </div>
+                    <div class="message {% if message.from_user == thread.0.from_user %}from-user{% else %}to-user{% endif %}">
+                        <strong>Time: {{ message.msg_time }}</strong>
+                        <p>{{ message.message }}</p>
+                    </div>
                 {% endfor %}
             </div>
         </div>
-        {% endfor %}
-    </div>
+    {% endfor %}
+</div>
 </body>
 </html>

@@ -657,7 +657,7 @@ def validate_payment(payment_data):
 
     # Check card number is 10 digits
     if card_number and not re.match(r'^\d{16}$', card_number):
-        error_message = 'Card number must be 10 digits.'
+        error_message = 'Card number must be 16 digits.'
         return False, error_message
 
 
@@ -683,51 +683,6 @@ def validate_payment(payment_data):
 
     # All validations passed, payment is successful
     return True, None
-
-
-def calculate_total_amount_based_on_currency(currency):
-    # Replace this with your custom logic to calculate the total amount based on currency exchange rates or other relevant factors.
-    # For demonstration purposes, let's assume a fixed rate for each currency.
-    currency_rates = {
-        'IND': 75.0,  # 1 INR = 75.0 USD
-        'USD': 1.0,  # 1 USD = 1.0 USD
-        'AUD': 0.75,  # 1 AUD = 0.75 USD
-        'CAD': 0.80,  # 1 CAD = 0.80 USD
-        'GER': 0.90,  # 1 GER = 0.90 USD
-        'EUR': 0.85,  # 1 EUR = 0.85 USD
-    }
-
-    # Let's assume the total amount is 100 USD for demonstration purposes
-    total_amount_usd = 100.0
-
-    # Calculate the total amount based on the selected currency
-    total_amount = total_amount_usd / currency_rates[currency]
-
-    # Round the total_amount to two decimal places
-    return round(total_amount, 2)
-
-
-def calculate_total_amount(currency):
-    # Implement the logic to calculate the total amount based on the selected currency
-    # For demonstration purposes, let's assume you have a fixed rate for each currency
-    currency_rates = {
-        'IND': 75.0,  # 1 INR = 75.0 USD
-        'USD': 1.0,  # 1 USD = 1.0 USD
-        'AUD': 0.75,  # 1 AUD = 0.75 USD
-        'CAD': 0.80,  # 1 CAD = 0.80 USD
-        'GER': 0.90,  # 1 GER = 0.90 USD
-        'EUR': 0.85,  # 1 EUR = 0.85 USD
-    }
-
-    # Let's assume the total amount is 100 USD for demonstration purposes
-    total_amount_usd = 100.0
-
-    # Calculate the total amount based on the selected currency
-    total_amount = total_amount_usd / currency_rates[currency]
-
-    # Round the total_amount to two decimal places
-    return round(total_amount, 2)
-
 
 
 @login_required
@@ -771,6 +726,7 @@ def my_messages(request, *args, **kwargs):
             m.to_user = to_user
             m.msg_time = current_time
             m.save()
+            return HttpResponseRedirect(request.path)
 
     msgs = Mail.objects.filter(Q(from_user=request.user.id) | Q(to_user=request.user.id)).order_by('-msg_time')
 
