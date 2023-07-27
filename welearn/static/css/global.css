@@ -75,6 +75,7 @@ html{
     background-color: #EEEEEE44 !important;
 }
 
+
 .card:hover .card-img-overlay{
     opacity: 1;
 }
@@ -185,7 +186,7 @@ html{
 }
 
 .card-course{
-    transition: 100ms;
+    transition: 250ms;
 }
 
 .card-course:hover{
